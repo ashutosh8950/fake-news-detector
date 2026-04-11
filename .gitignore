@@ -1,0 +1,11 @@
+data/
+models/
+__pycache__/
+*.pyc
+*.pyo
+.env
+*.pkl
+*.joblib
+.DS_Store
+.venv/
+venv/

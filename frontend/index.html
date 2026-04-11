@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TruthScan — AI Fake News Detector</title>
+  <meta name="description" content="Advanced AI-powered fake news detection using an ensemble of 5 machine learning models. Analyze any news article in seconds." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+
+  <!-- Animated background -->
+  <div class="bg-layer" aria-hidden="true">
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="bg-orb orb-3"></div>
+    <canvas id="particle-canvas"></canvas>
+  </div>
+
+  <!-- ───── HEADER ───── -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo" role="banner">
+        <span class="logo-icon">🔍</span>
+        <span class="logo-text">Truth<span class="logo-accent">Scan</span></span>
+        <span class="logo-badge">v2.0 AI</span>
+      </div>
+      <nav class="header-nav" aria-label="Main navigation">
+        <span class="nav-item" id="nav-status">
+          <span class="status-dot" id="status-dot"></span>
+          <span id="status-text">Connecting…</span>
+        </span>
+        <a href="/docs" target="_blank" class="nav-link" id="api-docs-link">API Docs</a>
+        <button id="theme-toggle" class="nav-btn" aria-label="Toggle theme" title="Toggle light/dark mode">☀️</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ───── MAIN ───── -->
+  <main id="main-content">
+
+    <!-- Hero -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-content">
+        <div class="hero-badge" aria-label="Five ML Models">5 ML Models • Ensemble Voting</div>
+        <h1 id="hero-title">
+          Detect Fake News<br/>
+          <span class="gradient-text">Instantly with AI</span>
+        </h1>
+        <p class="hero-sub">
+          Paste any news article and our ensemble of 5 ML models — Logistic Regression,
+          Decision Tree, Gradient Boosting, Random Forest &amp; Naive Bayes — will
+          analyze it and tell you if it's real or fake.
+        </p>
+      </div>
+
+      <!-- Stats bar -->
+      <div class="stats-bar" id="stats-bar" aria-label="Model statistics">
+        <div class="stat-item loading-shimmer" id="stat-lr">
+          <span class="stat-label">Logistic Regression</span>
+          <span class="stat-val">—</span>
+        </div>
+        <div class="stat-item loading-shimmer" id="stat-gbc">
+          <span class="stat-label">Gradient Boosting</span>
+          <span class="stat-val">—</span>
+        </div>
+        <div class="stat-item loading-shimmer" id="stat-rfc">
+          <span class="stat-label">Random Forest</span>
+          <span class="stat-val">—</span>
+        </div>
+        <div class="stat-item loading-shimmer" id="stat-nb">
+          <span class="stat-label">Naive Bayes</span>
+          <span class="stat-val">—</span>
+        </div>
+        <div class="stat-item loading-shimmer" id="stat-dt">
+          <span class="stat-label">Decision Tree</span>
+          <span class="stat-val">—</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───── ANALYZER CARD ───── -->
+    <section class="analyzer-section" aria-labelledby="analyzer-title">
+      <div class="card analyzer-card">
+        <h2 id="analyzer-title" class="card-title">
+          <span class="card-title-icon">📰</span> Analyze Article
+        </h2>
+
+        <form id="analyzer-form" novalidate>
+          <!-- Title field -->
+          <div class="field-group">
+            <label for="title-input" class="field-label">
+              Headline <span class="field-optional">(optional but improves accuracy)</span>
+            </label>
+            <input
+              id="title-input"
+              type="text"
+              class="text-input"
+              placeholder="Enter the article headline…"
+              autocomplete="off"
+              aria-describedby="title-hint"
+            />
+            <span id="title-hint" class="field-hint">Adding the headline gives 2× weight for better detection</span>
+          </div>
+
+          <!-- Text field -->
+          <div class="field-group">
+            <label for="news-input" class="field-label">
+              Article Text <span class="field-required">*</span>
+            </label>
+            <div class="textarea-wrapper">
+              <textarea
+                id="news-input"
+                class="text-area"
+                placeholder="Paste the full article text here…"
+                rows="8"
+                minlength="20"
+                required
+                aria-describedby="text-hint text-count"
+              ></textarea>
+              <div class="textarea-overlay" id="textarea-overlay" aria-hidden="true"></div>
+            </div>
+            <div class="field-footer">
+              <span id="text-hint" class="field-hint">Minimum 20 characters required for analysis</span>
+              <span id="text-count" class="char-count" aria-live="polite">0 words</span>
+            </div>
+          </div>
+
+          <!-- Sample buttons -->
+          <div class="sample-bar" role="group" aria-label="Load sample articles">
+            <span class="sample-label">Try a sample:</span>
+            <button type="button" class="sample-btn fake-sample" id="sample-fake-btn" data-type="fake">🔴 Fake Sample</button>
+            <button type="button" class="sample-btn real-sample" id="sample-real-btn" data-type="real">🟢 Real Sample</button>
+            <button type="button" class="sample-btn clear-btn" id="clear-btn">✕ Clear</button>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="analyze-btn" id="analyze-btn" aria-label="Analyze article for fake news">
+            <span class="btn-text" id="btn-text">🔍 Analyze Now</span>
+            <span class="btn-loader" id="btn-loader" aria-hidden="true"></span>
+          </button>
+        </form>
+
+        <!-- Error message -->
+        <div class="error-box" id="error-box" role="alert" aria-live="polite" hidden>
+          <span class="error-icon">⚠️</span>
+          <span id="error-msg"></span>
+        </div>
+      </div>
+
+      <!-- ───── RESULTS ───── -->
+      <div id="results-container" class="results-container" aria-live="polite" hidden>
+
+        <!-- Verdict card -->
+        <div class="card verdict-card" id="verdict-card">
+          <div class="verdict-header">
+            <div class="verdict-icon-wrap" id="verdict-icon-wrap">
+              <span class="verdict-icon" id="verdict-icon"></span>
+            </div>
+            <div class="verdict-info">
+              <div class="verdict-label" id="verdict-label"></div>
+              <div class="verdict-sub" id="verdict-sub"></div>
+            </div>
+          </div>
+
+          <!-- Confidence gauge -->
+          <div class="gauge-section" aria-label="Confidence gauge">
+            <div class="gauge-label">
+              <span>Confidence Score</span>
+              <span class="gauge-pct" id="gauge-pct">0%</span>
+            </div>
+            <div class="gauge-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" id="gauge-bar-aria">
+              <div class="gauge-fill" id="gauge-fill"></div>
+            </div>
+          </div>
+
+          <!-- Vote tally -->
+          <div class="vote-tally" id="vote-tally" aria-label="Model votes">
+            <div class="vote-item" id="vote-fake">
+              <span class="vote-num" id="fake-votes">0</span>
+              <span class="vote-lbl">Fake votes</span>
+            </div>
+            <div class="vote-divider"></div>
+            <div class="vote-item" id="vote-real">
+              <span class="vote-num" id="real-votes">0</span>
+              <span class="vote-lbl">Real votes</span>
+            </div>
+          </div>
+
+          <div class="processing-time" id="processing-time"></div>
+        </div>
+
+        <!-- Per-model breakdown -->
+        <div class="card models-card">
+          <h3 class="card-subtitle">
+            <span>🤖</span> Model Breakdown
+          </h3>
+          <div class="models-grid" id="models-grid" role="list"></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ───── HISTORY ───── -->
+    <section class="history-section" id="history-section" aria-labelledby="history-title">
+      <div class="card history-card">
+        <div class="history-header">
+          <h3 id="history-title" class="card-subtitle"><span>📋</span> Recent Analyses</h3>
+          <button class="clear-history-btn" id="clear-history-btn" aria-label="Clear analysis history">Clear</button>
+        </div>
+        <div class="history-list" id="history-list" role="list">
+          <div class="history-empty">No analyses yet. Paste an article above to get started.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───── HOW IT WORKS ───── -->
+    <section class="how-section" aria-labelledby="how-title">
+      <div class="card how-card">
+        <h3 id="how-title" class="card-subtitle"><span>⚙️</span> How It Works</h3>
+        <div class="steps-grid" role="list">
+          <div class="step" role="listitem">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <div class="step-title">Advanced Preprocessing</div>
+              <div class="step-desc">Your text is cleaned, lemmatized with NLTK, and title+body are combined with 2× headline weighting.</div>
+            </div>
+          </div>
+          <div class="step" role="listitem">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <div class="step-title">Bigram TF-IDF Vectorization</div>
+              <div class="step-desc">Text is converted to a 100K-feature vector using bigram TF-IDF — capturing word pairs for richer patterns.</div>
+            </div>
+          </div>
+          <div class="step" role="listitem">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <div class="step-title">5-Model Ensemble</div>
+              <div class="step-desc">Five independent ML models vote on the article. The ensemble uses accuracy-weighted voting for the final call.</div>
+            </div>
+          </div>
+          <div class="step" role="listitem">
+            <div class="step-num">4</div>
+            <div class="step-body">
+              <div class="step-title">Confidence Score</div>
+              <div class="step-desc">A weighted confidence percentage is calculated from all model probabilities, so you know exactly how certain the AI is.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ───── FOOTER ───── -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <span>TruthScan — Fake News Detector</span>
+      <span class="footer-sep">·</span>
+      <span>Ensemble ML: LR + DT + GBC + RFC + NB</span>
+      <span class="footer-sep">·</span>
+      <a href="https://render.com" target="_blank" rel="noopener" class="footer-link">Deployed on Render</a>
+    </div>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
