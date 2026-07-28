@@ -1,106 +1,17 @@
 # 🔍 TruthScan — AI Fake News Detector
 
-> Advanced ML-powered fake news detection with an ensemble of 5 models, deployed as a beautiful web application.
-
-![Python](https://img.shields.io/badge/Python-3.11-blue) ![FastAPI](https://img.shields.io/badge/FastAPI-0.111-green) ![scikit-learn](https://img.shields.io/badge/scikit--learn-1.5-orange)
+> Modern ML-powered fake news detection API with an ensemble of 6 models, built for speed and reliability.
 
 ---
 
-## ✨ Features
+## 🛠️ Tech Stack
 
-| Feature | Details |
-|---|---|
-| **5 ML Models** | Logistic Regression, Decision Tree, Gradient Boosting, Random Forest, Naive Bayes |
-| **Ensemble Voting** | Accuracy-weighted ensemble for best prediction |
-| **Advanced Preprocessing** | NLTK lemmatization, stopword removal, title+text fusion |
-| **Bigram TF-IDF** | 100K feature vectors with unigrams + bigrams |
-| **REST API** | FastAPI with `/analyze`, `/health`, `/models/info` |
-| **Premium UI** | Cyberpunk dark mode, animated particles, confidence gauges |
-| **Deployment** | Free deployment on Render.com |
-
-## 🚀 Quick Start (Local)
-
-### 1. Install dependencies
-```bash
-pip install -r requirements.txt
-```
-
-### 2. Download dataset & train models
-```bash
-python download_data.py
-python train.py
-```
-> Training downloads data automatically. For best accuracy (~99%), place `Fake.csv` and `True.csv` from [Kaggle](https://www.kaggle.com/datasets/clmentbisaillon/fake-and-real-news-dataset) in the `data/` folder.
-
-### 3. Run the server
-```bash
-python app.py
-```
-
-Open http://localhost:8000 in your browser. 🎉
-
----
-
-## 🌐 Deploy to Render.com (Free)
-
-1. **Push to GitHub:**
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit — TruthScan"
-   git remote add origin https://github.com/<YOUR_USERNAME>/fake-news-detector.git
-   git push -u origin main
-   ```
-
-2. **Go to [render.com](https://render.com)** → New → Web Service
-
-3. **Connect your GitHub repo**
-
-4. **Settings** (auto-detected from `render.yaml`):
-   - Build: `pip install ... && python download_data.py && python train.py`
-   - Start: `gunicorn app:app -w 2 -k uvicorn.workers.UvicornWorker`
-   - Plan: Free
-
-5. **Deploy!** Render will build, download data, train models, and start the server.
-
----
-
-## 📡 API Reference
-
-### `POST /analyze`
-```json
-// Request
-{ "title": "Optional headline", "text": "Article body (required, min 20 chars)" }
-
-// Response
-{
-  "ensemble_is_fake": true,
-  "ensemble_label": "FAKE NEWS",
-  "overall_confidence": 87.3,
-  "fake_votes": 4,
-  "real_votes": 1,
-  "total_models": 5,
-  "models": {
-    "lr":  { "name": "Logistic Regression", "label": "Fake", "confidence": 93.2 },
-    "dt":  { "name": "Decision Tree",       "label": "Fake", "confidence": 100.0 },
-    ...
-  }
-}
-```
-
-### `GET /health`
-```json
-{ "status": "ok", "models_loaded": true, "uptime_seconds": 123.4 }
-```
-
-### `GET /models/info`
-```json
-{
-  "lr":  { "name": "Logistic Regression", "accuracy": 98.73, "f1": 98.72 },
-  "rfc": { "name": "Random Forest",       "accuracy": 98.89, "f1": 98.89 },
-  ...
-}
-```
+- **FastAPI** — High-performance async web framework for the REST API
+- **spaCy** — Industrial-strength NLP for blazing fast text preprocessing
+- **scikit-learn** — Machine learning pipeline and ensemble models
+- **Loguru** — Clean and structured logging
+- **Pydantic Settings** — Robust configuration and environment variable management
+- **Pytest** — Comprehensive unit and integration testing
 
 ---
 
@@ -108,40 +19,152 @@ Open http://localhost:8000 in your browser. 🎉
 
 ```
 FAKE_NEWS_DETECTION/
-├── app.py              # FastAPI server + static file serving
-├── train.py            # Advanced training pipeline
-├── predictor.py        # Ensemble prediction engine
-├── preprocessor.py     # NLTK text preprocessing
-├── download_data.py    # Auto dataset downloader
-├── requirements.txt    # Python dependencies
-├── render.yaml         # Render.com deployment config
-├── frontend/
-│   ├── index.html      # UI structure
-│   ├── style.css       # Cyberpunk dark-mode design
-│   └── app.js          # Frontend logic + API calls
-├── data/               # CSV files (auto-created)
-└── models/             # Trained model artifacts (auto-created)
+├── app.py                 # FastAPI application and lifespan manager
+├── config.py              # Pydantic-based configuration (environment variables)
+├── download_data.py       # Script to download the Kaggle dataset
+├── predictor.py           # Core ML prediction engine with 6-model ensemble
+├── preprocessor.py        # NLP pipeline utilizing spaCy (cleaning & lemmatization)
+├── README.md              # Project documentation
+├── requirements.txt       # Python dependencies
+├── train.py               # Optimized training pipeline for the ML models
+│
+├── data/                  # Dataset storage directory
+│   ├── Fake.csv
+│   └── True.csv
+│
+├── frontend/              # Vanilla JavaScript & HTML/CSS web interface
+│   ├── app.js
+│   ├── index.html
+│   └── style.css
+│
+├── models/                # Trained ML artifacts and metadata
+│   ├── dt_model.pkl
+│   ├── gbc_model.pkl
+│   ├── lr_model.pkl
+│   ├── model_meta.json
+│   ├── nb_model.pkl
+│   ├── rfc_model.pkl
+│   ├── svc_model.pkl
+│   └── vectorizer.pkl
+│
+├── routers/               # Modularized FastAPI routes
+│   └── api.py             # API endpoints (/health, /models/info, /analyze)
+│
+└── tests/                 # Test suite
+    ├── __init__.py
+    ├── test_api.py        # API endpoint unit tests
+    └── test_nasa.py       # End-to-end integration test (NASA Real News)
 ```
 
 ---
 
-## 🧠 How It Works
+## 🚀 How to Install and Run Locally
 
-1. **Preprocessing**: Your article's title (2× weighting) and body are combined, lowercased, cleaned, lemmatized with NLTK, and stopwords removed.
-2. **Vectorization**: Text is converted to a 100K-feature TF-IDF vector with bigrams for richer pattern recognition.
-3. **5-Model Ensemble**: Five independent classifiers each vote Fake/Real with a confidence score.
-4. **Weighted Voting**: The ensemble uses each model's training accuracy as its vote weight.
-5. **Result**: Final label + confidence percentage + per-model breakdown returned as JSON.
+### 1. Install Dependencies
+```bash
+pip install -r requirements.txt
+```
 
-## 📊 Expected Accuracy
+### 2. Download the NLP Model
+Download the English spaCy model required for preprocessing:
+```bash
+python -m spacy download en_core_web_sm
+```
 
-| Model | Accuracy (Full Dataset) |
-|---|---|
-| Logistic Regression | ~98.7% |
-| Decision Tree | ~99.1% |
-| Gradient Boosting | ~99.4% |
-| Random Forest | ~98.9% |
-| Naive Bayes | ~96.2% |
-| **Ensemble** | **~99.3%** |
+### 3. Download Data and Train Models
+Download the dataset and train the 6 ensemble models:
+```bash
+python download_data.py
+python train.py
+```
 
-> Note: Accuracy is high on this dataset, but real-world performance depends on article domain. The model was trained on US political news (2015–2018).
+### 4. Start the Server
+Start the FastAPI server (runs on port 8000 by default):
+```bash
+python app.py
+```
+Open `http://localhost:8000` in your browser to view the interface.
+
+---
+
+## 🧪 How to Run Tests
+
+The project includes a robust test suite powered by `pytest`. To verify the API and ML pipeline, run:
+
+```bash
+python -m pytest -v tests/
+```
+
+---
+
+## 📡 API Endpoints
+
+### `POST /analyze`
+Analyzes text using the ensemble model and returns a fake/real prediction.
+```json
+// Request Example
+{
+  "title": "Optional headline",
+  "text": "Article body (required, min 20 chars)"
+}
+
+// Response Example
+{
+  "ensemble_is_fake": true,
+  "ensemble_label": "FAKE NEWS",
+  "overall_confidence": 87.3,
+  "fake_votes": 5,
+  "real_votes": 1,
+  "total_models": 6,
+  "models": {
+    "lr":  { "name": "Logistic Regression", "label": "Fake", "confidence": 93.2 },
+    "dt":  { "name": "Decision Tree",       "label": "Fake", "confidence": 100.0 }
+    // ... (other models)
+  },
+  "processing_time_ms": 45.2
+}
+```
+
+### `GET /health`
+System health check.
+```json
+// Response Example
+{
+  "status": "ok",
+  "models_loaded": true,
+  "uptime_seconds": 123.4
+}
+```
+
+### `GET /models/info`
+Returns statistics for all trained models.
+```json
+// Response Example
+{
+  "lr":  { "name": "Logistic Regression", "accuracy": 97.53, "f1": 97.53 },
+  "dt":  { "name": "Decision Tree",       "accuracy": 97.6,  "f1": 97.6 }
+  // ...
+}
+```
+
+---
+
+## 📊 Model Accuracy
+
+*Accuracy statistics generated on the latest training run (from `models/model_meta.json`):*
+
+| Model | Accuracy | F1-Score |
+|---|---|---|
+| **Logistic Regression** | 97.53% | 97.53% |
+| **Decision Tree** | 97.60% | 97.60% |
+| **Gradient Boosting** | 98.50% | 98.51% |
+| **Random Forest** | 96.91% | 96.91% |
+| **Naive Bayes** | 95.17% | 95.17% |
+| **Linear SVC** | 98.06% | 98.06% |
+
+---
+
+## 🌐 Deployment
+
+This application is designed to be easily deployed on **Render** (render.com). 
+You can link your GitHub repository directly to Render as a Web Service. The startup script should first train the models or ensure they are present, and the start command will typically be `gunicorn app:app -w 2 -k uvicorn.workers.UvicornWorker`.

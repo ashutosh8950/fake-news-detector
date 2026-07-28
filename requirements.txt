@@ -3,9 +3,13 @@ uvicorn[standard]>=0.30.0
 scikit-learn>=1.3.0
 pandas>=2.0.0
 numpy>=1.24.0
-nltk>=3.8.0
+spacy
 python-multipart>=0.0.9
 aiofiles>=23.2.0
 requests>=2.31.0
 joblib>=1.3.0
 gunicorn>=22.0.0
+pytest
+httpx
+loguru
+pydantic-settings

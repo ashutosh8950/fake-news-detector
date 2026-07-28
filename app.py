@@ -1,100 +1,80 @@
 """
 FastAPI REST API for Fake News Detection.
 Serves both the REST API and the frontend static files.
+Fixes applied:
+  - NLTK pre-warm at startup (eliminates 4s first-request latency)
+  - Configurable CORS via ALLOWED_ORIGINS env var
+  - Startup log showing all model accuracies + server URL
 """
 
 import os
-import time
-import logging
 from contextlib import asynccontextmanager
 from typing import Optional
 
-from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import HTMLResponse, FileResponse
+from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field
+from loguru import logger
 
 from predictor import predictor
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+from preprocessor import preprocess
+from routers.api import router as api_router
+from config import settings
 
 # ── Lifespan (load models once at startup) ────────────────────────────────────
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    # ── Load models ──────────────────────────────────────────────
     try:
         predictor.load()
-        logger.info("✅ Models loaded successfully")
+        logger.info("Models loaded successfully")
     except FileNotFoundError:
-        logger.warning("⚠️  Models not found — running train.py first...")
+        logger.warning("Models not found — running train.py first...")
         import subprocess, sys
         subprocess.run([sys.executable, "train.py"], check=True)
         predictor.load()
+
+    # ── spaCy pre-warm (loads model into memory) ──
+    try:
+        preprocess("warmup", "warmup text for spacy pre-warming")
+        logger.info("spaCy pre-warmed successfully")
+    except Exception as e:
+        logger.warning(f"spaCy pre-warm failed (non-fatal): {e}")
+
+    # ── Startup summary log ──────────────────────────────────────
+    logger.info("--- Model Accuracies at Startup ---")
+    for key, info in predictor.meta.items():
+        logger.info(f"  {info.get('name', key):<22} accuracy={info.get('accuracy', 0):.2f}%  f1={info.get('f1', 0):.2f}%")
+        
+    port = int(os.environ.get("PORT", 8000))
+    logger.info(f"Server ready at http://localhost:{port}")
+    logger.info(f"API docs at   http://localhost:{port}/docs")
+
     yield  # app runs here
-    logger.info("🛑 Shutting down")
+    logger.info("Shutting down")
 
 # ── App ───────────────────────────────────────────────────────────────────────
 app = FastAPI(
-    title="Fake News Detector API",
-    description="ML-powered fake news detection with ensemble voting across 5 models",
+    title=settings.app_name,
+    description="ML-powered fake news detection with ensemble voting across 6 models",
     version="2.0.0",
     lifespan=lifespan,
 )
 
+# ── CORS — configurable via ALLOWED_ORIGINS env var ──────────────────────────
+_raw_origins = os.environ.get("ALLOWED_ORIGINS", "*")
+ALLOWED_ORIGINS = [o.strip() for o in _raw_origins.split(",")] if _raw_origins != "*" else ["*"]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# ── Schemas ───────────────────────────────────────────────────────────────────
-class AnalyzeRequest(BaseModel):
-    text:  str  = Field(..., min_length=20,  description="Article body text")
-    title: str  = Field("",  description="Optional article headline")
-
-class HealthResponse(BaseModel):
-    status:       str
-    models_loaded: bool
-    uptime_seconds: float
-
-START_TIME = time.time()
-
-# ── Routes ────────────────────────────────────────────────────────────────────
-@app.get("/health", response_model=HealthResponse, tags=["System"])
-async def health():
-    return {
-        "status":         "ok",
-        "models_loaded":  predictor.loaded,
-        "uptime_seconds": round(time.time() - START_TIME, 1),
-    }
-
-@app.get("/models/info", tags=["System"])
-async def models_info():
-    """Return accuracy statistics for all trained models."""
-    if not predictor.loaded:
-        raise HTTPException(503, "Models not loaded yet")
-    return predictor.get_model_info()
-
-@app.post("/analyze", tags=["Detection"])
-async def analyze(req: AnalyzeRequest, request: Request):
-    """
-    Analyze a news article and return ensemble fake/real prediction
-    with confidence scores from each of the 5 ML models.
-    """
-    if not predictor.loaded:
-        raise HTTPException(503, "Models are loading, please try again in a moment")
-
-    start = time.time()
-    result = predictor.predict(title=req.title, text=req.text)
-    result["processing_time_ms"] = round((time.time() - start) * 1000, 1)
-
-    logger.info(
-        f"Analyzed {'%.0f' % len(req.text)}ch → {result['ensemble_label']} "
-        f"({result['overall_confidence']}%) in {result['processing_time_ms']}ms"
-    )
-    return result
+# ── Include Routers ───────────────────────────────────────────────────────────
+app.include_router(api_router)
 
 # ── Serve Frontend ────────────────────────────────────────────────────────────
 FRONTEND_DIR = "frontend"
@@ -114,3 +94,4 @@ if __name__ == "__main__":
     import uvicorn
     port = int(os.environ.get("PORT", 8000))
     uvicorn.run("app:app", host="0.0.0.0", port=port, reload=False)
+

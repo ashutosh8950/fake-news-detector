@@ -4,7 +4,7 @@ Improvements over original notebook:
   - Uses title + text (original dropped title column!)
   - Bigram TF-IDF (1,2) for more context
   - NLTK lemmatization + stopwords
-  - 5 models: LR, DT, GBC, RFC + MultinomialNB
+  - 6 models: LR, DT, GBC, RFC, MultinomialNB + LinearSVC
   - Model persistence with joblib
   - Cross-validation
   - Confusion matrix + classification reports
@@ -19,28 +19,32 @@ import pandas as pd
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
+from sklearn.svm import LinearSVC
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 
+from loguru import logger
 from preprocessor import preprocess
 from download_data import create_sample_data, download_full_dataset
+from config import settings
 
 # ── Config ──────────────────────────────────────────────────────────────────
-DATA_DIR     = "data"
-MODELS_DIR   = "models"
+DATA_DIR     = settings.data_dir
+MODELS_DIR   = settings.models_dir
 FAKE_PATH    = os.path.join(DATA_DIR, "Fake.csv")
 TRUE_PATH    = os.path.join(DATA_DIR, "True.csv")
 VEC_PATH     = os.path.join(MODELS_DIR, "vectorizer.pkl")
 META_PATH    = os.path.join(MODELS_DIR, "model_meta.json")
 
 MODELS_CFG = {
-    "lr":  LogisticRegression(max_iter=1000, C=1.0, random_state=42),
-    "dt":  DecisionTreeClassifier(max_depth=20, random_state=42),
-    "gbc": GradientBoostingClassifier(n_estimators=100, random_state=42),
-    "rfc": RandomForestClassifier(n_estimators=100, random_state=42, n_jobs=-1),
-    "nb":  MultinomialNB(alpha=0.1),
+    "lr":  LogisticRegression(max_iter=1000, C=5.0, random_state=42),
+    "dt":  DecisionTreeClassifier(max_depth=None, random_state=42),
+    "gbc": GradientBoostingClassifier(n_estimators=200, random_state=42),
+    "rfc": RandomForestClassifier(n_estimators=200, random_state=42, n_jobs=-1),
+    "nb":  MultinomialNB(alpha=0.01),
+    "svc": LinearSVC(C=1.0, max_iter=2000, random_state=42),
 }
 
 MODEL_NAMES = {
@@ -49,20 +53,21 @@ MODEL_NAMES = {
     "gbc": "Gradient Boosting",
     "rfc": "Random Forest",
     "nb":  "Naive Bayes",
+    "svc": "Linear SVC",
 }
 
 def ensure_data():
     """Ensure dataset files exist."""
     if not (os.path.exists(FAKE_PATH) and os.path.exists(TRUE_PATH)):
-        print("📊 Dataset not found. Attempting download...")
+        logger.info("📊 Dataset not found. Attempting download...")
         success = download_full_dataset()
         if not success:
-            print("📊 Using built-in sample data (for demo only).")
+            logger.info("📊 Using built-in sample data (for demo only).")
             create_sample_data()
 
 def load_data():
     ensure_data()
-    print("📂 Loading data...")
+    logger.info("📂 Loading data...")
     df_fake = pd.read_csv(FAKE_PATH)
     df_true = pd.read_csv(TRUE_PATH)
 
@@ -77,7 +82,7 @@ def load_data():
         df_fake = df_fake.iloc[:-10]
         df_true = df_true.iloc[:-10]
     else:
-        print("   ⚠️  Small dataset detected — using all rows for training.")
+        logger.warning("Small dataset detected — using all rows for training.")
         df_fake_test = df_fake.tail(2).copy()
         df_true_test = df_true.tail(2).copy()
 
@@ -87,7 +92,7 @@ def load_data():
     df["title"] = df["title"].fillna("")
     df["text"]  = df["text"].fillna("")
 
-    print(f"   Total rows: {len(df)} | Fake: {(df['class']==0).sum()} | True: {(df['class']==1).sum()}")
+    logger.info(f"Total rows: {len(df)} | Fake: {(df['class']==0).sum()} | True: {(df['class']==1).sum()}")
     return df, df_fake_test, df_true_test
 
 def train():
@@ -96,8 +101,22 @@ def train():
     df, df_fake_test, df_true_test = load_data()
 
     # ── Preprocessing ────────────────────────────────────────────────────────
-    print("⚙️  Preprocessing text (title + text + lemmatization)...")
-    df["processed"] = df.apply(lambda r: preprocess(r["title"], r["text"]), axis=1)
+    logger.info("⚙️  Preprocessing text (title + text + lemmatization)...")
+    from preprocessor import clean_text, nlp
+    cleaned_texts = []
+    for _, r in df.iterrows():
+        title = r["title"]
+        text = r["text"]
+        combined = f"{title} {title} {title} {text}"
+        cleaned = clean_text(combined)
+        cleaned_texts.append(cleaned)
+
+    processed_texts = []
+    for doc in nlp.pipe(cleaned_texts, batch_size=1000):
+        tokens = [token.lemma_ for token in doc if not token.is_stop and len(token.text) > 2]
+        processed_texts.append(' '.join(tokens))
+
+    df["processed"] = processed_texts
 
     X = df["processed"]
     y = df["class"]
@@ -109,20 +128,27 @@ def train():
     )
 
     # ── Vectorization ────────────────────────────────────────────────────────
-    print("🔢 Fitting TF-IDF vectorizer (bigrams)...")
-    vectorizer = TfidfVectorizer(ngram_range=(1, 2), max_features=100_000, sublinear_tf=True)
+    logger.info("🔢 Fitting TF-IDF vectorizer (bigrams)...")
+    vectorizer = TfidfVectorizer(
+        ngram_range=(1, 2),
+        max_features=150_000,
+        sublinear_tf=True,
+        analyzer='word',
+        min_df=2,
+        max_df=0.95,
+    )
     Xv_train = vectorizer.fit_transform(X_train)
     Xv_test  = vectorizer.transform(X_test)
     joblib.dump(vectorizer, VEC_PATH)
-    print(f"   Vocabulary size: {len(vectorizer.vocabulary_):,}")
+    logger.info(f"Vocabulary size: {len(vectorizer.vocabulary_):,}")
 
     # ── Train Models ─────────────────────────────────────────────────────────
     meta = {}
-    print("\n🤖 Training models...\n")
+    logger.info("🤖 Training models...")
 
     for key, model in MODELS_CFG.items():
         name = MODEL_NAMES[key]
-        print(f"  [{name}]")
+        logger.info(f"  Training [{name}]")
         model.fit(Xv_train, y_train)
         joblib.dump(model, os.path.join(MODELS_DIR, f"{key}_model.pkl"))
 
@@ -138,20 +164,16 @@ def train():
             "f1":        round(report["weighted avg"]["f1-score"] * 100, 2),
         }
 
-        print(f"     Accuracy : {acc*100:.2f}%")
-        print(f"     F1-Score : {report['weighted avg']['f1-score']*100:.2f}%")
-        print()
+        logger.info(f"     Accuracy : {acc*100:.2f}% | F1-Score : {report['weighted avg']['f1-score']*100:.2f}%")
 
     # ── Save Meta ─────────────────────────────────────────────────────────────
     with open(META_PATH, "w") as f:
         json.dump(meta, f, indent=2)
 
-    print("✅ Training complete! Models saved to 'models/' directory.")
-    print("\n📊 Summary:")
-    print(f"{'Model':<25} {'Accuracy':>10} {'F1':>10}")
-    print("-" * 47)
+    logger.success(f"✅ Training complete! Models saved to '{MODELS_DIR}/' directory.")
+    logger.info("📊 Summary:")
     for k, v in meta.items():
-        print(f"  {v['name']:<23} {v['accuracy']:>9.2f}%  {v['f1']:>9.2f}%")
+        logger.info(f"  {v['name']:<23} {v['accuracy']:>9.2f}%  {v['f1']:>9.2f}%")
 
     return meta
 

@@ -1,9 +1,10 @@
 """
 Ensemble prediction engine for Fake News Detection.
-Loads all 5 trained models and produces:
+Loads all 6 trained models and produces:
   - Per-model predictions + probabilities
-  - Ensemble majority vote
-  - Overall confidence score
+  - Accuracy-WEIGHTED ensemble (no ties possible)
+  - Overall confidence = winner weight share as percentage
+  - LinearSVC uses decision_function (sigmoid-scaled) for confidence
 """
 
 import os
@@ -12,17 +13,21 @@ import joblib
 import numpy as np
 from typing import Dict, Any
 
+from loguru import logger
+
 from preprocessor import preprocess
+from config import settings
 
-MODELS_DIR = "models"
+MODELS_DIR = settings.models_dir
 
-MODEL_KEYS = ["lr", "dt", "gbc", "rfc", "nb"]
+MODEL_KEYS = ["lr", "dt", "gbc", "rfc", "nb", "svc"]
 MODEL_NAMES = {
     "lr":  "Logistic Regression",
     "dt":  "Decision Tree",
     "gbc": "Gradient Boosting",
     "rfc": "Random Forest",
     "nb":  "Naive Bayes",
+    "svc": "Linear SVC",
 }
 
 class FakeNewsPredictor:
@@ -54,7 +59,7 @@ class FakeNewsPredictor:
                 self.meta = json.load(f)
 
         self.loaded = True
-        print(f"✅ Loaded {len(self.models)} models")
+        logger.info(f"✅ Loaded {len(self.models)} models")
 
     def predict(self, title: str = "", text: str = "") -> Dict[str, Any]:
         """
@@ -69,19 +74,34 @@ class FakeNewsPredictor:
         vectorized = self.vectorizer.transform([processed])
 
         results = {}
-        fake_votes = 0
+        fake_weight_sum = 0.0
+        real_weight_sum = 0.0
+
+        # Build per-model accuracy weights (fallback 70 if not in meta)
+        weights = {k: self.meta.get(k, {}).get("accuracy", 70.0) for k in self.models}
 
         for key, model in self.models.items():
             prediction = int(model.predict(vectorized)[0])
-            # Get probability if supported
+            # Get probability if supported (predict_proba)
             if hasattr(model, "predict_proba"):
                 proba = model.predict_proba(vectorized)[0]
                 confidence = float(proba[prediction])
+            # LinearSVC: use decision_function score, sigmoid-scaled to 0-1
+            elif hasattr(model, "decision_function"):
+                score = float(model.decision_function(vectorized)[0])
+                # sigmoid: maps (-inf,+inf) -> (0,1)
+                # score > 0 means class 1 (Real), score < 0 means class 0 (Fake)
+                sigmoid = 1.0 / (1.0 + np.exp(-abs(score)))
+                confidence = sigmoid
             else:
                 confidence = 1.0 if prediction == 1 else 0.0
 
-            if prediction == 0:
-                fake_votes += 1
+            # Accumulate weighted scores
+            w = weights[key]
+            if prediction == 0:   # Fake
+                fake_weight_sum += w
+            else:                 # Real
+                real_weight_sum += w
 
             results[key] = {
                 "name":       MODEL_NAMES[key],
@@ -90,22 +110,17 @@ class FakeNewsPredictor:
                 "confidence": round(confidence * 100, 1),
             }
 
-        # Ensemble: majority vote
-        total_models   = len(self.models)
-        real_votes     = total_models - fake_votes
-        ensemble_fake  = fake_votes > real_votes
+        # ── Weighted ensemble decision (ties mathematically impossible) ─────────
+        total_weight  = fake_weight_sum + real_weight_sum
+        ensemble_fake = fake_weight_sum > real_weight_sum
+        winner_score  = fake_weight_sum if ensemble_fake else real_weight_sum
 
-        # Weighted ensemble confidence (based on model accuracy weights)
-        weights = {k: self.meta.get(k, {}).get("accuracy", 70) for k in self.models}
-        total_w = sum(weights.values())
-        weighted_fake_score = sum(
-            weights[k] for k in self.models
-            if results[k]["is_fake"]
-        ) / total_w
+        # Confidence = winner's share of total accuracy weight
+        overall_confidence = round((winner_score / total_weight) * 100, 1)
 
-        overall_confidence = round(
-            (weighted_fake_score if ensemble_fake else (1 - weighted_fake_score)) * 100, 1
-        )
+        # Keep vote counts for display purposes
+        fake_votes = sum(1 for r in results.values() if r["is_fake"])
+        real_votes = len(results) - fake_votes
 
         return {
             "ensemble_is_fake":   ensemble_fake,
@@ -113,7 +128,7 @@ class FakeNewsPredictor:
             "overall_confidence": overall_confidence,
             "fake_votes":         fake_votes,
             "real_votes":         real_votes,
-            "total_models":       total_models,
+            "total_models":       len(self.models),
             "models":             results,
             "processed_length":   len(processed.split()),
         }
