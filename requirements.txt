@@ -13,3 +13,4 @@ pytest
 httpx
 loguru
 pydantic-settings
+slowapi

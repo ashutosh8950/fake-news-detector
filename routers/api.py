@@ -4,8 +4,11 @@ from pydantic import BaseModel, Field
 from loguru import logger
 
 from predictor import predictor
+from slowapi import Limiter
+from slowapi.util import get_remote_address
 
 router = APIRouter()
+limiter = Limiter(key_func=get_remote_address)
 
 START_TIME = time.time()
 
@@ -36,7 +39,8 @@ async def models_info():
     return predictor.get_model_info()
 
 @router.post("/analyze", tags=["Detection"])
-async def analyze(req: AnalyzeRequest, request: Request):
+@limiter.limit("10/minute")
+async def analyze(request: Request, req: AnalyzeRequest):
     """
     Analyze a news article and return ensemble fake/real prediction
     with confidence scores from each of the 6 ML models.

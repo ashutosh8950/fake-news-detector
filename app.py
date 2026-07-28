@@ -19,8 +19,11 @@ from loguru import logger
 
 from predictor import predictor
 from preprocessor import preprocess
-from routers.api import router as api_router
+from routers.api import router as api_router, limiter
 from config import settings
+from slowapi.middleware import SlowAPIMiddleware
+from slowapi.errors import RateLimitExceeded
+from slowapi import _rate_limit_exceeded_handler
 
 # ── Lifespan (load models once at startup) ────────────────────────────────────
 @asynccontextmanager
@@ -61,6 +64,10 @@ app = FastAPI(
     version="2.0.0",
     lifespan=lifespan,
 )
+
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+app.add_middleware(SlowAPIMiddleware)
 
 # ── CORS — configurable via ALLOWED_ORIGINS env var ──────────────────────────
 _raw_origins = os.environ.get("ALLOWED_ORIGINS", "*")
