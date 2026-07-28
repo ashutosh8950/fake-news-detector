@@ -1,6 +1,6 @@
 import time
 from fastapi import APIRouter, HTTPException, Request
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 from loguru import logger
 
 from predictor import predictor
@@ -14,8 +14,22 @@ START_TIME = time.time()
 
 # ── Schemas ───────────────────────────────────────────────────────────────────
 class AnalyzeRequest(BaseModel):
-    text:  str  = Field(..., min_length=20,  description="Article body text")
-    title: str  = Field("",  description="Optional article headline")
+    text:  str  = Field(..., max_length=10000, description="Article body text")
+    title: str  = Field("",  max_length=500, description="Optional article headline")
+
+    @field_validator('text', 'title', mode='before')
+    @classmethod
+    def strip_whitespace(cls, v: str) -> str:
+        if isinstance(v, str):
+            return v.strip()
+        return v
+
+    @field_validator('text')
+    @classmethod
+    def check_length(cls, v: str) -> str:
+        if len(v) < 20:
+            raise ValueError("Article text must be at least 20 characters")
+        return v
 
 class HealthResponse(BaseModel):
     status:       str
@@ -46,10 +60,15 @@ async def analyze(request: Request, req: AnalyzeRequest):
     with confidence scores from each of the 6 ML models.
     """
     if not predictor.loaded:
-        raise HTTPException(503, "Models are loading, please try again in a moment")
+        raise HTTPException(503, "Models are still loading, please try again")
 
     start = time.time()
-    result = predictor.predict(title=req.title, text=req.text)
+    try:
+        result = predictor.predict(title=req.title, text=req.text)
+    except Exception as e:
+        logger.error(f"Prediction failed: {e}")
+        raise HTTPException(500, "Analysis failed, please try again")
+
     result["processing_time_ms"] = round((time.time() - start) * 1000, 1)
 
     logger.info(
