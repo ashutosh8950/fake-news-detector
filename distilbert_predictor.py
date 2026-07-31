@@ -16,7 +16,8 @@ class DistilBertPredictor:
             self.classifier = pipeline(
                 "text-classification",
                 model="GuptaAshutosh/truthscan-fake-news-distilbert",
-                tokenizer="GuptaAshutosh/truthscan-fake-news-distilbert"
+                tokenizer="GuptaAshutosh/truthscan-fake-news-distilbert",
+                device=-1
             )
             self.loaded = True
             logger.info("✅ DistilBERT model loaded successfully")

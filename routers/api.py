@@ -85,7 +85,7 @@ async def analyze_deep(request: Request, req: AnalyzeRequest):
     Analyze a news article using ONLY the DistilBERT model.
     """
     if not distilbert_predictor.loaded:
-        raise HTTPException(503, "DistilBERT model is still loading, please try again")
+        raise HTTPException(503, "DistilBERT model unavailable on this deployment. Use /analyze instead.")
 
     start = time.time()
     try:

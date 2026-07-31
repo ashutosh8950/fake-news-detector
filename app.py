@@ -47,7 +47,10 @@ async def lifespan(app: FastAPI):
         logger.warning(f"spaCy pre-warm failed (non-fatal): {e}")
 
     # ── Load DistilBERT ──────────────────────────────────────────
-    distilbert_predictor.load()
+    try:
+        distilbert_predictor.load()
+    except Exception as e:
+        logger.warning(f"DistilBERT failed to load (non-fatal): {e}")
 
     # ── Startup summary log ──────────────────────────────────────
     logger.info("--- Model Accuracies at Startup ---")
