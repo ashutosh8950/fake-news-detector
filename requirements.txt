@@ -14,5 +14,3 @@ httpx
 loguru
 pydantic-settings
 slowapi
-transformers
-torch
