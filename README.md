@@ -23,6 +23,7 @@ An ultra-fast, production-grade Fake News Detection API leveraging a 6-model Mac
 | **Docker Support** | Fully containerized for easy scaling and deployment. |
 | **REST API** | 3 specialized endpoints for health checks, model metadata, and text analysis. |
 | **Live deployment on Render** | Fully hosted and accessible online. |
+| **DistilBERT Deep Analysis** | Fine-tuned DistilBERT on 44K articles achieving 99.97% accuracy, hosted on Hugging Face. |
 
 ---
 
@@ -36,6 +37,8 @@ An ultra-fast, production-grade Fake News Detection API leveraging a 6-model Mac
 - **Validation**: Pydantic Settings
 - **Testing**: pytest, httpx
 - **Logging**: Loguru
+- **Transformer Model**: HuggingFace DistilBERT (fine-tuned)
+- **Model Hub**: Hugging Face — GuptaAshutosh/truthscan-fake-news-distilbert
 
 ---
 
@@ -203,6 +206,27 @@ python -m pytest -v tests/
 }
 ```
 
+### 4. Deep Analyze (DistilBERT)
+`POST /analyze/deep`
+Rate limit: 5 requests/minute
+
+**Request Example**
+```json
+{
+  "title": "Local Man Discovers Infinite Energy",
+  "text": "A local scientist has completely defied the laws of thermodynamics..."
+}
+```
+
+**Response Example**
+```json
+{
+  "label": "FAKE",
+  "confidence": 97.9,
+  "processing_time_ms": 245.3
+}
+```
+
 ---
 
 ## Model Accuracy
@@ -215,6 +239,17 @@ python -m pytest -v tests/
 | **Logistic Regression**| 97.53% | 97.53% | 97.53% | 97.53% |
 | **Random Forest** | 96.91% | 96.91% | 96.91% | 96.91% |
 | **Naive Bayes** | 95.17% | 95.18% | 95.17% | 95.17% |
+
+---
+
+## AI Models
+
+| Model | Type | Accuracy | Hosted |
+|---|---|---|---|
+| Ensemble (6 models) | TF-IDF + scikit-learn | 98.5% | Local |
+| DistilBERT | Fine-tuned Transformer | 99.97% | Hugging Face |
+
+Hugging Face Model: https://huggingface.co/GuptaAshutosh/truthscan-fake-news-distilbert
 
 ---
 
