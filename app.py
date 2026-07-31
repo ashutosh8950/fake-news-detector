@@ -19,6 +19,7 @@ from loguru import logger
 
 from predictor import predictor
 from preprocessor import preprocess
+from distilbert_predictor import distilbert_predictor
 from routers.api import router as api_router, limiter
 from config import settings
 from slowapi.middleware import SlowAPIMiddleware
@@ -44,6 +45,9 @@ async def lifespan(app: FastAPI):
         logger.info("spaCy pre-warmed successfully")
     except Exception as e:
         logger.warning(f"spaCy pre-warm failed (non-fatal): {e}")
+
+    # ── Load DistilBERT ──────────────────────────────────────────
+    distilbert_predictor.load()
 
     # ── Startup summary log ──────────────────────────────────────
     logger.info("--- Model Accuracies at Startup ---")

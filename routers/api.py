@@ -4,6 +4,7 @@ from pydantic import BaseModel, Field, field_validator
 from loguru import logger
 
 from predictor import predictor
+from distilbert_predictor import distilbert_predictor
 from slowapi import Limiter
 from slowapi.util import get_remote_address
 
@@ -76,3 +77,32 @@ async def analyze(request: Request, req: AnalyzeRequest):
         f"({result['overall_confidence']}%) in {result['processing_time_ms']}ms"
     )
     return result
+
+@router.post("/analyze/deep", tags=["Detection"])
+@limiter.limit("5/minute")
+async def analyze_deep(request: Request, req: AnalyzeRequest):
+    """
+    Analyze a news article using ONLY the DistilBERT model.
+    """
+    if not distilbert_predictor.loaded:
+        raise HTTPException(503, "DistilBERT model is still loading, please try again")
+
+    start = time.time()
+    try:
+        result = distilbert_predictor.predict_distilbert(title=req.title, text=req.text)
+    except Exception as e:
+        logger.error(f"DistilBERT prediction failed: {e}")
+        raise HTTPException(500, "Analysis failed, please try again")
+
+    processing_time_ms = round((time.time() - start) * 1000, 1)
+
+    logger.info(
+        f"Deep Analyzed {len(req.text)}ch -> {result['label']} "
+        f"({result['confidence']}%) in {processing_time_ms}ms"
+    )
+    
+    return {
+        "label": result["label"],
+        "confidence": result["confidence"],
+        "processing_time_ms": processing_time_ms
+    }
