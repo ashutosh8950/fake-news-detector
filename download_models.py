@@ -27,31 +27,37 @@ def models_are_valid(models_dir):
 
 def download_models(models_dir="models"):
     os.makedirs(models_dir, exist_ok=True)
-    
+
     if models_are_valid(models_dir):
         logger.info("Valid pre-trained models already exist. Skipping download.")
         return True
-    
-    logger.info("Models missing or invalid — downloading from GitHub Releases...")
-    
+
+    logger.info("Models missing or invalid — cleaning up and downloading from GitHub Releases...")
+
+    # Delete all existing model files so we can re-download clean ones
     for filename in MODEL_FILES:
         dest = os.path.join(models_dir, filename)
         if os.path.exists(dest):
-            logger.info(f"  {filename} already exists, skipping")
-            continue
+            os.remove(dest)
+            logger.info(f"  Removed invalid {filename}")
+
+    # Now download fresh from GitHub Releases
+    for filename in MODEL_FILES:
+        dest = os.path.join(models_dir, filename)
         url = f"{GITHUB_RELEASE_URL}/{filename}"
         logger.info(f"  Downloading {filename}...")
         try:
-            response = requests.get(url, stream=True, timeout=120)
+            response = requests.get(url, stream=True, timeout=300)
             response.raise_for_status()
             with open(dest, "wb") as f:
                 for chunk in response.iter_content(chunk_size=8192):
                     f.write(chunk)
-            logger.info(f"  {filename} downloaded successfully")
+            size = os.path.getsize(dest)
+            logger.info(f"  {filename} downloaded successfully ({size} bytes)")
         except Exception as e:
             logger.error(f"  Failed to download {filename}: {e}")
             return False
-    
+
     logger.info("All models downloaded successfully!")
     return True
 
