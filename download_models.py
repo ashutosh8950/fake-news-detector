@@ -15,25 +15,24 @@ MODEL_FILES = [
     "vectorizer.pkl"
 ]
 
+def models_are_valid(models_dir):
+    # vectorizer.pkl should be at least 5MB for real trained models
+    # Sample data produces a tiny vectorizer under 1KB
+    vectorizer_path = os.path.join(models_dir, "vectorizer.pkl")
+    if not os.path.exists(vectorizer_path):
+        return False
+    size = os.path.getsize(vectorizer_path)
+    logger.info(f"vectorizer.pkl size: {size} bytes")
+    return size > 1_000_000  # Must be over 1MB to be real models
+
 def download_models(models_dir="models"):
     os.makedirs(models_dir, exist_ok=True)
     
-    logger.info(f"Checking models in: {os.path.abspath(models_dir)}")
-    logger.info(f"Models dir exists: {os.path.exists(models_dir)}")
-    for f in MODEL_FILES:
-        path = os.path.join(models_dir, f)
-        logger.info(f"  {f}: exists={os.path.exists(path)}")
-    
-    all_exist = all(
-        os.path.exists(os.path.join(models_dir, f))
-        for f in MODEL_FILES
-    )
-    
-    if all_exist:
-        logger.info("Models already exist. Skipping download.")
+    if models_are_valid(models_dir):
+        logger.info("Valid pre-trained models already exist. Skipping download.")
         return True
     
-    logger.info("Downloading pre-trained models from GitHub Releases...")
+    logger.info("Models missing or invalid — downloading from GitHub Releases...")
     
     for filename in MODEL_FILES:
         dest = os.path.join(models_dir, filename)
