@@ -27,39 +27,63 @@ def models_are_valid(models_dir):
 
 def download_models(models_dir="models"):
     os.makedirs(models_dir, exist_ok=True)
-
+    
+    # Use lock file to prevent concurrent downloads from multiple workers
+    lock_file = os.path.join(models_dir, ".download_lock")
+    
     if models_are_valid(models_dir):
         logger.info("Valid pre-trained models already exist. Skipping download.")
         return True
-
-    logger.info("Models missing or invalid — cleaning up and downloading from GitHub Releases...")
-
-    # Delete all existing model files so we can re-download clean ones
-    for filename in MODEL_FILES:
-        dest = os.path.join(models_dir, filename)
-        if os.path.exists(dest):
-            os.remove(dest)
-            logger.info(f"  Removed invalid {filename}")
-
-    # Now download fresh from GitHub Releases
-    for filename in MODEL_FILES:
-        dest = os.path.join(models_dir, filename)
-        url = f"{GITHUB_RELEASE_URL}/{filename}"
-        logger.info(f"  Downloading {filename}...")
-        try:
-            response = requests.get(url, stream=True, timeout=300)
-            response.raise_for_status()
-            with open(dest, "wb") as f:
-                for chunk in response.iter_content(chunk_size=8192):
-                    f.write(chunk)
-            size = os.path.getsize(dest)
-            logger.info(f"  {filename} downloaded successfully ({size} bytes)")
-        except Exception as e:
-            logger.error(f"  Failed to download {filename}: {e}")
-            return False
-
-    logger.info("All models downloaded successfully!")
-    return True
+    
+    # If another worker is already downloading wait for it
+    if os.path.exists(lock_file):
+        logger.info("Another worker is downloading models. Waiting...")
+        import time
+        for _ in range(60):  # Wait up to 60 seconds
+            time.sleep(2)
+            if models_are_valid(models_dir):
+                logger.info("Models downloaded by another worker. Proceeding.")
+                return True
+        logger.warning("Timeout waiting for models. Proceeding anyway.")
+        return models_are_valid(models_dir)
+    
+    # Create lock file
+    with open(lock_file, "w") as f:
+        f.write("downloading")
+    
+    try:
+        logger.info("Models missing or invalid — cleaning up and downloading from GitHub Releases...")
+        
+        # Delete all existing model files
+        for filename in MODEL_FILES:
+            dest = os.path.join(models_dir, filename)
+            if os.path.exists(dest):
+                os.remove(dest)
+                logger.info(f"  Removed invalid {filename}")
+        
+        # Download fresh from GitHub Releases
+        for filename in MODEL_FILES:
+            dest = os.path.join(models_dir, filename)
+            url = f"{GITHUB_RELEASE_URL}/{filename}"
+            logger.info(f"  Downloading {filename}...")
+            try:
+                response = requests.get(url, stream=True, timeout=300)
+                response.raise_for_status()
+                with open(dest, "wb") as f:
+                    for chunk in response.iter_content(chunk_size=8192):
+                        f.write(chunk)
+                size = os.path.getsize(dest)
+                logger.info(f"  {filename} downloaded successfully ({size} bytes)")
+            except Exception as e:
+                logger.error(f"  Failed to download {filename}: {e}")
+                return False
+        
+        logger.info("All models downloaded successfully!")
+        return True
+    finally:
+        # Always remove lock file
+        if os.path.exists(lock_file):
+            os.remove(lock_file)
 
 if __name__ == "__main__":
     download_models()
