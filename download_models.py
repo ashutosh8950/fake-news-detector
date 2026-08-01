@@ -18,6 +18,12 @@ MODEL_FILES = [
 def download_models(models_dir="models"):
     os.makedirs(models_dir, exist_ok=True)
     
+    logger.info(f"Checking models in: {os.path.abspath(models_dir)}")
+    logger.info(f"Models dir exists: {os.path.exists(models_dir)}")
+    for f in MODEL_FILES:
+        path = os.path.join(models_dir, f)
+        logger.info(f"  {f}: exists={os.path.exists(path)}")
+    
     all_exist = all(
         os.path.exists(os.path.join(models_dir, f))
         for f in MODEL_FILES

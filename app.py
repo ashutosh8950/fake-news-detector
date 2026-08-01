@@ -29,21 +29,20 @@ from slowapi import _rate_limit_exceeded_handler
 # ── Lifespan (load models once at startup) ────────────────────────────────────
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    # ── Download models from GitHub Releases if not present ──────
+    from download_models import download_models
+    logger.info("Checking for pre-trained models...")
+    download_models()
+
     # ── Load models ──────────────────────────────────────────────
     try:
         predictor.load()
         logger.info("Models loaded successfully")
     except FileNotFoundError:
-        logger.warning("Models not found — downloading from GitHub Releases...")
-        from download_models import download_models
-        success = download_models()
-        if success:
-            predictor.load()
-        else:
-            logger.warning("Download failed — training from scratch...")
-            import subprocess, sys
-            subprocess.run([sys.executable, "train.py"], check=True)
-            predictor.load()
+        logger.warning("Models not found after download — training from scratch...")
+        import subprocess, sys
+        subprocess.run([sys.executable, "train.py"], check=True)
+        predictor.load()
 
     # ── spaCy pre-warm (loads model into memory) ──
     try:

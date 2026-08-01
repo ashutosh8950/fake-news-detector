@@ -5,7 +5,6 @@ services:
     buildCommand: |
       pip install -r requirements.txt
       python -m spacy download en_core_web_sm
-      python download_models.py
     startCommand: gunicorn app:app -w 2 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT
     plan: free
     envVars:
