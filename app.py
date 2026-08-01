@@ -30,9 +30,7 @@ from slowapi import _rate_limit_exceeded_handler
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # ── Download models from GitHub Releases if not present ──────
-    from download_models import download_models
     logger.info("Checking for pre-trained models...")
-    download_models()
 
     # ── Load models ──────────────────────────────────────────────
     try:
