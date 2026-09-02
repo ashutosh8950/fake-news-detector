@@ -16,14 +16,14 @@ import json
 import joblib
 import numpy as np
 import pandas as pd
-from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import LinearSVC
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
 from sklearn.naive_bayes import MultinomialNB
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from sklearn.metrics import accuracy_score, classification_report
 
 from loguru import logger
 from preprocessor import preprocess
@@ -101,22 +101,12 @@ def train():
     df, df_fake_test, df_true_test = load_data()
 
     # ── Preprocessing ────────────────────────────────────────────────────────
-    logger.info("⚙️  Preprocessing text (title + text + lemmatization)...")
-    from preprocessor import clean_text, nlp
-    cleaned_texts = []
-    for _, r in df.iterrows():
-        title = r["title"]
-        text = r["text"]
-        combined = f"{title} {title} {title} {text}"
-        cleaned = clean_text(combined)
-        cleaned_texts.append(cleaned)
-
-    processed_texts = []
-    for doc in nlp.pipe(cleaned_texts, batch_size=1000):
-        tokens = [token.lemma_ for token in doc if not token.is_stop and len(token.text) > 2]
-        processed_texts.append(' '.join(tokens))
-
-    df["processed"] = processed_texts
+    from preprocessor import preprocess
+    logger.info("Preprocessing text using preprocess() pipeline...")
+    df["processed"] = [
+        preprocess(row["title"], row["text"])
+        for _, row in df.iterrows()
+    ]
 
     X = df["processed"]
     y = df["class"]

@@ -5,8 +5,6 @@ Run this once before training: python download_data.py
 
 import os
 import requests
-import zipfile
-import io
 
 DATA_DIR = "data"
 FILES = {

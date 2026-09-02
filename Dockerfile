@@ -18,5 +18,7 @@ COPY . .
 # Expose port 8000
 EXPOSE 8000
 
+RUN python download_models.py
+
 # Start the application using gunicorn with uvicorn workers
-CMD ["gunicorn", "app:app", "--workers", "4", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8000"]
+CMD ["gunicorn", "app:app", "--workers", "1", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8000", "--timeout", "120"]

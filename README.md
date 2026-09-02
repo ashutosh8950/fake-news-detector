@@ -76,11 +76,14 @@ An ultra-fast, production-grade Fake News Detection API leveraging a 6-model Mac
 ├── .gitignore
 ├── app.py
 ├── config.py
+├── distilbert_predictor.py
 ├── Dockerfile
 ├── download_data.py
+├── download_models.py
 ├── predictor.py
 ├── preprocessor.py
 ├── README.md
+├── render.yaml
 ├── requirements.txt
 └── train.py
 ```

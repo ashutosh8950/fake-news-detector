@@ -256,7 +256,7 @@ async function loadModelStats() {
 
     const mapping = {
       lr:  'stat-lr', gbc: 'stat-gbc', rfc: 'stat-rfc',
-      nb:  'stat-nb', dt:  'stat-dt',
+      nb:  'stat-nb', dt:  'stat-dt', svc: 'stat-svc',
     };
 
     Object.entries(mapping).forEach(([key, elId]) => {
