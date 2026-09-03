@@ -1,340 +1,394 @@
-/* ═══════════════════════════════════════════════════════════════════════
-   TruthScan — app.js
-   Handles: API calls, results rendering, particles, history, theme, samples
-   ═══════════════════════════════════════════════════════════════════════ */
-
+/* ═══════════════════════════════════════════════════════════════════════════
+   TruthScan — Premium Dashboard (vanilla JS, no dependencies)
+   ═══════════════════════════════════════════════════════════════════════════ */
 'use strict';
 
-// ── Config ──────────────────────────────────────────────────────────────────
-const API_BASE = '';   // same origin — FastAPI serves both API + static files
+const API_BASE = '';           // same origin — FastAPI serves API + static files
+const HEALTH_INTERVAL_MS = 30000;
+const HISTORY_LIMIT = 10;
 
-// ── Sample articles ──────────────────────────────────────────────────────────
+const STORAGE = {
+  history: 'truthscan.history',
+  stats:   'truthscan.stats',
+  theme:   'truthscan.theme',
+};
+
 const SAMPLES = {
   fake: {
     title: 'BREAKING: Scientists Confirm 5G Towers Spread COVID-19',
-    text: `A leaked internal document from a top research institute has confirmed what many conspiracy theorists have been saying for months: 5G cellular towers are being used to spread the COVID-19 virus through electromagnetic frequencies. The document, obtained by whistleblowers inside the global health establishment, shows that government officials have been covering up the link between 5G rollout and pandemic spread. Thousands of protesters gathered outside telecom company headquarters demanding immediate shutdown of all 5G towers. Meanwhile, social media has exploded with videos showing birds dropping dead near newly activated towers, and multiple doctors have come forward claiming they've seen patients whose symptoms directly correlate with 5G exposure. The mainstream media continues to suppress this information, but the truth is finally getting out.`
+    text: 'A leaked internal document from a top research institute has confirmed what many conspiracy theorists have been saying for months: 5G cellular towers are being used to spread the COVID-19 virus through electromagnetic frequencies. The document, obtained by whistleblowers inside the global health establishment, shows that government officials have been covering up the link between 5G rollout and pandemic spread. Thousands of protesters gathered outside telecom company headquarters demanding immediate shutdown of all 5G towers. Meanwhile, social media has exploded with videos showing birds dropping dead near newly activated towers. The mainstream media continues to suppress this information, but the truth is finally getting out.',
   },
   real: {
-    title: 'Federal Reserve raises interest rates by 0.25% amid inflation concerns',
-    text: `WASHINGTON (Reuters) - The Federal Reserve raised its benchmark overnight interest rate by a quarter of a percentage point on Wednesday and signaled it would continue increasing borrowing costs this year in its ongoing battle against inflation. The U.S. central bank's policy-setting Federal Open Market Committee raised its target federal funds rate to a range between 5.25% and 5.50%, the highest level in more than 22 years. Fed Chair Jerome Powell said at a press conference following the decision that he and his colleagues remain committed to returning inflation to the Fed's 2% target, though he noted that the central bank could pause or reverse course if economic conditions warrant. The move was widely expected by financial markets, which had priced in a roughly 98% chance of a quarter-point hike going into the meeting.`
-  }
+    title: 'Federal Reserve Holds Interest Rates Steady, Signals Patience on Cuts',
+    text: 'The Federal Reserve left its benchmark interest rate unchanged on Wednesday, holding the federal funds rate in a range of 5.25% to 5.5% for the sixth consecutive meeting. In a statement following the two-day policy meeting, officials said inflation had eased over the past year but remained elevated, and that they did not expect it would be appropriate to reduce rates until they had gained greater confidence that inflation is moving sustainably toward the 2 percent objective. Chair Jerome Powell told reporters that recent data had not given policymakers greater confidence and that achieving that confidence would likely take longer than previously expected. Markets had largely anticipated the decision.',
+  },
+};
+
+const ICONS = {
+  fake: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>',
+  real: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>',
 };
 
 // ── State ────────────────────────────────────────────────────────────────────
 const state = {
-  history: JSON.parse(localStorage.getItem('truthscan_history') || '[]'),
-  isAnalyzing: false,
-  theme: localStorage.getItem('truthscan_theme') || 'dark',
+  history: loadJSON(STORAGE.history, []),
+  stats:   loadJSON(STORAGE.stats, { total: 0, fake: 0, real: 0, confidenceSum: 0 }),
+  theme:   localStorage.getItem(STORAGE.theme) || 'dark',
+  busy:    false,
+  modelInfo: null,
 };
 
-// ── DOM refs ─────────────────────────────────────────────────────────────────
-const $ = id => document.getElementById(id);
+function loadJSON(key, fallback) {
+  try { return JSON.parse(localStorage.getItem(key)) ?? fallback; }
+  catch { return fallback; }
+}
+function saveJSON(key, value) { localStorage.setItem(key, JSON.stringify(value)); }
 
+// ── DOM ──────────────────────────────────────────────────────────────────────
+const $ = (id) => document.getElementById(id);
 const els = {
-  form:         $('analyzer-form'),
-  titleInput:   $('title-input'),
-  newsInput:    $('news-input'),
-  analyzeBtn:   $('analyze-btn'),
-  btnText:      $('btn-text'),
-  btnLoader:    $('btn-loader'),
-  errorBox:     $('error-box'),
-  errorMsg:     $('error-msg'),
-  resultsCont:  $('results-container'),
-  verdictCard:  $('verdict-card'),
-  verdictIcon:  $('verdict-icon'),
-  verdictIconW: $('verdict-icon-wrap'),
+  statusDot:   $('status-dot'),
+  statusText:  $('status-text'),
+  statusPill:  $('status-pill'),
+  themeToggle: $('theme-toggle'),
+  menuToggle:  $('menu-toggle'),
+  navLinks:    document.querySelector('.nav-links'),
+
+  statTotal: $('stat-total'),
+  statFake:  $('stat-fake'),
+  statReal:  $('stat-real'),
+  statAvg:   $('stat-avg'),
+
+  form:       $('analyze-form'),
+  headline:   $('headline'),
+  article:    $('article'),
+  charCount:  $('char-count'),
+  clearForm:  $('clear-form'),
+  sampleFake: $('sample-fake'),
+  sampleReal: $('sample-real'),
+  btnEnsemble: $('btn-ensemble'),
+  btnDeep:     $('btn-deep'),
+  errorBox:   $('error-box'),
+  errorMsg:   $('error-msg'),
+
+  loader:     $('loader'),
+  loaderText: $('loader-text'),
+  results:    $('results'),
+  verdict:    $('verdict'),
+  verdictIcon: $('verdict-icon'),
+  verdictMode: $('verdict-mode'),
   verdictLabel: $('verdict-label'),
-  verdictSub:   $('verdict-sub'),
-  gaugeFill:    $('gauge-fill'),
-  gaugePct:     $('gauge-pct'),
-  gaugeBarAria: $('gauge-bar-aria'),
-  fakeVotes:    $('fake-votes'),
-  realVotes:    $('real-votes'),
-  processTime:  $('processing-time'),
+  verdictSub:  $('verdict-sub'),
+  gauge:      $('gauge'),
+  gaugeFill:  $('gauge-fill'),
+  gaugeValue: $('gauge-value'),
+  breakdown:  $('breakdown'),
+  modelBars:  $('model-bars'),
+  procTime:   $('proc-time'),
+
+  donut:        $('donut'),
+  donutValue:   $('donut-value'),
+  donutCaption: $('donut-caption'),
+  donutTotal:   $('donut-total'),
+  legendFake:   $('legend-fake'),
+  legendReal:   $('legend-real'),
+  barChartBars: $('bar-chart-bars'),
+
   modelsGrid:   $('models-grid'),
   historyList:  $('history-list'),
-  statusDot:    $('status-dot'),
-  statusText:   $('status-text'),
-  textCount:    $('text-count'),
-  themeToggle:  $('theme-toggle'),
-  clearHistBtn: $('clear-history-btn'),
-  sampleFake:   $('sample-fake-btn'),
-  sampleReal:   $('sample-real-btn'),
-  clearBtn:     $('clear-btn'),
+  clearHistory: $('clear-history'),
 };
 
 // ── Init ─────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-  initTheme();
+  applyTheme(state.theme, false);
   initParticles();
-  checkHealth();
-  renderHistory();
   bindEvents();
+  renderStats();
+  renderCharts();
+  renderHistory();
+  checkHealth();
+  loadModelInfo();
+  setInterval(checkHealth, HEALTH_INTERVAL_MS);
+  initScrollSpy();
 });
 
-// ── Events ────────────────────────────────────────────────────────────────────
+// ── Events ───────────────────────────────────────────────────────────────────
 function bindEvents() {
-  els.form.addEventListener('submit', handleSubmit);
+  els.form.addEventListener('submit', (e) => { e.preventDefault(); runAnalysis('ensemble'); });
+  els.btnDeep.addEventListener('click', () => runAnalysis('deep'));
 
-  els.newsInput.addEventListener('input', () => {
-    const words = els.newsInput.value.trim().split(/\s+/).filter(Boolean).length;
-    els.textCount.textContent = `${words} word${words !== 1 ? 's' : ''}`;
+  els.article.addEventListener('input', updateCharCount);
+  els.clearForm.addEventListener('click', () => {
+    els.headline.value = '';
+    els.article.value = '';
+    updateCharCount();
+    hideError();
+    els.results.hidden = true;
   });
-
   els.sampleFake.addEventListener('click', () => loadSample('fake'));
   els.sampleReal.addEventListener('click', () => loadSample('real'));
-  els.clearBtn.addEventListener('click', clearForm);
-  els.clearHistBtn.addEventListener('click', clearHistory);
-  els.themeToggle.addEventListener('click', toggleTheme);
+  els.clearHistory.addEventListener('click', clearHistory);
+
+  els.themeToggle.addEventListener('click', () => applyTheme(state.theme === 'dark' ? 'light' : 'dark', true));
+
+  els.menuToggle.addEventListener('click', () => {
+    const open = els.navLinks.classList.toggle('open');
+    els.menuToggle.setAttribute('aria-expanded', String(open));
+  });
+  els.navLinks.addEventListener('click', (e) => {
+    if (e.target.matches('.nav-link')) {
+      els.navLinks.classList.remove('open');
+      els.menuToggle.setAttribute('aria-expanded', 'false');
+    }
+  });
 }
 
-// ── Sample loaders ────────────────────────────────────────────────────────────
-function loadSample(type) {
-  const s = SAMPLES[type];
-  els.titleInput.value = s.title;
-  els.newsInput.value  = s.text;
-  // trigger word count update
-  els.newsInput.dispatchEvent(new Event('input'));
-  els.newsInput.focus();
+function updateCharCount() {
+  const n = els.article.value.length;
+  els.charCount.textContent = `${n.toLocaleString()} character${n === 1 ? '' : 's'}`;
 }
 
-function clearForm() {
-  els.titleInput.value = '';
-  els.newsInput.value  = '';
-  els.textCount.textContent = '0 words';
+function loadSample(kind) {
+  els.headline.value = SAMPLES[kind].title;
+  els.article.value = SAMPLES[kind].text;
+  updateCharCount();
   hideError();
+  els.article.focus();
 }
 
-// ── Form submit ───────────────────────────────────────────────────────────────
-async function handleSubmit(e) {
-  e.preventDefault();
-  if (state.isAnalyzing) return;
+// ── Theme ────────────────────────────────────────────────────────────────────
+function applyTheme(theme, persist) {
+  state.theme = theme;
+  document.documentElement.setAttribute('data-theme', theme);
+  if (persist) localStorage.setItem(STORAGE.theme, theme);
+}
 
-  const text  = els.newsInput.value.trim();
-  const title = els.titleInput.value.trim();
+// ── Scroll spy for nav links ─────────────────────────────────────────────────
+function initScrollSpy() {
+  const links = [...document.querySelectorAll('.nav-link[href^="#"]')];
+  const sections = links.map((l) => document.querySelector(l.getAttribute('href'))).filter(Boolean);
+  if (!('IntersectionObserver' in window) || !sections.length) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      links.forEach((l) => l.classList.toggle('active', l.getAttribute('href') === `#${entry.target.id}`));
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  sections.forEach((s) => observer.observe(s));
+}
+
+// ── Health ───────────────────────────────────────────────────────────────────
+async function checkHealth() {
+  try {
+    const res = await fetch(`${API_BASE}/health`, { cache: 'no-store' });
+    if (!res.ok) throw new Error(res.statusText);
+    const data = await res.json();
+    if (data.status === 'ok' && data.models_loaded) {
+      setStatus('online', 'API Online');
+      if (!state.modelInfo) loadModelInfo();
+    } else {
+      setStatus('loading', 'Loading models…');
+    }
+  } catch {
+    setStatus('offline', 'API Offline');
+  }
+}
+
+function setStatus(kind, text) {
+  els.statusDot.className = `status-dot ${kind}`;
+  els.statusText.textContent = text;
+  els.statusPill.title = text;
+}
+
+// ── Model info ───────────────────────────────────────────────────────────────
+async function loadModelInfo() {
+  try {
+    const res = await fetch(`${API_BASE}/models/info`);
+    if (!res.ok) throw new Error(res.statusText);
+    state.modelInfo = await res.json();
+    renderModelCards(state.modelInfo);
+  } catch {
+    if (!state.modelInfo) {
+      els.modelsGrid.innerHTML = '<div class="models-error">Model metrics unavailable — the API may still be starting. Retrying with the next health check.</div>';
+    }
+  }
+}
+
+function renderModelCards(info) {
+  const entries = Object.entries(info).filter(([, m]) => m && typeof m === 'object' && 'accuracy' in m);
+  if (!entries.length) {
+    els.modelsGrid.innerHTML = '<div class="models-error">No model metrics reported.</div>';
+    return;
+  }
+  entries.sort((a, b) => (b[1].accuracy ?? 0) - (a[1].accuracy ?? 0));
+
+  els.modelsGrid.innerHTML = entries.map(([key, m], i) => {
+    const metrics = [
+      ['Precision', m.precision],
+      ['Recall',    m.recall],
+      ['F1 score',  m.f1],
+    ];
+    return `
+      <article class="model-card glass reveal" style="--delay:${i * 0.08}s">
+        <div class="model-card-head">
+          <div>
+            <div class="model-card-name">${escapeHtml(m.name || key)}</div>
+            <div class="model-card-key">${escapeHtml(key)}</div>
+          </div>
+          <div class="model-acc">
+            <strong data-count="${num(m.accuracy)}" data-suffix="%">0%</strong>
+            <small>accuracy</small>
+          </div>
+        </div>
+        <div class="metric-list">
+          ${metrics.map(([label, val], j) => `
+            <div class="metric">
+              <span>${label}</span>
+              <div class="metric-track"><div class="metric-fill" data-width="${num(val)}" style="--delay:${0.2 + j * 0.1}s"></div></div>
+              <span>${fmtPct(val)}</span>
+            </div>`).join('')}
+        </div>
+      </article>`;
+  }).join('');
+
+  requestAnimationFrame(() => {
+    els.modelsGrid.querySelectorAll('.metric-fill').forEach((el) => { el.style.width = `${el.dataset.width}%`; });
+    els.modelsGrid.querySelectorAll('[data-count]').forEach((el) => animateCount(el, Number(el.dataset.count), 1200, '%', 1));
+  });
+}
+
+// ── Analysis ─────────────────────────────────────────────────────────────────
+async function runAnalysis(mode) {
+  if (state.busy) return;
+  const text = els.article.value.trim();
+  const title = els.headline.value.trim();
 
   if (text.length < 20) {
     showError('Please enter at least 20 characters of article text.');
+    els.article.focus();
     return;
   }
-
   hideError();
-  setLoading(true);
+  setBusy(true, mode);
 
+  const endpoint = mode === 'deep' ? '/analyze/deep' : '/analyze';
   try {
-    const res = await fetch(`${API_BASE}/analyze`, {
+    const res = await fetch(`${API_BASE}${endpoint}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text, title }),
     });
-
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
-      throw new Error(err.detail || `Server error ${res.status}`);
+      const detail = Array.isArray(err.detail) ? err.detail.map((d) => d.msg).join(', ') : err.detail;
+      throw new Error(detail || `Server responded with ${res.status}`);
     }
-
     const data = await res.json();
-    renderResults(data, text, title);
-    saveHistory({ text, title, data });
-
+    const result = normalizeResult(mode, data);
+    renderResult(result);
+    recordAnalysis(result, title || text);
   } catch (err) {
-    showError(err.message || 'Failed to connect to the server. Is it running?');
+    showError(err.message || 'Could not reach the API. Is the server running?');
   } finally {
-    setLoading(false);
+    setBusy(false, mode);
   }
 }
 
-// ── Results rendering ─────────────────────────────────────────────────────────
-function renderResults(data, text, title) {
-  const isFake = data.ensemble_is_fake;
-  const conf   = data.overall_confidence;
-
-  // Verdict
-  els.verdictCard.className  = `card verdict-card ${isFake ? 'is-fake' : 'is-real'}`;
-  els.verdictIconW.className = `verdict-icon-wrap ${isFake ? 'is-fake' : 'is-real'}`;
-  els.verdictIcon.textContent  = isFake ? '🚨' : '✅';
-  els.verdictLabel.className   = `verdict-label ${isFake ? 'is-fake' : 'is-real'}`;
-  els.verdictLabel.textContent = data.ensemble_label;
-  els.verdictSub.textContent   =
-    isFake
-      ? `${data.fake_votes} of ${data.total_models} models identified this as fake.`
-      : `${data.real_votes} of ${data.total_models} models classified this as real news.`;
-
-  // Gauge — animate after short delay
-  els.gaugeFill.className = `gauge-fill ${isFake ? 'is-fake' : 'is-real'}`;
-  els.gaugeFill.style.width = '0%';
-  els.gaugeBarAria.setAttribute('aria-valuenow', conf);
-  requestAnimationFrame(() => {
-    setTimeout(() => {
-      els.gaugeFill.style.width = `${conf}%`;
-    }, 100);
-  });
-
-  // Animate gauge percentage counter
-  animateCounter(els.gaugePct, 0, conf, '%', 1200);
-
-  // Vote tally
-  els.fakeVotes.textContent = data.fake_votes;
-  els.realVotes.textContent = data.real_votes;
-
-  // Processing time
-  if (data.processing_time_ms) {
-    els.processTime.textContent = `⚡ Analyzed ${data.processed_length} tokens in ${data.processing_time_ms}ms`;
-  }
-
-  // Per-model breakdown
-  els.modelsGrid.innerHTML = '';
-  Object.entries(data.models).forEach(([key, m], idx) => {
-    const isMFake = m.is_fake;
-    const row = document.createElement('div');
-    row.className = 'model-row';
-    row.setAttribute('role', 'listitem');
-    row.setAttribute('aria-label', `${m.name}: ${m.label} with ${m.confidence}% confidence`);
-    row.innerHTML = `
-      <div class="model-row-header">
-        <span class="model-name">${m.name}</span>
-        <span class="model-badge ${isMFake ? 'fake' : 'real'}">${m.label}</span>
-      </div>
-      <div class="model-conf-track">
-        <div class="model-conf-fill ${isMFake ? 'fake' : 'real'}"
-             id="mfill-${key}" style="width:0%"></div>
-      </div>
-      <div class="model-conf-label" id="mconf-${key}">0%</div>
-    `;
-    els.modelsGrid.appendChild(row);
-
-    // Staggered animation
-    setTimeout(() => {
-      document.getElementById(`mfill-${key}`).style.width = `${m.confidence}%`;
-      animateCounter(document.getElementById(`mconf-${key}`), 0, m.confidence, '%', 800);
-    }, 200 + idx * 100);
-  });
-
-  // Show results
-  els.resultsCont.hidden = false;
-  els.resultsCont.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-// ── Counter animation ─────────────────────────────────────────────────────────
-function animateCounter(el, from, to, suffix, duration) {
-  const start = performance.now();
-  function frame(now) {
-    const progress = Math.min((now - start) / duration, 1);
-    const ease    = 1 - Math.pow(1 - progress, 3); // ease-out cubic
-    const value   = Math.round(from + (to - from) * ease);
-    el.textContent = `${value}${suffix}`;
-    if (progress < 1) requestAnimationFrame(frame);
-  }
-  requestAnimationFrame(frame);
-}
-
-// ── Health check ──────────────────────────────────────────────────────────────
-async function checkHealth() {
-  try {
-    const res  = await fetch(`${API_BASE}/health`);
-    const data = await res.json();
-
-    if (data.status === 'ok') {
-      els.statusDot.className  = 'status-dot online';
-      els.statusText.textContent = 'Models Ready';
-    } else {
-      setStatusLoading();
-    }
-
-    // Load model stats into hero bar
-    loadModelStats();
-  } catch {
-    els.statusDot.className   = 'status-dot offline';
-    els.statusText.textContent = 'Server Offline';
-  }
-}
-
-async function loadModelStats() {
-  try {
-    const res  = await fetch(`${API_BASE}/models/info`);
-    const meta = await res.json();
-
-    const mapping = {
-      lr:  'stat-lr', gbc: 'stat-gbc', rfc: 'stat-rfc',
-      nb:  'stat-nb', dt:  'stat-dt', svc: 'stat-svc',
+/** Convert both /analyze and /analyze/deep payloads into one shape. */
+function normalizeResult(mode, data) {
+  if (mode === 'deep') {
+    const label = String(data.label || '').toUpperCase();
+    return {
+      mode,
+      isFake: label === 'FAKE',
+      label: label || 'UNKNOWN',
+      confidence: num(data.confidence),
+      processingMs: data.processing_time_ms,
+      models: [{ key: 'distilbert', name: 'DistilBERT (fine-tuned)', isFake: label === 'FAKE', label: data.label, confidence: num(data.confidence) }],
+      subtitle: 'Transformer-based deep analysis',
     };
-
-    Object.entries(mapping).forEach(([key, elId]) => {
-      const el = $(elId);
-      if (!el) return;
-      el.classList.remove('loading-shimmer');
-      const stat = meta[key];
-      if (stat) {
-        el.querySelector('.stat-val').textContent = `${stat.accuracy}%`;
-      }
-    });
-  } catch {}
-}
-
-function setStatusLoading() {
-  els.statusDot.className   = 'status-dot';
-  els.statusText.textContent = 'Loading Models…';
-}
-
-// ── History ───────────────────────────────────────────────────────────────────
-function saveHistory({ text, title, data }) {
-  const item = {
-    id:    Date.now(),
-    label: data.ensemble_label,
-    fake:  data.ensemble_is_fake,
-    conf:  data.overall_confidence,
-    snippet: (title || text).slice(0, 80),
-  };
-  state.history.unshift(item);
-  if (state.history.length > 10) state.history.pop();
-  localStorage.setItem('truthscan_history', JSON.stringify(state.history));
-  renderHistory();
-}
-
-function renderHistory() {
-  if (!state.history.length) {
-    els.historyList.innerHTML = '<div class="history-empty">No analyses yet. Paste an article above to get started.</div>';
-    return;
   }
-
-  els.historyList.innerHTML = state.history.map(item => `
-    <div class="history-item" role="listitem" tabindex="0" aria-label="${item.label}: ${item.snippet}">
-      <span class="history-badge ${item.fake ? 'fake' : 'real'}">${item.label}</span>
-      <span class="history-text">${escapeHtml(item.snippet)}…</span>
-      <span class="history-pct">${item.conf}%</span>
-    </div>
-  `).join('');
+  const models = Object.entries(data.models || {}).map(([key, m]) => ({
+    key, name: m.name || key, isFake: !!m.is_fake, label: m.label, confidence: num(m.confidence),
+  }));
+  return {
+    mode,
+    isFake: !!data.ensemble_is_fake,
+    label: String(data.ensemble_label || (data.ensemble_is_fake ? 'FAKE' : 'REAL')).toUpperCase(),
+    confidence: num(data.overall_confidence),
+    processingMs: data.processing_time_ms,
+    models,
+    subtitle: data.ensemble_is_fake
+      ? `${data.fake_votes} of ${data.total_models} models flagged this as fake`
+      : `${data.real_votes} of ${data.total_models} models classified this as real`,
+  };
 }
 
-function clearHistory() {
-  state.history = [];
-  localStorage.removeItem('truthscan_history');
-  renderHistory();
+function renderResult(r) {
+  const cls = r.isFake ? 'is-fake' : 'is-real';
+
+  els.verdict.className = `verdict ${cls}`;
+  els.verdictIcon.innerHTML = ICONS[r.isFake ? 'fake' : 'real'];
+  els.verdictMode.textContent = r.mode === 'deep' ? 'DistilBERT verdict' : 'Ensemble verdict';
+  els.verdictLabel.textContent = r.label;
+  els.verdictSub.textContent = r.subtitle;
+
+  // restart badge pop animation
+  const badge = $('verdict-badge');
+  badge.style.animation = 'none';
+  void badge.offsetWidth;
+  badge.style.animation = '';
+
+  // gauge
+  els.gauge.className = `gauge ${cls}`;
+  const circumference = 2 * Math.PI * 52;
+  els.gaugeFill.style.strokeDashoffset = circumference;
+  requestAnimationFrame(() => {
+    els.gaugeFill.style.strokeDashoffset = circumference * (1 - Math.min(r.confidence, 100) / 100);
+  });
+  animateCount(els.gaugeValue, r.confidence, 1400, '%', 1);
+
+  // per-model breakdown
+  const info = state.modelInfo || {};
+  els.modelBars.innerHTML = r.models.map((m, i) => {
+    const acc = info[m.key]?.accuracy;
+    const mcls = m.isFake ? 'fake' : 'real';
+    return `
+      <div class="model-bar" style="--delay:${i * 0.08}s">
+        <div class="model-bar-name">
+          <strong>${escapeHtml(m.name)}</strong>
+          <small>${acc != null ? `${fmtPct(acc)} accuracy` : 'accuracy n/a'}</small>
+        </div>
+        <div class="model-bar-track"><div class="model-bar-fill ${mcls}" data-width="${m.confidence}"></div></div>
+        <div class="model-bar-value">
+          <strong>${fmtPct(m.confidence)}</strong>
+          <span class="tag ${mcls}">${escapeHtml(m.label || (m.isFake ? 'Fake' : 'Real'))}</span>
+        </div>
+      </div>`;
+  }).join('');
+  els.procTime.textContent = r.processingMs != null ? `processed in ${r.processingMs} ms` : '';
+
+  els.results.hidden = false;
+  requestAnimationFrame(() => {
+    els.modelBars.querySelectorAll('.model-bar-fill').forEach((el) => { el.style.width = `${el.dataset.width}%`; });
+  });
+  els.results.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
-// ── Theme ──────────────────────────────────────────────────────────────────────
-function initTheme() {
-  if (state.theme === 'light') document.body.classList.add('light-mode');
-  els.themeToggle.textContent = state.theme === 'dark' ? '☀️' : '🌙';
-}
-
-function toggleTheme() {
-  state.theme = state.theme === 'dark' ? 'light' : 'dark';
-  document.body.classList.toggle('light-mode');
-  els.themeToggle.textContent = state.theme === 'dark' ? '☀️' : '🌙';
-  localStorage.setItem('truthscan_theme', state.theme);
-}
-
-// ── Loading state ─────────────────────────────────────────────────────────────
-function setLoading(loading) {
-  state.isAnalyzing = loading;
-  els.analyzeBtn.disabled    = loading;
-  els.btnText.style.opacity  = loading ? '0' : '1';
-  if (loading) {
-    els.btnLoader.classList.add('active');
-    els.resultsCont.hidden = true;
+function setBusy(busy, mode) {
+  state.busy = busy;
+  els.btnEnsemble.disabled = busy;
+  els.btnDeep.disabled = busy;
+  els.loader.hidden = !busy;
+  if (busy) {
+    els.results.hidden = true;
+    els.loaderText.textContent = mode === 'deep' ? 'Running DistilBERT transformer…' : 'Running 6-model ensemble…';
+    (mode === 'deep' ? els.btnDeep : els.btnEnsemble).classList.add('is-loading');
   } else {
-    els.btnLoader.classList.remove('active');
+    els.btnDeep.classList.remove('is-loading');
+    els.btnEnsemble.classList.remove('is-loading');
   }
 }
 
@@ -342,87 +396,188 @@ function showError(msg) {
   els.errorMsg.textContent = msg;
   els.errorBox.hidden = false;
 }
+function hideError() { els.errorBox.hidden = true; }
 
-function hideError() {
-  els.errorBox.hidden = true;
+// ── Persistence: stats + history ─────────────────────────────────────────────
+function recordAnalysis(r, snippetSource) {
+  state.stats.total += 1;
+  state.stats[r.isFake ? 'fake' : 'real'] += 1;
+  state.stats.confidenceSum += r.confidence;
+  saveJSON(STORAGE.stats, state.stats);
+
+  state.history.unshift({
+    id: Date.now(),
+    ts: new Date().toISOString(),
+    mode: r.mode,
+    isFake: r.isFake,
+    label: r.label,
+    confidence: r.confidence,
+    snippet: snippetSource.slice(0, 120),
+  });
+  state.history = state.history.slice(0, HISTORY_LIMIT);
+  saveJSON(STORAGE.history, state.history);
+
+  renderStats();
+  renderCharts();
+  renderHistory();
 }
 
-// ── Particle Canvas ───────────────────────────────────────────────────────────
+function clearHistory() {
+  state.history = [];
+  state.stats = { total: 0, fake: 0, real: 0, confidenceSum: 0 };
+  saveJSON(STORAGE.history, state.history);
+  saveJSON(STORAGE.stats, state.stats);
+  renderStats();
+  renderCharts();
+  renderHistory();
+}
+
+function renderStats() {
+  const { total, fake, real, confidenceSum } = state.stats;
+  const avg = total ? confidenceSum / total : 0;
+  animateCount(els.statTotal, total, 900);
+  animateCount(els.statFake, fake, 900);
+  animateCount(els.statReal, real, 900);
+  animateCount(els.statAvg, avg, 900, '%', 1);
+}
+
+// ── Charts (pure CSS / vanilla JS) ───────────────────────────────────────────
+function renderCharts() {
+  // Donut — conic-gradient driven by --fake percentage
+  const { total, fake, real } = state.stats;
+  els.legendFake.textContent = fake;
+  els.legendReal.textContent = real;
+  els.donutTotal.textContent = `${total} ${total === 1 ? 'analysis' : 'analyses'}`;
+  if (!total) {
+    els.donut.classList.add('empty');
+    els.donut.style.setProperty('--fake', 0);
+    els.donutValue.textContent = '—';
+    els.donutCaption.textContent = 'no data';
+  } else {
+    const fakePct = (fake / total) * 100;
+    els.donut.classList.remove('empty');
+    els.donut.style.setProperty('--fake', fakePct.toFixed(2));
+    els.donutValue.textContent = `${Math.round(fakePct)}%`;
+    els.donutCaption.textContent = 'flagged fake';
+  }
+
+  // Bar chart — last 10 confidence scores, oldest → newest
+  const items = [...state.history].reverse();
+  if (!items.length) {
+    els.barChartBars.innerHTML = '<div class="bar-chart-empty">Run an analysis to see confidence history.</div>';
+    return;
+  }
+  els.barChartBars.innerHTML = items.map((h, i) => `
+    <div class="bar ${h.isFake ? 'fake' : 'real'}" data-value="${fmtPct(h.confidence)}" data-height="${h.confidence}"
+         style="--delay:${i * 0.06}s" title="${escapeHtml(h.label)} — ${fmtPct(h.confidence)} • ${fmtTime(h.ts)}"></div>`).join('');
+  requestAnimationFrame(() => {
+    els.barChartBars.querySelectorAll('.bar').forEach((el) => { el.style.height = `${el.dataset.height}%`; });
+  });
+}
+
+// ── History list ─────────────────────────────────────────────────────────────
+function renderHistory() {
+  if (!state.history.length) {
+    els.historyList.innerHTML = '<li class="history-empty">No analyses yet — paste an article above to get started.</li>';
+    return;
+  }
+  els.historyList.innerHTML = state.history.map((h, i) => `
+    <li class="history-item" style="--delay:${i * 0.05}s">
+      <span class="badge ${h.isFake ? 'fake' : 'real'}">${escapeHtml(h.label)}</span>
+      <span class="history-snippet" title="${escapeHtml(h.snippet)}">
+        ${escapeHtml(h.snippet)}
+        <small>${h.mode === 'deep' ? 'DistilBERT' : 'Ensemble'}</small>
+      </span>
+      <span class="history-conf">${fmtPct(h.confidence)}</span>
+      <time class="history-time" datetime="${h.ts}">${fmtTime(h.ts)}</time>
+    </li>`).join('');
+}
+
+// ── Particles background ─────────────────────────────────────────────────────
 function initParticles() {
-  const canvas = document.getElementById('particle-canvas');
+  const canvas = $('particles');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
-
-  let W, H, particles = [];
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W = 0, H = 0, particles = [];
+  const COUNT = Math.min(90, Math.floor(window.innerWidth / 14));
+  const COLORS = ['108,99,255', '0,212,255', '168,85,247'];
 
   function resize() {
-    W = canvas.width  = window.innerWidth;
+    W = canvas.width = window.innerWidth;
     H = canvas.height = window.innerHeight;
   }
-
-  function Particle() {
-    this.reset();
+  function spawn() {
+    return {
+      x: Math.random() * W, y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.35, vy: (Math.random() - 0.5) * 0.35,
+      r: Math.random() * 1.6 + 0.6, a: Math.random() * 0.45 + 0.15,
+      c: COLORS[Math.floor(Math.random() * COLORS.length)],
+    };
   }
-
-  Particle.prototype.reset = function() {
-    this.x  = Math.random() * W;
-    this.y  = Math.random() * H;
-    this.vx = (Math.random() - 0.5) * 0.4;
-    this.vy = (Math.random() - 0.5) * 0.4;
-    this.r  = Math.random() * 1.5 + 0.5;
-    this.a  = Math.random() * 0.4 + 0.1;
-    this.color = Math.random() > 0.5 ? '99,179,237' : '159,122,234';
-  };
-
-  Particle.prototype.update = function() {
-    this.x += this.vx;
-    this.y += this.vy;
-    if (this.x < 0 || this.x > W || this.y < 0 || this.y > H) this.reset();
-  };
-
-  Particle.prototype.draw = function() {
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(${this.color},${this.a})`;
-    ctx.fill();
-  };
-
-  resize();
-  window.addEventListener('resize', resize);
-
-  // Create 80 particles
-  for (let i = 0; i < 80; i++) particles.push(new Particle());
-
-  function loop() {
+  function frame() {
     ctx.clearRect(0, 0, W, H);
-
-    // Draw connection lines between nearby particles
+    const light = state.theme === 'light';
     for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < -10 || p.x > W + 10 || p.y < -10 || p.y > H + 10) particles[i] = spawn();
       for (let j = i + 1; j < particles.length; j++) {
-        const dx = particles[i].x - particles[j].x;
-        const dy = particles[i].y - particles[j].y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 120) {
+        const q = particles[j];
+        const dx = p.x - q.x, dy = p.y - q.y;
+        const d = dx * dx + dy * dy;
+        if (d < 130 * 130) {
           ctx.beginPath();
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.strokeStyle = `rgba(99,179,237,${0.06 * (1 - dist / 120)})`;
-          ctx.lineWidth = 0.5;
+          ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y);
+          ctx.strokeStyle = `rgba(${p.c},${(light ? 0.12 : 0.08) * (1 - Math.sqrt(d) / 130)})`;
+          ctx.lineWidth = 0.6;
           ctx.stroke();
         }
       }
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${p.c},${light ? p.a * 0.6 : p.a})`;
+      ctx.fill();
     }
-
-    particles.forEach(p => { p.update(); p.draw(); });
-    requestAnimationFrame(loop);
+    if (!reduced) requestAnimationFrame(frame);
   }
 
-  loop();
+  resize();
+  window.addEventListener('resize', resize);
+  particles = Array.from({ length: COUNT }, spawn);
+  frame();
 }
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
+// ── Helpers ──────────────────────────────────────────────────────────────────
+const activeCounters = new WeakMap();
+function animateCount(el, to, duration, suffix = '', decimals = 0) {
+  if (!el) return;
+  const prev = activeCounters.get(el);
+  if (prev) cancelAnimationFrame(prev);
+  const from = parseFloat(el.textContent) || 0;
+  const start = performance.now();
+  const step = (now) => {
+    const t = Math.min((now - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - t, 3);
+    const val = from + (to - from) * ease;
+    el.textContent = `${val.toFixed(decimals)}${suffix}`;
+    if (t < 1) activeCounters.set(el, requestAnimationFrame(step));
+    else activeCounters.delete(el);
+  };
+  activeCounters.set(el, requestAnimationFrame(step));
+}
+
+function num(v) { const n = Number(v); return Number.isFinite(n) ? Math.round(n * 100) / 100 : 0; }
+function fmtPct(v) { return `${num(v).toFixed(1)}%`; }
+function fmtTime(iso) {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return '';
+  const diff = (Date.now() - d.getTime()) / 1000;
+  if (diff < 60) return 'just now';
+  if (diff < 3600) return `${Math.floor(diff / 60)} min ago`;
+  if (diff < 86400) return `${Math.floor(diff / 3600)} h ago`;
+  return d.toLocaleString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+}
 function escapeHtml(str) {
-  return str.replace(/[&<>"']/g, c => ({
-    '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
-  }[c]));
+  return String(str ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }
