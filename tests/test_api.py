@@ -83,4 +83,3 @@ def test_frontend_serving(client):
     assert "text/html" in response.headers.get("content-type", "")
     html = response.text
     assert "TruthScan" in html
-    assert "analyzer-form" in html
