@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TruthScan — AI Fake News Detector</title>
-  <meta name="description" content="Advanced AI-powered fake news detection using an ensemble of 5 machine learning models. Analyze any news article in seconds." />
+  <title>TruthScan — AI Fake News Detection Dashboard</title>
+  <meta name="description" content="Premium AI dashboard for fake news detection powered by a 6-model ML ensemble and DistilBERT." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
@@ -13,261 +13,282 @@
 <body>
 
   <!-- Animated background -->
-  <div class="bg-layer" aria-hidden="true">
-    <div class="bg-orb orb-1"></div>
-    <div class="bg-orb orb-2"></div>
-    <div class="bg-orb orb-3"></div>
-    <canvas id="particle-canvas"></canvas>
+  <div class="bg" aria-hidden="true">
+    <div class="bg-gradient"></div>
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+    <div class="bg-orb bg-orb-3"></div>
+    <canvas id="particles"></canvas>
   </div>
 
-  <!-- ───── HEADER ───── -->
-  <header class="site-header">
-    <div class="header-inner">
-      <div class="logo" role="banner">
-        <span class="logo-icon">🔍</span>
-        <span class="logo-text">Truth<span class="logo-accent">Scan</span></span>
-        <span class="logo-badge">v2.0 AI</span>
-      </div>
-      <nav class="header-nav" aria-label="Main navigation">
-        <span class="nav-item" id="nav-status">
-          <span class="status-dot" id="status-dot"></span>
-          <span id="status-text">Connecting…</span>
+  <!-- ═══════════ SECTION 1: HEADER ═══════════ -->
+  <header class="navbar glass" id="dashboard">
+    <div class="container navbar-inner">
+      <a href="#dashboard" class="brand" aria-label="TruthScan home">
+        <span class="brand-icon">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2l8 3v6c0 5.25-3.4 9.74-8 11-4.6-1.26-8-5.75-8-11V5l8-3z"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
         </span>
-        <a href="/docs" target="_blank" class="nav-link" id="api-docs-link">API Docs</a>
-        <button id="theme-toggle" class="nav-btn" aria-label="Toggle theme" title="Toggle light/dark mode">☀️</button>
+        <span class="brand-text">Truth<span class="brand-accent">Scan</span></span>
+      </a>
+
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#dashboard" class="nav-link active">Dashboard</a>
+        <a href="#analyze" class="nav-link">Analyze</a>
+        <a href="#models" class="nav-link">Models</a>
+        <a href="/docs" target="_blank" rel="noopener" class="nav-link">API Docs</a>
       </nav>
+
+      <div class="nav-actions">
+        <div class="status-pill" id="status-pill" role="status" aria-live="polite">
+          <span class="status-dot" id="status-dot"></span>
+          <span class="status-text" id="status-text">Connecting…</span>
+        </div>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark / light mode" title="Toggle theme">
+          <span class="theme-toggle-thumb">
+            <svg class="icon-sun" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+            <svg class="icon-moon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </span>
+        </button>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
   </header>
 
-  <!-- ───── MAIN ───── -->
-  <main id="main-content">
+  <main class="container">
 
-    <!-- Hero -->
+    <!-- ═══════════ SECTION 2: HERO STATS ═══════════ -->
     <section class="hero" aria-labelledby="hero-title">
-      <div class="hero-content">
-        <div class="hero-badge" aria-label="Six ML Models">6 ML Models • Ensemble Voting</div>
-        <h1 id="hero-title">
-          Detect Fake News<br/>
-          <span class="gradient-text">Instantly with AI</span>
-        </h1>
-        <p class="hero-sub">
-          Paste any news article and our ensemble of 6 ML models — Logistic Regression,
-          Decision Tree, Gradient Boosting, Random Forest, Naive Bayes &amp; Linear SVC — will
-          analyze it and tell you if it's real or fake.
-        </p>
+      <div class="hero-copy reveal">
+        <span class="eyebrow">6 ML Models • Ensemble Voting • DistilBERT</span>
+        <h1 id="hero-title">Detect misinformation <span class="gradient-text">in seconds</span></h1>
+        <p class="hero-sub">Paste any headline and article — TruthScan runs it through an ensemble of six classifiers and a fine-tuned transformer to tell you if it's real or fake.</p>
       </div>
 
-      <!-- Stats bar -->
-      <div class="stats-bar" id="stats-bar" aria-label="Model statistics">
-        <div class="stat-item loading-shimmer" id="stat-lr">
-          <span class="stat-label">Logistic Regression</span>
-          <span class="stat-val">—</span>
-        </div>
-        <div class="stat-item loading-shimmer" id="stat-gbc">
-          <span class="stat-label">Gradient Boosting</span>
-          <span class="stat-val">—</span>
-        </div>
-        <div class="stat-item loading-shimmer" id="stat-rfc">
-          <span class="stat-label">Random Forest</span>
-          <span class="stat-val">—</span>
-        </div>
-        <div class="stat-item loading-shimmer" id="stat-nb">
-          <span class="stat-label">Naive Bayes</span>
-          <span class="stat-val">—</span>
-        </div>
-        <div class="stat-item loading-shimmer" id="stat-dt">
-          <span class="stat-label">Decision Tree</span>
-          <span class="stat-val">—</span>
-        </div>
-        <div class="stat-item loading-shimmer" id="stat-svc">
-          <span class="stat-label">Linear SVC</span>
-          <span class="stat-val">—</span>
-        </div>
+      <div class="stats-grid" aria-label="Usage statistics">
+        <article class="stat-card glass reveal" style="--delay:.05s">
+          <div class="stat-icon stat-icon-purple">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-6"/></svg>
+          </div>
+          <div class="stat-body">
+            <span class="stat-label">Total Analyses</span>
+            <span class="stat-value" id="stat-total" data-count="0">0</span>
+          </div>
+          <div class="stat-glow"></div>
+        </article>
+        <article class="stat-card glass reveal" style="--delay:.15s">
+          <div class="stat-icon stat-icon-red">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+          </div>
+          <div class="stat-body">
+            <span class="stat-label">Fake Detected</span>
+            <span class="stat-value" id="stat-fake" data-count="0">0</span>
+          </div>
+          <div class="stat-glow"></div>
+        </article>
+        <article class="stat-card glass reveal" style="--delay:.25s">
+          <div class="stat-icon stat-icon-green">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+          </div>
+          <div class="stat-body">
+            <span class="stat-label">Real Detected</span>
+            <span class="stat-value" id="stat-real" data-count="0">0</span>
+          </div>
+          <div class="stat-glow"></div>
+        </article>
+        <article class="stat-card glass reveal" style="--delay:.35s">
+          <div class="stat-icon stat-icon-cyan">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <div class="stat-body">
+            <span class="stat-label">Avg. Confidence</span>
+            <span class="stat-value" id="stat-avg" data-count="0" data-suffix="%">0%</span>
+          </div>
+          <div class="stat-glow"></div>
+        </article>
       </div>
     </section>
 
-    <!-- ───── ANALYZER CARD ───── -->
-    <section class="analyzer-section" aria-labelledby="analyzer-title">
-      <div class="card analyzer-card">
-        <h2 id="analyzer-title" class="card-title">
-          <span class="card-title-icon">📰</span> Analyze Article
-        </h2>
-
-        <form id="analyzer-form" novalidate>
-          <!-- Title field -->
-          <div class="field-group">
-            <label for="title-input" class="field-label">
-              Headline <span class="field-optional">(optional but improves accuracy)</span>
-            </label>
-            <input
-              id="title-input"
-              type="text"
-              class="text-input"
-              placeholder="Enter the article headline…"
-              autocomplete="off"
-              aria-describedby="title-hint"
-            />
-            <span id="title-hint" class="field-hint">Adding the headline gives 2× weight for better detection</span>
+    <!-- ═══════════ SECTION 3: ANALYZER ═══════════ -->
+    <section class="analyzer" id="analyze" aria-labelledby="analyzer-title">
+      <div class="analyzer-card glass reveal">
+        <div class="card-head">
+          <div>
+            <h2 id="analyzer-title" class="card-title">Analyze an Article</h2>
+            <p class="card-sub">Ensemble runs all six classifiers; Deep Analysis uses the DistilBERT transformer.</p>
           </div>
+          <div class="sample-btns">
+            <button type="button" class="chip" id="sample-fake">Load fake sample</button>
+            <button type="button" class="chip" id="sample-real">Load real sample</button>
+          </div>
+        </div>
 
-          <!-- Text field -->
-          <div class="field-group">
-            <label for="news-input" class="field-label">
-              Article Text <span class="field-required">*</span>
-            </label>
-            <div class="textarea-wrapper">
-              <textarea
-                id="news-input"
-                class="text-area"
-                placeholder="Paste the full article text here…"
-                rows="8"
-                minlength="20"
-                required
-                aria-describedby="text-hint text-count"
-              ></textarea>
-              <div class="textarea-overlay" id="textarea-overlay" aria-hidden="true"></div>
-            </div>
-            <div class="field-footer">
-              <span id="text-hint" class="field-hint">Minimum 20 characters required for analysis</span>
-              <span id="text-count" class="char-count" aria-live="polite">0 words</span>
+        <form id="analyze-form" novalidate>
+          <div class="field">
+            <label for="headline" class="field-label">Headline <span class="muted">(optional)</span></label>
+            <input id="headline" type="text" class="input" placeholder="Enter the article headline…" autocomplete="off" maxlength="500" />
+          </div>
+          <div class="field">
+            <label for="article" class="field-label">Article text <span class="req">*</span></label>
+            <textarea id="article" class="input textarea" rows="8" placeholder="Paste the full article text here (min. 20 characters)…" maxlength="10000" required></textarea>
+            <div class="field-foot">
+              <span class="muted" id="char-count">0 characters</span>
+              <button type="button" class="link-btn" id="clear-form">Clear</button>
             </div>
           </div>
 
-          <!-- Sample buttons -->
-          <div class="sample-bar" role="group" aria-label="Load sample articles">
-            <span class="sample-label">Try a sample:</span>
-            <button type="button" class="sample-btn fake-sample" id="sample-fake-btn" data-type="fake">🔴 Fake Sample</button>
-            <button type="button" class="sample-btn real-sample" id="sample-real-btn" data-type="real">🟢 Real Sample</button>
-            <button type="button" class="sample-btn clear-btn" id="clear-btn">✕ Clear</button>
+          <div class="error-box" id="error-box" hidden role="alert">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+            <span id="error-msg"></span>
           </div>
 
-          <!-- Submit -->
-          <button type="submit" class="analyze-btn" id="analyze-btn" aria-label="Analyze article for fake news">
-            <span class="btn-text" id="btn-text">🔍 Analyze Now</span>
-            <span class="btn-loader" id="btn-loader" aria-hidden="true"></span>
-          </button>
+          <div class="actions">
+            <button type="submit" class="btn btn-primary" id="btn-ensemble" data-mode="ensemble">
+              <span class="btn-icon">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><circle cx="5" cy="5" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><path d="M6.5 6.5l3.5 3.5M17.5 6.5L14 10M6.5 17.5l3.5-3.5M17.5 17.5L14 14"/></svg>
+              </span>
+              <span class="btn-label">Analyze with Ensemble</span>
+            </button>
+            <button type="button" class="btn btn-secondary" id="btn-deep" data-mode="deep">
+              <span class="btn-icon">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2a5 5 0 0 0-5 5v1a3 3 0 0 0-3 3v1a3 3 0 0 0 3 3v1a5 5 0 0 0 10 0v-1a3 3 0 0 0 3-3v-1a3 3 0 0 0-3-3V7a5 5 0 0 0-5-5z"/><path d="M12 2v20"/></svg>
+              </span>
+              <span class="btn-label">Deep Analysis (DistilBERT)</span>
+            </button>
+          </div>
         </form>
 
-        <!-- Error message -->
-        <div class="error-box" id="error-box" role="alert" aria-live="polite" hidden>
-          <span class="error-icon">⚠️</span>
-          <span id="error-msg"></span>
-        </div>
-      </div>
-
-      <!-- ───── RESULTS ───── -->
-      <div id="results-container" class="results-container" aria-live="polite" hidden>
-
-        <!-- Verdict card -->
-        <div class="card verdict-card" id="verdict-card">
-          <div class="verdict-header">
-            <div class="verdict-icon-wrap" id="verdict-icon-wrap">
-              <span class="verdict-icon" id="verdict-icon"></span>
-            </div>
-            <div class="verdict-info">
-              <div class="verdict-label" id="verdict-label"></div>
-              <div class="verdict-sub" id="verdict-sub"></div>
-            </div>
-          </div>
-
-          <!-- Confidence gauge -->
-          <div class="gauge-section" aria-label="Confidence gauge">
-            <div class="gauge-label">
-              <span>Confidence Score</span>
-              <span class="gauge-pct" id="gauge-pct">0%</span>
-            </div>
-            <div class="gauge-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" id="gauge-bar-aria">
-              <div class="gauge-fill" id="gauge-fill"></div>
-            </div>
-          </div>
-
-          <!-- Vote tally -->
-          <div class="vote-tally" id="vote-tally" aria-label="Model votes">
-            <div class="vote-item" id="vote-fake">
-              <span class="vote-num" id="fake-votes">0</span>
-              <span class="vote-lbl">Fake votes</span>
-            </div>
-            <div class="vote-divider"></div>
-            <div class="vote-item" id="vote-real">
-              <span class="vote-num" id="real-votes">0</span>
-              <span class="vote-lbl">Real votes</span>
-            </div>
-          </div>
-
-          <div class="processing-time" id="processing-time"></div>
+        <!-- Loading -->
+        <div class="loader" id="loader" hidden aria-live="polite">
+          <div class="loader-ring"><div></div><div></div><div></div></div>
+          <p class="loader-text" id="loader-text">Running ensemble models…</p>
+          <div class="loader-bar"><span></span></div>
         </div>
 
-        <!-- Per-model breakdown -->
-        <div class="card models-card">
-          <h3 class="card-subtitle">
-            <span>🤖</span> Model Breakdown
-          </h3>
-          <div class="models-grid" id="models-grid" role="list"></div>
-        </div>
+        <!-- Results -->
+        <div class="results" id="results" hidden>
+          <div class="results-top">
+            <div class="verdict" id="verdict">
+              <div class="verdict-badge" id="verdict-badge">
+                <span class="verdict-badge-ring"></span>
+                <span class="verdict-badge-icon" id="verdict-icon"></span>
+              </div>
+              <div class="verdict-text">
+                <span class="verdict-kicker" id="verdict-mode">Ensemble verdict</span>
+                <span class="verdict-label" id="verdict-label">—</span>
+                <span class="verdict-sub" id="verdict-sub"></span>
+              </div>
+            </div>
 
-      </div>
-    </section>
-
-    <!-- ───── HISTORY ───── -->
-    <section class="history-section" id="history-section" aria-labelledby="history-title">
-      <div class="card history-card">
-        <div class="history-header">
-          <h3 id="history-title" class="card-subtitle"><span>📋</span> Recent Analyses</h3>
-          <button class="clear-history-btn" id="clear-history-btn" aria-label="Clear analysis history">Clear</button>
-        </div>
-        <div class="history-list" id="history-list" role="list">
-          <div class="history-empty">No analyses yet. Paste an article above to get started.</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ───── HOW IT WORKS ───── -->
-    <section class="how-section" aria-labelledby="how-title">
-      <div class="card how-card">
-        <h3 id="how-title" class="card-subtitle"><span>⚙️</span> How It Works</h3>
-        <div class="steps-grid" role="list">
-          <div class="step" role="listitem">
-            <div class="step-num">1</div>
-            <div class="step-body">
-              <div class="step-title">Advanced Preprocessing</div>
-              <div class="step-desc">Your text is cleaned, lemmatized with NLTK, and title+body are combined with 2× headline weighting.</div>
+            <div class="gauge" role="img" aria-label="Confidence gauge" id="gauge">
+              <svg viewBox="0 0 120 120" class="gauge-svg">
+                <defs>
+                  <linearGradient id="gauge-grad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" style="stop-color: var(--gauge-a)"/>
+                    <stop offset="100%" style="stop-color: var(--gauge-b)"/>
+                  </linearGradient>
+                </defs>
+                <circle class="gauge-track" cx="60" cy="60" r="52"/>
+                <circle class="gauge-fill" id="gauge-fill" cx="60" cy="60" r="52"/>
+              </svg>
+              <div class="gauge-center">
+                <span class="gauge-value" id="gauge-value">0%</span>
+                <span class="gauge-caption">confidence</span>
+              </div>
             </div>
           </div>
-          <div class="step" role="listitem">
-            <div class="step-num">2</div>
-            <div class="step-body">
-              <div class="step-title">Bigram TF-IDF Vectorization</div>
-              <div class="step-desc">Text is converted to a 100K-feature vector using bigram TF-IDF — capturing word pairs for richer patterns.</div>
+
+          <div class="breakdown" id="breakdown">
+            <div class="breakdown-head">
+              <h3>Per-model breakdown</h3>
+              <span class="muted" id="proc-time"></span>
             </div>
-          </div>
-          <div class="step" role="listitem">
-            <div class="step-num">3</div>
-            <div class="step-body">
-              <div class="step-title">5-Model Ensemble</div>
-              <div class="step-desc">Five independent ML models vote on the article. The ensemble uses accuracy-weighted voting for the final call.</div>
-            </div>
-          </div>
-          <div class="step" role="listitem">
-            <div class="step-num">4</div>
-            <div class="step-body">
-              <div class="step-title">Confidence Score</div>
-              <div class="step-desc">A weighted confidence percentage is calculated from all model probabilities, so you know exactly how certain the AI is.</div>
-            </div>
+            <div class="model-bars" id="model-bars"></div>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- ═══════════ SECTION 4: ANALYTICS ═══════════ -->
+    <section class="analytics" aria-label="Analytics dashboard">
+      <div class="panel glass reveal">
+        <div class="panel-head">
+          <h3>Fake vs Real</h3>
+          <span class="muted" id="donut-total">0 analyses</span>
+        </div>
+        <div class="donut-wrap">
+          <div class="donut" id="donut" role="img" aria-label="Fake vs Real ratio">
+            <div class="donut-hole">
+              <span class="donut-value" id="donut-value">—</span>
+              <span class="donut-caption" id="donut-caption">no data</span>
+            </div>
+          </div>
+          <ul class="legend">
+            <li><span class="swatch swatch-fake"></span>Fake <strong id="legend-fake">0</strong></li>
+            <li><span class="swatch swatch-real"></span>Real <strong id="legend-real">0</strong></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="panel glass reveal" style="--delay:.1s">
+        <div class="panel-head">
+          <h3>Confidence history</h3>
+          <span class="muted">last 10 analyses</span>
+        </div>
+        <div class="bar-chart" id="bar-chart" role="img" aria-label="Confidence scores of the last 10 analyses">
+          <div class="bar-chart-grid"><span>100</span><span>75</span><span>50</span><span>25</span><span>0</span></div>
+          <div class="bar-chart-bars" id="bar-chart-bars"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ SECTION 5: MODEL PERFORMANCE ═══════════ -->
+    <section class="models" id="models" aria-labelledby="models-title">
+      <div class="section-head reveal">
+        <h2 id="models-title">Model Performance</h2>
+        <p class="muted">Evaluation metrics of each classifier in the ensemble, loaded live from <code>/models/info</code>.</p>
+      </div>
+      <div class="models-grid" id="models-grid">
+        <div class="model-card glass skeleton"></div>
+        <div class="model-card glass skeleton"></div>
+        <div class="model-card glass skeleton"></div>
+        <div class="model-card glass skeleton"></div>
+        <div class="model-card glass skeleton"></div>
+        <div class="model-card glass skeleton"></div>
+      </div>
+    </section>
+
+    <!-- ═══════════ SECTION 6: HISTORY ═══════════ -->
+    <section class="history" aria-labelledby="history-title">
+      <div class="panel glass reveal">
+        <div class="panel-head">
+          <h3 id="history-title">Recent Analyses</h3>
+          <button type="button" class="link-btn" id="clear-history">Clear history</button>
+        </div>
+        <ul class="history-list" id="history-list" role="list"></ul>
+      </div>
+    </section>
   </main>
 
-  <!-- ───── FOOTER ───── -->
-  <footer class="site-footer" role="contentinfo">
-    <div class="footer-inner">
-      <span>TruthScan — Fake News Detector</span>
-      <span class="footer-sep">·</span>
-      <span>Ensemble ML: LR + DT + GBC + RFC + NB</span>
-      <span class="footer-sep">·</span>
-      <a href="https://render.com" target="_blank" rel="noopener" class="footer-link">Deployed on Render</a>
+  <!-- ═══════════ SECTION 7: FOOTER ═══════════ -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="brand-icon small">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5.25-3.4 9.74-8 11-4.6-1.26-8-5.75-8-11V5l8-3z"/><path d="M9 12l2 2 4-4"/></svg>
+        </span>
+        <span>TruthScan</span>
+      </div>
+      <nav class="footer-links" aria-label="Footer links">
+        <a href="https://github.com/ashutosh8950/fake-news-detector" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://truthscan-fake-news-detector.onrender.com" target="_blank" rel="noopener">Live Demo</a>
+        <a href="https://huggingface.co/GuptaAshutosh/truthscan-fake-news-distilbert" target="_blank" rel="noopener">HuggingFace</a>
+      </nav>
+      <p class="footer-note">Built with FastAPI + spaCy + DistilBERT</p>
     </div>
   </footer>
 
