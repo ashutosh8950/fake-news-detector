@@ -13,6 +13,9 @@ limiter = Limiter(key_func=get_remote_address)
 
 START_TIME = time.time()
 
+# ── Metrics counters ──────────────────────────────────────────────────────────
+_metrics = {"total": 0, "fake": 0, "real": 0, "confidence_sum": 0.0}
+
 # ── Schemas ───────────────────────────────────────────────────────────────────
 class AnalyzeRequest(BaseModel):
     text:  str  = Field(..., max_length=10000, description="Article body text")
@@ -33,9 +36,19 @@ class AnalyzeRequest(BaseModel):
         return v
 
 class HealthResponse(BaseModel):
-    status:       str
+    status:        str
     models_loaded: bool
     uptime_seconds: float
+    api_version:   str = "2.0.0"
+
+class MetricsResponse(BaseModel):
+    total_requests: int
+    fake_detected:  int
+    real_detected:  int
+    avg_confidence: float
+    uptime_seconds: float
+    models_loaded:  bool
+    api_version:    str
 
 # ── Routes ────────────────────────────────────────────────────────────────────
 @router.get("/health", response_model=HealthResponse, tags=["System"])
@@ -44,6 +57,7 @@ async def health():
         "status":         "ok",
         "models_loaded":  predictor.loaded,
         "uptime_seconds": round(time.time() - START_TIME, 1),
+        "api_version":    "2.0.0",
     }
 
 @router.get("/models/info", tags=["System"])
@@ -52,6 +66,21 @@ async def models_info():
     if not predictor.loaded:
         raise HTTPException(503, "Models not loaded yet")
     return predictor.get_model_info()
+
+@router.get("/metrics", response_model=MetricsResponse, tags=["System"])
+async def metrics_endpoint():
+    """Return API usage statistics and health metrics."""
+    total = _metrics["total"]
+    avg_conf = round(_metrics["confidence_sum"] / total, 2) if total > 0 else 0.0
+    return {
+        "total_requests": total,
+        "fake_detected":  _metrics["fake"],
+        "real_detected":  _metrics["real"],
+        "avg_confidence": avg_conf,
+        "uptime_seconds": round(time.time() - START_TIME, 1),
+        "models_loaded":  predictor.loaded,
+        "api_version":    "2.0.0",
+    }
 
 @router.post("/analyze", tags=["Detection"])
 @limiter.limit("10/minute")
@@ -71,6 +100,10 @@ async def analyze(request: Request, req: AnalyzeRequest):
         raise HTTPException(500, "Analysis failed, please try again")
 
     result["processing_time_ms"] = round((time.time() - start) * 1000, 1)
+
+    _metrics["total"] += 1
+    _metrics["fake" if result["ensemble_is_fake"] else "real"] += 1
+    _metrics["confidence_sum"] += result["overall_confidence"]
 
     logger.info(
         f"Analyzed {len(req.text)}ch -> {result['ensemble_label']} "
@@ -100,7 +133,7 @@ async def analyze_deep(request: Request, req: AnalyzeRequest):
         f"Deep Analyzed {len(req.text)}ch -> {result['label']} "
         f"({result['confidence']}%) in {processing_time_ms}ms"
     )
-    
+
     return {
         "label": result["label"],
         "confidence": result["confidence"],
