@@ -6,6 +6,9 @@
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![CI/CD](https://github.com/ashutosh8950/fake-news-detector/actions/workflows/ci.yml/badge.svg)
 
+## Dashboard Preview
+![TruthScan Dashboard](assets/dashboard-preview.png)
+
 An ultra-fast, production-grade Fake News Detection API leveraging a 6-model Machine Learning ensemble and spaCy NLP preprocessing.
 
 ---
