@@ -2,7 +2,7 @@
 FastAPI REST API for Fake News Detection.
 Serves both the REST API and the frontend static files.
 Fixes applied:
-  - NLTK pre-warm at startup (eliminates 4s first-request latency)
+  - spaCy pre-warm at startup (eliminates 4s first-request latency)
   - Configurable CORS via ALLOWED_ORIGINS env var
   - Startup log showing all model accuracies + server URL
 """

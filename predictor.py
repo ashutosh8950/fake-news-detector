@@ -1,10 +1,9 @@
 """
 Ensemble prediction engine for Fake News Detection.
-Loads all 6 trained models and produces:
-  - Per-model predictions + probabilities
-  - Accuracy-WEIGHTED ensemble (no ties possible)
-  - Overall confidence = winner weight share as percentage
-  - LinearSVC uses decision_function (sigmoid-scaled) for confidence
+Loads all 6 Phase 2 calibrated models and produces:
+  - Per-model predictions + calibrated probabilities
+  - Average-probability ensemble using calibrated P(class=1) values
+  - Overall confidence = calibrated probability of the predicted class, as a percentage
 """
 
 import os
@@ -18,7 +17,8 @@ from loguru import logger
 from preprocessor import preprocess
 from config import settings
 
-MODELS_DIR = settings.models_dir
+MODELS_DIR = os.path.join(settings.models_dir, "calibrated")
+PHASE2_REPORT_PATH = os.path.join("evaluation_results", "phase2_calibration_report.json")
 
 MODEL_KEYS = ["lr", "dt", "gbc", "rfc", "nb", "svc"]
 MODEL_NAMES = {
@@ -38,25 +38,53 @@ class FakeNewsPredictor:
         self.loaded = False
 
     def load(self):
-        """Load all models from disk (called once at startup)."""
+        """Load Phase 2 calibrated models and metadata from disk."""
         vec_path  = os.path.join(MODELS_DIR, "vectorizer.pkl")
-        meta_path = os.path.join(MODELS_DIR, "model_meta.json")
 
         if not os.path.exists(vec_path):
             raise FileNotFoundError(
-                "Models not found. Please run: python train.py"
+                "Calibrated models not found. Please run: python phase2_calibration.py"
             )
 
         self.vectorizer = joblib.load(vec_path)
 
+        self.models = {}
         for key in MODEL_KEYS:
-            model_path = os.path.join(MODELS_DIR, f"{key}_model.pkl")
-            if os.path.exists(model_path):
-                self.models[key] = joblib.load(model_path)
+            model_path = os.path.join(MODELS_DIR, f"{key}_calibrated.pkl")
+            if not os.path.exists(model_path):
+                raise FileNotFoundError(f"Calibrated model not found: {model_path}")
+            self.models[key] = joblib.load(model_path)
 
-        if os.path.exists(meta_path):
-            with open(meta_path) as f:
-                self.meta = json.load(f)
+        if not os.path.exists(PHASE2_REPORT_PATH):
+            raise FileNotFoundError(
+                f"Phase 2 calibration report not found: {PHASE2_REPORT_PATH}"
+            )
+
+        # The deprecated models/model_meta.json described contaminated artifacts.
+        # Production metadata now comes from the Phase 2 held-out evaluation report.
+        with open(PHASE2_REPORT_PATH, encoding="utf-8") as report_file:
+            report = json.load(report_file)
+
+        self.meta = {}
+        for key in MODEL_KEYS:
+            model_report = report["models"][key]
+            held_out = model_report["held_out"]
+            selection = model_report["calibration_selection"]
+            self.meta[key] = {
+                "name": model_report["name"],
+                "accuracy": round(float(held_out["accuracy"]) * 100, 2),
+                "brier_score": held_out["brier_score"],
+                "calibration_method": selection["selected_method"],
+            }
+
+        ensemble_report = report.get("ensemble", {})
+        ensemble_held_out = ensemble_report.get("held_out", {})
+        if ensemble_held_out:
+            self.meta["ensemble"] = {
+                "name": ensemble_report.get("name", "Calibrated ensemble"),
+                "accuracy": round(float(ensemble_held_out["accuracy"]) * 100, 2),
+                "brier_score": ensemble_held_out["brier_score"],
+            }
 
         self.loaded = True
         logger.info(f"✅ Loaded {len(self.models)} models")
@@ -74,49 +102,34 @@ class FakeNewsPredictor:
         vectorized = self.vectorizer.transform([processed])
 
         results = {}
-        fake_weight_sum = 0.0
-        real_weight_sum = 0.0
-
-        # Build per-model accuracy weights (fallback 70 if not in meta)
-        weights = {k: self.meta.get(k, {}).get("accuracy", 70.0) for k in self.models}
+        calibrated_probabilities = []
 
         for key, model in self.models.items():
-            prediction = int(model.predict(vectorized)[0])
-            # Get probability if supported (predict_proba)
-            if hasattr(model, "predict_proba"):
-                proba = model.predict_proba(vectorized)[0]
-                confidence = float(proba[prediction])
-            # LinearSVC: use decision_function score, sigmoid-scaled to 0-1
-            elif hasattr(model, "decision_function"):
-                score = float(model.decision_function(vectorized)[0])
-                # sigmoid: maps (-inf,+inf) -> (0,1)
-                # score > 0 means class 1 (Real), score < 0 means class 0 (Fake)
-                sigmoid = 1.0 / (1.0 + np.exp(-abs(score)))
-                confidence = sigmoid
-            else:
-                confidence = 1.0 if prediction == 1 else 0.0
+            if not hasattr(model, "predict_proba"):
+                raise TypeError(f"Calibrated model {key} does not support predict_proba()")
 
-            # Accumulate weighted scores
-            w = weights[key]
-            if prediction == 0:   # Fake
-                fake_weight_sum += w
-            else:                 # Real
-                real_weight_sum += w
+            probability_class1 = float(model.predict_proba(vectorized)[0][1])
+            prediction = int(probability_class1 >= 0.5)
+            confidence = probability_class1 if prediction == 1 else 1.0 - probability_class1
+            calibrated_probabilities.append(probability_class1)
 
             results[key] = {
                 "name":       MODEL_NAMES[key],
                 "label":      "Fake" if prediction == 0 else "Real",
                 "is_fake":    prediction == 0,
+                # Confidence is the calibrated probability of the predicted class,
+                # represented as a percentage to preserve the existing API shape.
                 "confidence": round(confidence * 100, 1),
             }
 
-        # ── Weighted ensemble decision (ties mathematically impossible) ─────────
-        total_weight  = fake_weight_sum + real_weight_sum
-        ensemble_fake = fake_weight_sum > real_weight_sum
-        winner_score  = fake_weight_sum if ensemble_fake else real_weight_sum
-
-        # Confidence = winner's share of total accuracy weight
-        overall_confidence = round((winner_score / total_weight) * 100, 1)
+        # ── Average calibrated P(class=1) ensemble ──────────────────────────────
+        ensemble_probability = float(np.mean(calibrated_probabilities))
+        ensemble_is_real = ensemble_probability >= 0.5
+        ensemble_fake = not ensemble_is_real
+        ensemble_confidence = (
+            ensemble_probability if ensemble_is_real else 1.0 - ensemble_probability
+        )
+        overall_confidence = round(ensemble_confidence * 100, 1)
 
         # Keep vote counts for display purposes
         fake_votes = sum(1 for r in results.values() if r["is_fake"])

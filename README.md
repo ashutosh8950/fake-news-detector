@@ -17,16 +17,16 @@ An ultra-fast, production-grade Fake News Detection API leveraging a 6-model Mac
 
 | Feature | Description |
 |---------|-------------|
-| **6 ML Model Ensemble** | Combines Logistic Regression, Decision Tree, Gradient Boosting, Random Forest, Naive Bayes, and Linear SVC for voting-based prediction. |
+| **6 ML Model Ensemble** | Combines Logistic Regression, Decision Tree, Gradient Boosting, Random Forest, Naive Bayes, and Linear SVC for average calibrated probability-based prediction. |
 | **spaCy NLP Pipeline** | Fast, production-ready natural language processing (`en_core_web_sm`). |
 | **Rate Limiting** | Protected with SlowAPI — 10 requests/minute per IP on analysis endpoint. |
 | **Input Validation** | Strict length and whitespace sanitization using Pydantic V2 validators. |
 | **Structured Logging** | Clean, asynchronous, and rotating logs using Loguru. |
 | **CI/CD** | Automated testing via GitHub Actions. |
 | **Docker Support** | Fully containerized for easy scaling and deployment. |
-| **REST API** | 3 specialized endpoints for health checks, model metadata, and text analysis. |
+| **REST API** | 5 specialized endpoints for health checks, model metadata, metrics, and text analysis. |
 | **Live deployment on Render** | Fully hosted and accessible online. |
-| **DistilBERT Deep Analysis** | Fine-tuned DistilBERT on 44K articles achieving 99.97% accuracy, hosted on Hugging Face. |
+| **DistilBERT Deep Analysis** | Fine-tuned DistilBERT on 44K articles achieving 99.97% accuracy, hosted on Hugging Face (Note: external model, not yet locally reproduced). |
 
 ---
 
@@ -233,6 +233,24 @@ Rate limit: 5 requests/minute
 }
 ```
 
+### 5. Metrics
+`GET /metrics`
+
+Returns API usage statistics and health metrics. Note: These metrics are process-local and will reset upon application restart.
+
+**Response Example**
+```json
+{
+  "total_requests": 150,
+  "fake_detected": 85,
+  "real_detected": 65,
+  "avg_confidence": 94.5,
+  "uptime_seconds": 3600.5,
+  "models_loaded": true,
+  "api_version": "2.0.0"
+}
+```
+
 ---
 
 ## Model Accuracy
@@ -250,10 +268,17 @@ Rate limit: 5 requests/minute
 
 ## AI Models
 
+## Known Limitations
+
+Classifier accuracy is measured on the training distribution's dominant topics; performance on underrepresented topics (e.g., science/space news) has not been separately validated and may be less reliable.
+
 | Model | Type | Accuracy | Hosted |
 |---|---|---|---|
-| Ensemble (6 models) | TF-IDF + scikit-learn | 98.5% | Local |
-| DistilBERT | Fine-tuned Transformer | 99.97% | Hugging Face |
+| Ensemble (6 models) | TF-IDF + scikit-learn | 97.9743% | Local |
+| DistilBERT | Fine-tuned Transformer | 99.97%* | Hugging Face |
+
+*Measured via 5-fold CV + held-out evaluation with a leakage audit on September 16, 2026.
+\**External model, not yet locally reproduced.*
 
 Hugging Face Model: https://huggingface.co/GuptaAshutosh/truthscan-fake-news-distilbert
 

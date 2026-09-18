@@ -1,0 +1,273 @@
+{
+  "configuration": {
+    "random_state": 42,
+    "held_out_fraction": 0.15,
+    "cv_folds": 5,
+    "tfidf": {
+      "ngram_range": [
+        1,
+        2
+      ],
+      "max_features": 150000,
+      "sublinear_tf": true,
+      "analyzer": "word",
+      "min_df": 2,
+      "max_df": 0.95
+    },
+    "models": [
+      "Logistic Regression",
+      "Decision Tree",
+      "Gradient Boosting",
+      "Random Forest",
+      "Naive Bayes",
+      "Linear SVC"
+    ]
+  },
+  "data": {
+    "total_rows": 24353,
+    "class_distribution": {
+      "fake_0": 11107,
+      "true_1": 13246
+    },
+    "held_out_rows": 3653,
+    "training_rows_for_cv_and_final_fit": 20700,
+    "held_out_file": "evaluation_results\\held_out_test_set.csv"
+  },
+  "duplicate_checks": {
+    "exact_cross_class": {
+      "fake_unique_texts": 11106,
+      "true_unique_texts": 13245,
+      "cross_class_duplicate_text_count": 0,
+      "cross_class_duplicate_examples": [],
+      "flagged": false
+    },
+    "sampled_near_duplicates": {
+      "fake": {
+        "sample_size": 500,
+        "comparison_window": 5,
+        "compared_pairs": 2485,
+        "threshold": 0.9,
+        "near_duplicate_pairs": 0,
+        "near_duplicate_articles": 0,
+        "near_duplicate_rate": 0.0,
+        "flagged_over_5_percent": false,
+        "examples": []
+      },
+      "true": {
+        "sample_size": 500,
+        "comparison_window": 5,
+        "compared_pairs": 2485,
+        "threshold": 0.9,
+        "near_duplicate_pairs": 0,
+        "near_duplicate_articles": 0,
+        "near_duplicate_rate": 0.0,
+        "flagged_over_5_percent": false,
+        "examples": []
+      },
+      "method": "Each class was sampled with a fixed seed, sorted by normalized text length, and compared using the first 2000 normalized characters against the next local length window; this is not a full pairwise scan."
+    }
+  },
+  "cross_validation": {
+    "lr": {
+      "name": "Logistic Regression",
+      "fold_accuracy": [
+        0.968841,
+        0.971981,
+        0.974396,
+        0.974155,
+        0.971256
+      ],
+      "mean_accuracy": 0.972126,
+      "std_accuracy": 0.002282,
+      "potentially_unstable": false
+    },
+    "dt": {
+      "name": "Decision Tree",
+      "fold_accuracy": [
+        0.974155,
+        0.977053,
+        0.978744,
+        0.976812,
+        0.972705
+      ],
+      "mean_accuracy": 0.975894,
+      "std_accuracy": 0.002424,
+      "potentially_unstable": false
+    },
+    "gbc": {
+      "name": "Gradient Boosting",
+      "fold_accuracy": [
+        0.978986,
+        0.983575,
+        0.981884,
+        0.984058,
+        0.980435
+      ],
+      "mean_accuracy": 0.981788,
+      "std_accuracy": 0.002124,
+      "potentially_unstable": false
+    },
+    "rfc": {
+      "name": "Random Forest",
+      "fold_accuracy": [
+        0.966425,
+        0.965459,
+        0.96715,
+        0.965459,
+        0.96087
+      ],
+      "mean_accuracy": 0.965073,
+      "std_accuracy": 0.002455,
+      "potentially_unstable": false
+    },
+    "nb": {
+      "name": "Naive Bayes",
+      "fold_accuracy": [
+        0.950483,
+        0.948309,
+        0.942754,
+        0.952415,
+        0.942029
+      ],
+      "mean_accuracy": 0.947198,
+      "std_accuracy": 0.004629,
+      "potentially_unstable": false
+    },
+    "svc": {
+      "name": "Linear SVC",
+      "fold_accuracy": [
+        0.978261,
+        0.978744,
+        0.982609,
+        0.978986,
+        0.978261
+      ],
+      "mean_accuracy": 0.979372,
+      "std_accuracy": 0.001836,
+      "potentially_unstable": false
+    }
+  },
+  "final_held_out_evaluation": {
+    "lr": {
+      "name": "Logistic Regression",
+      "accuracy": 0.97591,
+      "precision_weighted": 0.975929,
+      "recall_weighted": 0.97591,
+      "f1_weighted": 0.975915,
+      "confusion_matrix": [
+        [
+          1626,
+          40
+        ],
+        [
+          48,
+          1939
+        ]
+      ]
+    },
+    "dt": {
+      "name": "Decision Tree",
+      "accuracy": 0.983028,
+      "precision_weighted": 0.983027,
+      "recall_weighted": 0.983028,
+      "f1_weighted": 0.983026,
+      "confusion_matrix": [
+        [
+          1633,
+          33
+        ],
+        [
+          29,
+          1958
+        ]
+      ]
+    },
+    "gbc": {
+      "name": "Gradient Boosting",
+      "accuracy": 0.986313,
+      "precision_weighted": 0.986372,
+      "recall_weighted": 0.986313,
+      "f1_weighted": 0.986318,
+      "confusion_matrix": [
+        [
+          1650,
+          16
+        ],
+        [
+          34,
+          1953
+        ]
+      ]
+    },
+    "rfc": {
+      "name": "Random Forest",
+      "accuracy": 0.966877,
+      "precision_weighted": 0.966872,
+      "recall_weighted": 0.966877,
+      "f1_weighted": 0.966872,
+      "confusion_matrix": [
+        [
+          1603,
+          63
+        ],
+        [
+          58,
+          1929
+        ]
+      ]
+    },
+    "nb": {
+      "name": "Naive Bayes",
+      "accuracy": 0.950178,
+      "precision_weighted": 0.950546,
+      "recall_weighted": 0.950178,
+      "f1_weighted": 0.950224,
+      "confusion_matrix": [
+        [
+          1597,
+          69
+        ],
+        [
+          113,
+          1874
+        ]
+      ]
+    },
+    "svc": {
+      "name": "Linear SVC",
+      "accuracy": 0.979743,
+      "precision_weighted": 0.979767,
+      "recall_weighted": 0.979743,
+      "f1_weighted": 0.979747,
+      "confusion_matrix": [
+        [
+          1634,
+          32
+        ],
+        [
+          42,
+          1945
+        ]
+      ]
+    },
+    "ensemble": {
+      "accuracy": 0.979743,
+      "precision_weighted": 0.979745,
+      "recall_weighted": 0.979743,
+      "f1_weighted": 0.979744,
+      "confusion_matrix": [
+        [
+          1630,
+          36
+        ],
+        [
+          38,
+          1949
+        ]
+      ],
+      "name": "Six-model majority-vote ensemble",
+      "tie_count": 21,
+      "tie_break": "class 1 (true) when three fake and three true votes occur"
+    }
+  }
+}

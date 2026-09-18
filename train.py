@@ -6,8 +6,7 @@ Improvements over original notebook:
   - NLTK lemmatization + stopwords
   - 6 models: LR, DT, GBC, RFC, MultinomialNB + LinearSVC
   - Model persistence with joblib
-  - Cross-validation
-  - Confusion matrix + classification reports
+  - For rigorous cross-validation and confusion matrices, see evaluate_pipeline.py
 """
 
 import os

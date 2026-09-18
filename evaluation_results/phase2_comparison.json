@@ -1,0 +1,179 @@
+{
+  "metrics": [
+    {
+      "key": "lr",
+      "model": "Logistic Regression",
+      "old_accuracy": 0.984396,
+      "new_accuracy": 0.974268,
+      "old_brier_score": 0.015002,
+      "new_brier_score": 0.020837,
+      "old_artifact_accuracy_metadata": 97.53
+    },
+    {
+      "key": "dt",
+      "model": "Decision Tree",
+      "old_accuracy": 0.993704,
+      "new_accuracy": 0.986586,
+      "old_brier_score": 0.006296,
+      "new_brier_score": 0.01167,
+      "old_artifact_accuracy_metadata": 97.6
+    },
+    {
+      "key": "gbc",
+      "model": "Gradient Boosting",
+      "old_accuracy": 0.990693,
+      "new_accuracy": 0.986586,
+      "old_brier_score": 0.007533,
+      "new_brier_score": 0.011045,
+      "old_artifact_accuracy_metadata": 98.52
+    },
+    {
+      "key": "rfc",
+      "model": "Random Forest",
+      "old_accuracy": 0.989871,
+      "new_accuracy": 0.968519,
+      "old_brier_score": 0.018035,
+      "new_brier_score": 0.025206,
+      "old_artifact_accuracy_metadata": 96.91
+    },
+    {
+      "key": "nb",
+      "model": "Naive Bayes",
+      "old_accuracy": 0.968245,
+      "new_accuracy": 0.94963,
+      "old_brier_score": 0.025435,
+      "new_brier_score": 0.039742,
+      "old_artifact_accuracy_metadata": 95.17
+    },
+    {
+      "key": "svc",
+      "model": "Linear SVC",
+      "old_accuracy": 0.992883,
+      "new_accuracy": 0.978374,
+      "old_brier_score": 0.067468,
+      "new_brier_score": 0.01671,
+      "old_artifact_accuracy_metadata": 98.06
+    },
+    {
+      "key": "ensemble",
+      "model": "Six-model ensemble",
+      "old_accuracy": 0.992335,
+      "new_accuracy": 0.982206,
+      "old_brier_score": 0.006821,
+      "new_brier_score": 0.014923,
+      "old_artifact_accuracy_metadata": "vote-share confidence, not probability"
+    }
+  ],
+  "sample_predictions": [
+    {
+      "held_out_row": 0,
+      "title": "Protests called after Porto court agrees woman's adultery was factor in attack",
+      "true_label": "REAL",
+      "old_ensemble_confidence_percent": 100.0,
+      "new_ensemble_confidence_percent": 89.53,
+      "old_label": "REAL",
+      "new_label": "REAL",
+      "old_correct": true,
+      "new_correct": true
+    },
+    {
+      "held_out_row": 405,
+      "title": " American Intelligence Agents Fear Giving Trump Intel Because The Russians Are Listening",
+      "true_label": "FAKE",
+      "old_ensemble_confidence_percent": 100.0,
+      "new_ensemble_confidence_percent": 98.41,
+      "old_label": "FAKE",
+      "new_label": "FAKE",
+      "old_correct": true,
+      "new_correct": true
+    },
+    {
+      "held_out_row": 811,
+      "title": " Donald Trump Has Become So Toxic That He Can\u00e2\u0080\u0099t Even Find People To Work For Him (DETAILS)",
+      "true_label": "FAKE",
+      "old_ensemble_confidence_percent": 100.0,
+      "new_ensemble_confidence_percent": 98.57,
+      "old_label": "FAKE",
+      "new_label": "FAKE",
+      "old_correct": true,
+      "new_correct": true
+    },
+    {
+      "held_out_row": 1217,
+      "title": "Trump says U.S. upholds and sticks to 'one China' policy: Xinhua",
+      "true_label": "REAL",
+      "old_ensemble_confidence_percent": 100.0,
+      "new_ensemble_confidence_percent": 99.51,
+      "old_label": "REAL",
+      "new_label": "REAL",
+      "old_correct": true,
+      "new_correct": true
+    },
+    {
+      "held_out_row": 1623,
+      "title": " WATCH: Jorge Ramos Makes Sean Hannity Look Like A Complete A**hole",
+      "true_label": "FAKE",
+      "old_ensemble_confidence_percent": 100.0,
+      "new_ensemble_confidence_percent": 99.2,
+      "old_label": "FAKE",
+      "new_label": "FAKE",
+      "old_correct": true,
+      "new_correct": true
+    },
+    {
+      "held_out_row": 2028,
+      "title": "Senior Chinese military officer questioned over suspected graft: sources",
+      "true_label": "REAL",
+      "old_ensemble_confidence_percent": 100.0,
+      "new_ensemble_confidence_percent": 99.46,
+      "old_label": "REAL",
+      "new_label": "REAL",
+      "old_correct": true,
+      "new_correct": true
+    },
+    {
+      "held_out_row": 2434,
+      "title": "BREAKING FL VOTER FRAUD ALERT: \u00e2\u0080\u009cTens Of Thousands\u00e2\u0080\u009d Of Mail-In Ballots Have ILLEGALLY Been Opened And Counted Before They\u00e2\u0080\u0099ve Been Verified [VIDEO]",
+      "true_label": "FAKE",
+      "old_ensemble_confidence_percent": 100.0,
+      "new_ensemble_confidence_percent": 89.08,
+      "old_label": "FAKE",
+      "new_label": "FAKE",
+      "old_correct": true,
+      "new_correct": true
+    },
+    {
+      "held_out_row": 2840,
+      "title": "Trump, Mexican president speak after latest quake: White House",
+      "true_label": "REAL",
+      "old_ensemble_confidence_percent": 100.0,
+      "new_ensemble_confidence_percent": 99.16,
+      "old_label": "REAL",
+      "new_label": "REAL",
+      "old_correct": true,
+      "new_correct": true
+    },
+    {
+      "held_out_row": 3246,
+      "title": " WATCH: The Damning Video That Will Utterly Destroy Donald Trump (VIDEO)",
+      "true_label": "FAKE",
+      "old_ensemble_confidence_percent": 100.0,
+      "new_ensemble_confidence_percent": 99.16,
+      "old_label": "FAKE",
+      "new_label": "FAKE",
+      "old_correct": true,
+      "new_correct": true
+    },
+    {
+      "held_out_row": 3652,
+      "title": "EVERY AMERICAN SHOULD HEAR THIS: Radical Democrat Chair Openly Reveals The Shocking Agenda Of The Democrat Party During May Day Speech [Video]",
+      "true_label": "FAKE",
+      "old_ensemble_confidence_percent": 100.0,
+      "new_ensemble_confidence_percent": 99.23,
+      "old_label": "FAKE",
+      "new_label": "FAKE",
+      "old_correct": true,
+      "new_correct": true
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 venv/
+.venv/
 __pycache__/
 *.pyc
 *.pyo
@@ -8,4 +9,5 @@ __pycache__/
 data/
 models/
 .pytest_cache/
+phase2_run.log
 .DS_Store

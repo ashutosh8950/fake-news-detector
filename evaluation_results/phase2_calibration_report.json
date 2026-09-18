@@ -1,0 +1,344 @@
+{
+  "phase": 2,
+  "method": "CalibratedClassifierCV selected by inner training-only Brier score",
+  "held_out_source": "evaluation_results\\held_out_test_set.csv",
+  "held_out_rows": 3653,
+  "training_rows": 20700,
+  "random_state": 42,
+  "production_switch": false,
+  "models": {
+    "lr": {
+      "name": "Logistic Regression",
+      "artifact": "models\\calibrated\\lr_calibrated.pkl",
+      "calibration_selection": {
+        "selected_method": "isotonic",
+        "selection_metric": "lower inner training-only validation Brier score",
+        "inner_validation_fraction": 0.2,
+        "inner_cv_folds": 5,
+        "method_scores": {
+          "sigmoid": {
+            "brier_score": 0.02197,
+            "accuracy": 0.972705
+          },
+          "isotonic": {
+            "brier_score": 0.021236,
+            "accuracy": 0.972464
+          }
+        }
+      },
+      "held_out": {
+        "accuracy": 0.974268,
+        "brier_score": 0.020837,
+        "reliability_curve": {
+          "mean_predicted_probability": [
+            0.017966,
+            0.127361,
+            0.240955,
+            0.341687,
+            0.459604,
+            0.5362,
+            0.64434,
+            0.756552,
+            0.856512,
+            0.996729
+          ],
+          "fraction_of_positives": [
+            0.020473,
+            0.115385,
+            0.222222,
+            0.52381,
+            0.333333,
+            0.222222,
+            0.571429,
+            0.846154,
+            0.78125,
+            0.993661
+          ],
+          "n_bins": 10
+        }
+      }
+    },
+    "dt": {
+      "name": "Decision Tree",
+      "artifact": "models\\calibrated\\dt_calibrated.pkl",
+      "calibration_selection": {
+        "selected_method": "isotonic",
+        "selection_metric": "lower inner training-only validation Brier score",
+        "inner_validation_fraction": 0.2,
+        "inner_cv_folds": 5,
+        "method_scores": {
+          "sigmoid": {
+            "brier_score": 0.016454,
+            "accuracy": 0.980918
+          },
+          "isotonic": {
+            "brier_score": 0.016434,
+            "accuracy": 0.980918
+          }
+        }
+      },
+      "held_out": {
+        "accuracy": 0.986586,
+        "brier_score": 0.01167,
+        "reliability_curve": {
+          "mean_predicted_probability": [
+            0.025505,
+            0.215793,
+            0.406062,
+            0.595092,
+            0.786182,
+            0.975825
+          ],
+          "fraction_of_positives": [
+            0.008878,
+            0.106667,
+            0.285714,
+            0.444444,
+            0.818182,
+            0.997408
+          ],
+          "n_bins": 6
+        }
+      }
+    },
+    "gbc": {
+      "name": "Gradient Boosting",
+      "artifact": "models\\calibrated\\gbc_calibrated.pkl",
+      "calibration_selection": {
+        "selected_method": "isotonic",
+        "selection_metric": "lower inner training-only validation Brier score",
+        "inner_validation_fraction": 0.2,
+        "inner_cv_folds": 5,
+        "method_scores": {
+          "sigmoid": {
+            "brier_score": 0.013695,
+            "accuracy": 0.983575
+          },
+          "isotonic": {
+            "brier_score": 0.01355,
+            "accuracy": 0.983333
+          }
+        }
+      },
+      "held_out": {
+        "accuracy": 0.986586,
+        "brier_score": 0.011045,
+        "reliability_curve": {
+          "mean_predicted_probability": [
+            0.014022,
+            0.149598,
+            0.247182,
+            0.339025,
+            0.439683,
+            0.552434,
+            0.650307,
+            0.745819,
+            0.869939,
+            0.995302
+          ],
+          "fraction_of_positives": [
+            0.00744,
+            0.205882,
+            0.428571,
+            0.363636,
+            0.285714,
+            0.857143,
+            0.583333,
+            0.75,
+            0.9,
+            0.995861
+          ],
+          "n_bins": 10
+        }
+      }
+    },
+    "rfc": {
+      "name": "Random Forest",
+      "artifact": "models\\calibrated\\rfc_calibrated.pkl",
+      "calibration_selection": {
+        "selected_method": "isotonic",
+        "selection_metric": "lower inner training-only validation Brier score",
+        "inner_validation_fraction": 0.2,
+        "inner_cv_folds": 5,
+        "method_scores": {
+          "sigmoid": {
+            "brier_score": 0.026933,
+            "accuracy": 0.969082
+          },
+          "isotonic": {
+            "brier_score": 0.025834,
+            "accuracy": 0.968841
+          }
+        }
+      },
+      "held_out": {
+        "accuracy": 0.968519,
+        "brier_score": 0.025206,
+        "reliability_curve": {
+          "mean_predicted_probability": [
+            0.023252,
+            0.135622,
+            0.254953,
+            0.354378,
+            0.45893,
+            0.558143,
+            0.652789,
+            0.753164,
+            0.860501,
+            0.99316
+          ],
+          "fraction_of_positives": [
+            0.023731,
+            0.110169,
+            0.333333,
+            0.235294,
+            0.666667,
+            0.619048,
+            0.6,
+            0.740741,
+            0.849057,
+            0.994005
+          ],
+          "n_bins": 10
+        }
+      }
+    },
+    "nb": {
+      "name": "Naive Bayes",
+      "artifact": "models\\calibrated\\nb_calibrated.pkl",
+      "calibration_selection": {
+        "selected_method": "isotonic",
+        "selection_metric": "lower inner training-only validation Brier score",
+        "inner_validation_fraction": 0.2,
+        "inner_cv_folds": 5,
+        "method_scores": {
+          "sigmoid": {
+            "brier_score": 0.044979,
+            "accuracy": 0.94686
+          },
+          "isotonic": {
+            "brier_score": 0.042963,
+            "accuracy": 0.947101
+          }
+        }
+      },
+      "held_out": {
+        "accuracy": 0.94963,
+        "brier_score": 0.039742,
+        "reliability_curve": {
+          "mean_predicted_probability": [
+            0.028454,
+            0.142363,
+            0.247592,
+            0.345019,
+            0.448607,
+            0.544369,
+            0.654372,
+            0.751746,
+            0.861387,
+            0.9853
+          ],
+          "fraction_of_positives": [
+            0.027008,
+            0.112676,
+            0.276316,
+            0.382979,
+            0.571429,
+            0.548387,
+            0.75,
+            0.796875,
+            0.920635,
+            0.981725
+          ],
+          "n_bins": 10
+        }
+      }
+    },
+    "svc": {
+      "name": "Linear SVC",
+      "artifact": "models\\calibrated\\svc_calibrated.pkl",
+      "calibration_selection": {
+        "selected_method": "isotonic",
+        "selection_metric": "lower inner training-only validation Brier score",
+        "inner_validation_fraction": 0.2,
+        "inner_cv_folds": 5,
+        "method_scores": {
+          "sigmoid": {
+            "brier_score": 0.018121,
+            "accuracy": 0.978502
+          },
+          "isotonic": {
+            "brier_score": 0.017449,
+            "accuracy": 0.978261
+          }
+        }
+      },
+      "held_out": {
+        "accuracy": 0.978374,
+        "brier_score": 0.01671,
+        "reliability_curve": {
+          "mean_predicted_probability": [
+            0.013299,
+            0.143702,
+            0.247674,
+            0.348438,
+            0.442745,
+            0.532402,
+            0.645325,
+            0.752262,
+            0.862653,
+            0.997067
+          ],
+          "fraction_of_positives": [
+            0.016067,
+            0.088889,
+            0.333333,
+            0.5,
+            0.6,
+            0.181818,
+            0.636364,
+            0.727273,
+            0.789474,
+            0.995816
+          ],
+          "n_bins": 10
+        }
+      }
+    }
+  },
+  "ensemble": {
+    "name": "Six-model average calibrated probability ensemble",
+    "held_out": {
+      "accuracy": 0.982206,
+      "brier_score": 0.014923,
+      "reliability_curve": {
+        "mean_predicted_probability": [
+          0.024942,
+          0.133588,
+          0.247807,
+          0.346611,
+          0.456924,
+          0.538624,
+          0.652991,
+          0.736789,
+          0.863623,
+          0.98727
+        ],
+        "fraction_of_positives": [
+          0.007314,
+          0.12,
+          0.177778,
+          0.333333,
+          0.333333,
+          0.529412,
+          0.736842,
+          0.904762,
+          0.971014,
+          0.998366
+        ],
+        "n_bins": 10
+      }
+    },
+    "confidence_definition": "Average of six calibrated P(class=1) values; confidence for the predicted class is ensemble probability when real, otherwise 1 minus it."
+  }
+}
