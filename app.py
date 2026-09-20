@@ -31,15 +31,14 @@ async def lifespan(app: FastAPI):
     # ── Download models from GitHub Releases if not present ──────
     logger.info("Checking for pre-trained models...")
 
-    # ── Load models ──────────────────────────────────────────────
+    # ── Load calibrated models; fail fast if deployment artifacts are absent ──
     try:
         predictor.load()
         logger.info("Models loaded successfully")
-    except FileNotFoundError:
-        logger.warning("Models not found after download — training from scratch...")
-        import subprocess, sys
-        subprocess.run([sys.executable, "train.py"], check=True)
-        predictor.load()
+    except FileNotFoundError as exc:
+        raise RuntimeError(
+            "Calibrated models not found. Run: python download_models.py"
+        ) from exc
 
     # ── spaCy pre-warm (loads model into memory) ──
     try:
@@ -119,4 +118,3 @@ if __name__ == "__main__":
     import uvicorn
     port = int(os.environ.get("PORT", 8000))
     uvicorn.run("app:app", host="0.0.0.0", port=port, reload=False)
-

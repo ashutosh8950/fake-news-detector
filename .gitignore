@@ -1,5 +1,7 @@
 venv/
 .venv/
+AI_Interview_*.md
+Resume_Claim_Verification.md
 __pycache__/
 *.pyc
 *.pyo
@@ -9,5 +11,6 @@ __pycache__/
 data/
 models/
 .pytest_cache/
-phase2_run.log
+evaluation_results/held_out_test_set.csv
+*.log
 .DS_Store

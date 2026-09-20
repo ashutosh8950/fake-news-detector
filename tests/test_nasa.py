@@ -4,7 +4,7 @@ from fastapi.testclient import TestClient
 from app import app
 
 
-HELD_OUT_PATH = "evaluation_results/held_out_test_set.csv"
+HELD_OUT_PATH = "tests/fixtures/nasa_test_sample.csv"
 
 @pytest.fixture(scope="module")
 def client():
