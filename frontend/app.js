@@ -95,6 +95,7 @@ const els = {
   barChartBars: $('bar-chart-bars'),
 
   modelsGrid:   $('models-grid'),
+  ensembleAccuracy: $('ensemble-accuracy'),
   historyList:  $('history-list'),
   clearHistory: $('clear-history'),
 };
@@ -217,7 +218,16 @@ async function loadModelInfo() {
 }
 
 function renderModelCards(info) {
-  const entries = Object.entries(info).filter(([, m]) => m && typeof m === 'object' && 'accuracy' in m);
+  const ensemble = info.ensemble;
+  if (els.ensembleAccuracy) {
+    els.ensembleAccuracy.textContent = ensemble && Number.isFinite(Number(ensemble.accuracy))
+      ? `5-model ensemble accuracy: ${fmtPct2(ensemble.accuracy)}`
+      : '5-model ensemble accuracy: unavailable';
+  }
+
+  const entries = Object.entries(info).filter(([key, m]) =>
+    key !== 'ensemble' && m && typeof m === 'object' && 'accuracy' in m
+  );
   if (!entries.length) {
     els.modelsGrid.innerHTML = '<div class="models-error">No model metrics reported.</div>';
     return;
@@ -225,11 +235,7 @@ function renderModelCards(info) {
   entries.sort((a, b) => (b[1].accuracy ?? 0) - (a[1].accuracy ?? 0));
 
   els.modelsGrid.innerHTML = entries.map(([key, m], i) => {
-    const metrics = [
-      ['Precision', m.precision],
-      ['Recall',    m.recall],
-      ['F1 score',  m.f1],
-    ];
+    const brierScore = Number(m.brier_score);
     return `
       <article class="model-card glass reveal" style="--delay:${i * 0.08}s">
         <div class="model-card-head">
@@ -243,12 +249,10 @@ function renderModelCards(info) {
           </div>
         </div>
         <div class="metric-list">
-          ${metrics.map(([label, val], j) => `
-            <div class="metric">
-              <span>${label}</span>
-              <div class="metric-track"><div class="metric-fill" data-width="${num(val)}" style="--delay:${0.2 + j * 0.1}s"></div></div>
-              <span>${fmtPct(val)}</span>
-            </div>`).join('')}
+          <div class="metric metric-single">
+            <span>Brier score</span>
+            <span class="metric-value">${Number.isFinite(brierScore) ? brierScore.toFixed(4) : 'n/a'}</span>
+          </div>
         </div>
       </article>`;
   }).join('');
@@ -384,7 +388,7 @@ function setBusy(busy, mode) {
   els.loader.hidden = !busy;
   if (busy) {
     els.results.hidden = true;
-    els.loaderText.textContent = mode === 'deep' ? 'Running DistilBERT transformer…' : 'Running 6-model ensemble…';
+    els.loaderText.textContent = mode === 'deep' ? 'Running DistilBERT transformer…' : 'Running 5-model ensemble…';
     (mode === 'deep' ? els.btnDeep : els.btnEnsemble).classList.add('is-loading');
   } else {
     els.btnDeep.classList.remove('is-loading');
@@ -569,6 +573,10 @@ function animateCount(el, to, duration, suffix = '', decimals = 0) {
 
 function num(v) { const n = Number(v); return Number.isFinite(n) ? Math.round(n * 100) / 100 : 0; }
 function fmtPct(v) { return `${num(v).toFixed(1)}%`; }
+function fmtPct2(v) {
+  const n = Number(v);
+  return Number.isFinite(n) ? `${n.toFixed(2)}%` : 'n/a';
+}
 function fmtTime(iso) {
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return '';

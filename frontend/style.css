@@ -464,6 +464,8 @@ code { font-family: var(--mono); font-size: .85em; padding: .1em .4em; border-ra
 .model-acc small { font-size: .68rem; text-transform: uppercase; letter-spacing: .08em; color: var(--text-3); }
 .metric-list { display: grid; gap: .6rem; }
 .metric { display: grid; grid-template-columns: 64px 1fr 48px; align-items: center; gap: .6rem; font-size: .8rem; }
+.metric-single { grid-template-columns: 1fr auto; }
+.metric-value { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 .metric span:first-child { color: var(--text-2); }
 .metric span:last-child { text-align: right; font-variant-numeric: tabular-nums; font-family: var(--mono); font-size: .78rem; }
 .metric-track { height: 6px; border-radius: 6px; background: var(--surface-2); overflow: hidden; }
