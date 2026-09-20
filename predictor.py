@@ -10,6 +10,7 @@ import os
 import json
 import joblib
 import numpy as np
+from datetime import datetime
 from typing import Dict, Any
 
 from loguru import logger
@@ -30,6 +31,24 @@ MODEL_NAMES = {
     "svc": "Linear SVC",
 }
 
+
+def _memory_usage() -> str:
+    """Return process RSS without adding a production dependency."""
+    try:
+        with open("/proc/self/status", encoding="utf-8") as status_file:
+            for line in status_file:
+                if line.startswith("VmRSS:"):
+                    return line.strip().replace("VmRSS:", "RSS:")
+    except (FileNotFoundError, OSError):
+        pass
+    return "RSS: unavailable"
+
+
+def _log_load_checkpoint(message: str) -> None:
+    logger.info(
+        f"[{datetime.now().isoformat(timespec='seconds')}] {message} | {_memory_usage()}"
+    )
+
 class FakeNewsPredictor:
     def __init__(self):
         self.vectorizer = None
@@ -39,6 +58,7 @@ class FakeNewsPredictor:
 
     def load(self):
         """Load Phase 2 calibrated models and metadata from disk."""
+        _log_load_checkpoint("Starting calibrated artifact loading")
         vec_path  = os.path.join(MODELS_DIR, "vectorizer.pkl")
 
         if not os.path.exists(vec_path):
@@ -46,14 +66,18 @@ class FakeNewsPredictor:
                 "Calibrated models not found. Please run: python phase2_calibration.py"
             )
 
+        _log_load_checkpoint(f"BEFORE loading vectorizer: {vec_path}")
         self.vectorizer = joblib.load(vec_path)
+        _log_load_checkpoint(f"AFTER loading vectorizer: {vec_path}")
 
         self.models = {}
         for key in MODEL_KEYS:
             model_path = os.path.join(MODELS_DIR, f"{key}_calibrated.pkl")
             if not os.path.exists(model_path):
                 raise FileNotFoundError(f"Calibrated model not found: {model_path}")
+            _log_load_checkpoint(f"BEFORE loading model {key}: {model_path}")
             self.models[key] = joblib.load(model_path)
+            _log_load_checkpoint(f"AFTER loading model {key}: {model_path}")
 
         if not os.path.exists(PHASE2_REPORT_PATH):
             raise FileNotFoundError(
@@ -62,8 +86,14 @@ class FakeNewsPredictor:
 
         # The deprecated models/model_meta.json described contaminated artifacts.
         # Production metadata now comes from the Phase 2 held-out evaluation report.
+        _log_load_checkpoint(
+            f"BEFORE loading calibration report: {PHASE2_REPORT_PATH}"
+        )
         with open(PHASE2_REPORT_PATH, encoding="utf-8") as report_file:
             report = json.load(report_file)
+        _log_load_checkpoint(
+            f"AFTER loading calibration report: {PHASE2_REPORT_PATH}"
+        )
 
         self.meta = {}
         for key in MODEL_KEYS:
@@ -87,7 +117,7 @@ class FakeNewsPredictor:
             }
 
         self.loaded = True
-        logger.info(f"✅ Loaded {len(self.models)} models")
+        _log_load_checkpoint(f"Completed calibrated artifact loading ({len(self.models)} models)")
 
     def predict(self, title: str = "", text: str = "") -> Dict[str, Any]:
         """
