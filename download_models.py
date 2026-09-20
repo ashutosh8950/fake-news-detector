@@ -9,7 +9,6 @@ MODEL_FILES = [
     "lr_calibrated.pkl",
     "dt_calibrated.pkl",
     "gbc_calibrated.pkl",
-    "rfc_calibrated.pkl",
     "nb_calibrated.pkl",
     "svc_calibrated.pkl",
     "vectorizer.pkl"

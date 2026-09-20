@@ -1,6 +1,6 @@
 """
 Ensemble prediction engine for Fake News Detection.
-Loads all 6 Phase 2 calibrated models and produces:
+Loads the 5 production Phase 2 calibrated models and produces:
   - Per-model predictions + calibrated probabilities
   - Average-probability ensemble using calibrated P(class=1) values
   - Overall confidence = calibrated probability of the predicted class, as a percentage
@@ -21,12 +21,11 @@ from config import settings
 MODELS_DIR = os.path.join(settings.models_dir, "calibrated")
 PHASE2_REPORT_PATH = os.path.join("evaluation_results", "phase2_calibration_report.json")
 
-MODEL_KEYS = ["lr", "dt", "gbc", "rfc", "nb", "svc"]
+MODEL_KEYS = ["lr", "dt", "gbc", "nb", "svc"]
 MODEL_NAMES = {
     "lr":  "Logistic Regression",
     "dt":  "Decision Tree",
     "gbc": "Gradient Boosting",
-    "rfc": "Random Forest",
     "nb":  "Naive Bayes",
     "svc": "Linear SVC",
 }

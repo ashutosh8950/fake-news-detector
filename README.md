@@ -9,7 +9,7 @@
 ## Dashboard Preview
 ![TruthScan Dashboard](assets/dashboard-preview.png)
 
-An ultra-fast, production-grade Fake News Detection API leveraging a 6-model Machine Learning ensemble and spaCy NLP preprocessing.
+An ultra-fast, production-grade Fake News Detection API leveraging a 5-model Machine Learning ensemble and spaCy NLP preprocessing.
 
 ---
 
@@ -17,7 +17,7 @@ An ultra-fast, production-grade Fake News Detection API leveraging a 6-model Mac
 
 | Feature | Description |
 |---------|-------------|
-| **6 ML Model Ensemble** | Combines Logistic Regression, Decision Tree, Gradient Boosting, Random Forest, Naive Bayes, and Linear SVC for average calibrated probability-based prediction. |
+| **5 ML Model Ensemble** | Combines Logistic Regression, Decision Tree, Gradient Boosting, Naive Bayes, and Linear SVC for average calibrated probability-based prediction. |
 | **spaCy NLP Pipeline** | Fast, production-ready natural language processing (`en_core_web_sm`). |
 | **Rate Limiting** | Protected with SlowAPI — 10 requests/minute per IP on analysis endpoint. |
 | **Input Validation** | Strict length and whitespace sanitization using Pydantic V2 validators. |
@@ -60,14 +60,13 @@ An ultra-fast, production-grade Fake News Detection API leveraging a 6-model Mac
 │   ├── index.html
 │   └── style.css
 ├── models/
-│   ├── dt_model.pkl
-│   ├── gbc_model.pkl
-│   ├── lr_model.pkl
-│   ├── model_meta.json
-│   ├── nb_model.pkl
-│   ├── rfc_model.pkl
-│   ├── svc_model.pkl
-│   └── vectorizer.pkl
+│   └── calibrated/
+│       ├── dt_calibrated.pkl
+│       ├── gbc_calibrated.pkl
+│       ├── lr_calibrated.pkl
+│       ├── nb_calibrated.pkl
+│       ├── svc_calibrated.pkl
+│       └── vectorizer.pkl
 ├── routers/
 │   └── api.py
 ├── tests/
@@ -202,7 +201,6 @@ python -m pytest -v tests/
     "Logistic Regression": "Fake",
     "Decision Tree": "Fake",
     "Gradient Boosting": "Fake",
-    "Random Forest": "Fake",
     "Naive Bayes": "Fake",
     "Linear SVC": "Fake"
   },
@@ -261,7 +259,6 @@ Returns API usage statistics and health metrics. Note: These metrics are process
 | **Linear SVC** | 98.06% | 98.06% | 98.06% | 98.06% |
 | **Decision Tree** | 97.60% | 97.60% | 97.60% | 97.60% |
 | **Logistic Regression**| 97.53% | 97.53% | 97.53% | 97.53% |
-| **Random Forest** | 96.91% | 96.91% | 96.91% | 96.91% |
 | **Naive Bayes** | 95.17% | 95.18% | 95.17% | 95.17% |
 
 ---
@@ -272,9 +269,11 @@ Returns API usage statistics and health metrics. Note: These metrics are process
 
 Classifier accuracy is measured on the training distribution's dominant topics; performance on underrepresented topics (e.g., science/space news) has not been separately validated and may be less reliable.
 
+The production ensemble uses five models. Random Forest was removed because its calibrated artifact caused memory issues on constrained deployment environments; the five-model ensemble performs equal or better on the held-out evaluation.
+
 | Model | Type | Accuracy | Hosted |
 |---|---|---|---|
-| Ensemble (6 models) | TF-IDF + scikit-learn | 97.9743% | Local |
+| Ensemble (5 models) | TF-IDF + scikit-learn | 98.4396% | Local |
 | DistilBERT | Fine-tuned Transformer | 99.97%* | Hugging Face |
 
 *Measured via 5-fold CV + held-out evaluation with a leakage audit on September 16, 2026.

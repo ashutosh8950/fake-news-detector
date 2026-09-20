@@ -5,7 +5,7 @@
   "held_out_rows": 3653,
   "training_rows": 20700,
   "random_state": 42,
-  "production_switch": false,
+  "production_switch": true,
   "models": {
     "lr": {
       "name": "Logistic Regression",
@@ -152,57 +152,6 @@
         }
       }
     },
-    "rfc": {
-      "name": "Random Forest",
-      "artifact": "models\\calibrated\\rfc_calibrated.pkl",
-      "calibration_selection": {
-        "selected_method": "isotonic",
-        "selection_metric": "lower inner training-only validation Brier score",
-        "inner_validation_fraction": 0.2,
-        "inner_cv_folds": 5,
-        "method_scores": {
-          "sigmoid": {
-            "brier_score": 0.026933,
-            "accuracy": 0.969082
-          },
-          "isotonic": {
-            "brier_score": 0.025834,
-            "accuracy": 0.968841
-          }
-        }
-      },
-      "held_out": {
-        "accuracy": 0.968519,
-        "brier_score": 0.025206,
-        "reliability_curve": {
-          "mean_predicted_probability": [
-            0.023252,
-            0.135622,
-            0.254953,
-            0.354378,
-            0.45893,
-            0.558143,
-            0.652789,
-            0.753164,
-            0.860501,
-            0.99316
-          ],
-          "fraction_of_positives": [
-            0.023731,
-            0.110169,
-            0.333333,
-            0.235294,
-            0.666667,
-            0.619048,
-            0.6,
-            0.740741,
-            0.849057,
-            0.994005
-          ],
-          "n_bins": 10
-        }
-      }
-    },
     "nb": {
       "name": "Naive Bayes",
       "artifact": "models\\calibrated\\nb_calibrated.pkl",
@@ -307,38 +256,38 @@
     }
   },
   "ensemble": {
-    "name": "Six-model average calibrated probability ensemble",
+    "name": "Five-model average calibrated probability ensemble",
     "held_out": {
-      "accuracy": 0.982206,
-      "brier_score": 0.014923,
+      "accuracy": 0.984396,
+      "brier_score": 0.013835,
       "reliability_curve": {
         "mean_predicted_probability": [
-          0.024942,
-          0.133588,
-          0.247807,
-          0.346611,
-          0.456924,
-          0.538624,
-          0.652991,
-          0.736789,
-          0.863623,
-          0.98727
+          0.024317,
+          0.136009,
+          0.248828,
+          0.340356,
+          0.44019,
+          0.559485,
+          0.650454,
+          0.757083,
+          0.855001,
+          0.986645
         ],
         "fraction_of_positives": [
-          0.007314,
-          0.12,
-          0.177778,
-          0.333333,
-          0.333333,
-          0.529412,
-          0.736842,
-          0.904762,
+          0.007324,
+          0.098039,
+          0.186047,
+          0.259259,
+          0.294118,
+          0.6,
+          0.8,
+          0.95,
           0.971014,
-          0.998366
+          0.998372
         ],
         "n_bins": 10
       }
     },
-    "confidence_definition": "Average of six calibrated P(class=1) values; confidence for the predicted class is ensemble probability when real, otherwise 1 minus it."
+    "confidence_definition": "Average of five calibrated P(class=1) values; confidence for the predicted class is ensemble probability when real, otherwise 1 minus it."
   }
 }

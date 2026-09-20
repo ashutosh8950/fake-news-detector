@@ -38,8 +38,8 @@ def test_analyze_real_news(mock_predict, client):
         "ensemble_label": "REAL NEWS",
         "overall_confidence": 98.0,
         "fake_votes": 1,
-        "real_votes": 5,
-        "total_models": 6,
+        "real_votes": 4,
+        "total_models": 5,
         "models": {},
         "processed_length": 50,
         "processing_time_ms": 1.0
@@ -60,9 +60,9 @@ def test_analyze_fake_news(mock_predict, client):
         "ensemble_is_fake": True,
         "ensemble_label": "FAKE NEWS",
         "overall_confidence": 99.0,
-        "fake_votes": 6,
+        "fake_votes": 5,
         "real_votes": 0,
-        "total_models": 6,
+        "total_models": 5,
         "models": {},
         "processed_length": 45,
         "processing_time_ms": 1.0

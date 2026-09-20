@@ -87,7 +87,7 @@ async def metrics_endpoint():
 async def analyze(request: Request, req: AnalyzeRequest):
     """
     Analyze a news article and return ensemble fake/real prediction
-    with confidence scores from each of the 6 ML models.
+    with confidence scores from each of the 5 production ML models.
     """
     if not predictor.loaded:
         raise HTTPException(503, "Models are still loading, please try again")

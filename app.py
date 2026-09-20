@@ -68,7 +68,7 @@ async def lifespan(app: FastAPI):
 # ── App ───────────────────────────────────────────────────────────────────────
 app = FastAPI(
     title=settings.app_name,
-    description="ML-powered fake news detection with ensemble voting across 6 models",
+    description="ML-powered fake news detection with ensemble voting across 5 models",
     version="2.0.0",
     lifespan=lifespan,
 )
