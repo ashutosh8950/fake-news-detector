@@ -8,6 +8,7 @@ Fixes applied:
 """
 
 import os
+import uuid
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request
@@ -74,21 +75,72 @@ app = FastAPI(
 )
 
 app.state.limiter = limiter
-app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+
+def rate_limit_exception_handler(request: Request, exc: RateLimitExceeded):
+    """Return a friendly structured 429 while preserving limiter headers."""
+    limiter_response = _rate_limit_exceeded_handler(request, exc)
+    retry_after_header = limiter_response.headers.get("Retry-After")
+    retry_after_seconds = None
+    if retry_after_header:
+        try:
+            retry_after_seconds = max(0, int(retry_after_header))
+        except ValueError:
+            pass
+
+    headers = {
+        key: value
+        for key, value in limiter_response.headers.items()
+        if key.lower() not in {"content-length", "content-type"}
+    }
+    return JSONResponse(
+        status_code=429,
+        headers=headers,
+        content={
+            "error": "rate_limited",
+            "message": (
+                "You're sending requests too quickly. "
+                "Please wait a moment and try again."
+            ),
+            "retry_after_seconds": retry_after_seconds,
+        },
+    )
+
+
+app.add_exception_handler(RateLimitExceeded, rate_limit_exception_handler)
 app.add_middleware(SlowAPIMiddleware)
 
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
-    logger.error(f"Unhandled exception: {exc}")
+    request_id = uuid.uuid4().hex
+    logger.exception(f"Unhandled exception request_id={request_id}: {exc}")
     return JSONResponse(
         status_code=500,
-        content={"error": "Internal server error", "detail": str(exc)}
+        headers={"X-Request-ID": request_id},
+        content={
+            "error": "internal_server_error",
+            "message": "An unexpected error occurred. Please try again.",
+            "request_id": request_id,
+        },
     )
 
 
 # ── CORS — configurable via ALLOWED_ORIGINS env var ──────────────────────────
-_raw_origins = os.environ.get("ALLOWED_ORIGINS", "*")
-ALLOWED_ORIGINS = [o.strip() for o in _raw_origins.split(",")] if _raw_origins != "*" else ["*"]
+PRODUCTION_ORIGIN = "https://truthscan-fake-news-detector.onrender.com"
+runtime_environment = os.environ.get("ENVIRONMENT", "production").lower()
+default_origins = [PRODUCTION_ORIGIN]
+if runtime_environment in {"development", "local", "test"}:
+    default_origins.extend([
+        "http://localhost:8000",
+        "http://127.0.0.1:8000",
+    ])
+
+_raw_origins = os.environ.get("ALLOWED_ORIGINS")
+ALLOWED_ORIGINS = (
+    [origin.strip() for origin in _raw_origins.split(",") if origin.strip()]
+    if _raw_origins
+    else default_origins
+)
 
 app.add_middleware(
     CORSMiddleware,

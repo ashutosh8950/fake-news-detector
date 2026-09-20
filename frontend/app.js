@@ -286,6 +286,13 @@ async function runAnalysis(mode) {
     });
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
+      if (res.status === 429 || err.error === 'rate_limited') {
+        const retryAfter = Number(err.retry_after_seconds);
+        const waitMessage = Number.isFinite(retryAfter) && retryAfter > 0
+          ? ` Please wait ${retryAfter} seconds and try again.`
+          : ' Please wait a moment and try again.';
+        throw new Error(`You're sending requests too quickly.${waitMessage}`);
+      }
       const detail = Array.isArray(err.detail) ? err.detail.map((d) => d.msg).join(', ') : err.detail;
       throw new Error(detail || `Server responded with ${res.status}`);
     }
