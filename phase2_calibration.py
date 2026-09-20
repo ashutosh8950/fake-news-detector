@@ -14,7 +14,7 @@ import joblib
 import numpy as np
 import pandas as pd
 from sklearn.calibration import CalibratedClassifierCV, calibration_curve
-from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
+from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, brier_score_loss
@@ -41,7 +41,6 @@ MODEL_NAMES = {
     "lr": "Logistic Regression",
     "dt": "Decision Tree",
     "gbc": "Gradient Boosting",
-    "rfc": "Random Forest",
     "nb": "Naive Bayes",
     "svc": "Linear SVC",
 }
@@ -52,9 +51,6 @@ def build_models() -> Dict[str, object]:
         "lr": LogisticRegression(max_iter=1000, C=5.0, random_state=RANDOM_STATE),
         "dt": DecisionTreeClassifier(max_depth=None, random_state=RANDOM_STATE),
         "gbc": GradientBoostingClassifier(n_estimators=200, random_state=RANDOM_STATE),
-        "rfc": RandomForestClassifier(
-            n_estimators=200, random_state=RANDOM_STATE, n_jobs=1
-        ),
         "nb": MultinomialNB(alpha=0.01),
         "svc": LinearSVC(C=1.0, max_iter=2000, random_state=RANDOM_STATE),
     }
@@ -247,12 +243,12 @@ def main() -> None:
     ensemble_probabilities = probability_matrix.mean(axis=0)
     ensemble_predictions = (ensemble_probabilities >= 0.5).astype(int)
     report["ensemble"] = {
-        "name": "Six-model average calibrated probability ensemble",
+        "name": "Five-model average calibrated probability ensemble",
         "held_out": metrics_for_model(
             held_out_labels, ensemble_predictions, ensemble_probabilities
         ),
         "confidence_definition": (
-            "Average of six calibrated P(class=1) values; confidence for the "
+            "Average of five calibrated P(class=1) values; confidence for the "
             "predicted class is ensemble probability when real, otherwise 1 minus it."
         ),
     }
