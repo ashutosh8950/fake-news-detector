@@ -253,6 +253,8 @@ Returns API usage statistics and health metrics. Note: These metrics are process
 
 ## Model Accuracy
 
+The production ensemble was trained on 20,700 articles and evaluated on a held-out set of 3,653 articles (24,353 labeled articles in total). Averaging the five calibrated models' probabilities reaches 98.44% held-out accuracy with a Brier score of 0.013835.
+
 | Model | Accuracy | Precision | Recall | F1 Score |
 |-------|----------|-----------|--------|----------|
 | **Gradient Boosting** | 98.50% | 98.52% | 98.50% | 98.51% |
@@ -270,6 +272,8 @@ Returns API usage statistics and health metrics. Note: These metrics are process
 Classifier accuracy is measured on the training distribution's dominant topics; performance on underrepresented topics (e.g., science/space news) has not been separately validated and may be less reliable.
 
 The production ensemble uses five models. Random Forest was removed because its calibrated artifact caused memory issues on constrained deployment environments; the five-model ensemble performs equal or better on the held-out evaluation.
+
+- TruthScan estimates whether an article resembles patterns learned from its dataset; it does not verify claims against live external sources, and confidence is calibrated probability on the evaluation distribution, not factual certainty.
 
 | Model | Type | Accuracy | Hosted |
 |---|---|---|---|
