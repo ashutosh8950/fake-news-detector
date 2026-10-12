@@ -110,16 +110,32 @@ pip install -r requirements.txt
 python -m spacy download en_core_web_sm
 ```
 
-**4. Download data and train models**
+**4. Prepare the calibrated production artifacts**
+
+Download the model artifacts required by the application:
+
 ```bash
-python download_data.py
-python train.py
+python download_models.py
 ```
 
-**5. Run server**
+This downloads the five calibrated classifiers and TF-IDF vectorizer into `models/calibrated/`, along with `phase2_calibration_report.json` in `evaluation_results/`.
+
+To regenerate these artifacts locally instead, provide the expected dataset files `data/Fake.csv` and `data/True.csv`, then run:
+
+```bash
+python evaluate_pipeline.py
+python phase2_calibration.py
+```
+
+The evaluation step generates the held-out test set and Phase 1 report required by calibration. The calibration script expects 20,700 training rows and 3,653 held-out rows. The separate `train.py` workflow produces uncalibrated models and does not replace the calibrated artifacts required by the application.
+
+**5. Run the server**
+
 ```bash
 python app.py
 ```
+
+DistilBERT deep analysis is optional. The base requirements do not install Transformers or PyTorch. Even if these dependencies are installed separately, deep analysis is available only if the DistilBERT model loads successfully; otherwise, `/analyze/deep` returns HTTP 503. The standard five-model ensemble does not require DistilBERT.
 
 ---
 
