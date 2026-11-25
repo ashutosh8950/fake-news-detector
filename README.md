@@ -26,7 +26,7 @@ An ultra-fast, production-grade Fake News Detection API leveraging a 5-model Mac
 | **Docker Support** | Fully containerized for easy scaling and deployment. |
 | **REST API** | 5 specialized endpoints for health checks, model metadata, metrics, and text analysis. |
 | **Live deployment on Render** | Fully hosted and accessible online. |
-| **DistilBERT Deep Analysis** | Fine-tuned DistilBERT on 44K articles achieving 99.97% accuracy, hosted on Hugging Face (Note: external model, not yet locally reproduced). |
+| **DistilBERT Deep Analysis** | Optional external model; the reported 99.97% accuracy is not reproducible from this repository. |
 
 ---
 
@@ -87,7 +87,8 @@ An ultra-fast, production-grade Fake News Detection API leveraging a 5-model Mac
 ├── README.md
 ├── render.yaml
 ├── requirements.txt
-└── train.py
+├── train_production.py
+└── legacy/train_legacy.py
 ```
 
 ---
@@ -107,7 +108,7 @@ pip install -r requirements.txt
 
 **3. Download spaCy model**
 ```bash
-python -m spacy download en_core_web_sm
+python -m spacy download en_core_web_sm==3.8.0
 ```
 
 **4. Prepare the calibrated production artifacts**
@@ -118,22 +119,23 @@ Download the model artifacts required by the application:
 python download_models.py
 ```
 
-This downloads the five calibrated classifiers and TF-IDF vectorizer into `models/calibrated/`, along with `phase2_calibration_report.json` in `evaluation_results/`.
+This downloads the five calibrated classifiers, TF-IDF vectorizer, and trusted `artifact_manifest.json` into `models/calibrated/`, along with `evaluation_results/phase2_calibration_report.json`.
 
 To regenerate these artifacts locally instead, provide the expected dataset files `data/Fake.csv` and `data/True.csv`, then run:
 
 ```bash
-python evaluate_pipeline.py
-python phase2_calibration.py
+python train_production.py
 ```
 
-The evaluation step generates the held-out test set and Phase 1 report required by calibration. The calibration script expects 20,700 training rows and 3,653 held-out rows. The separate `train.py` workflow produces uncalibrated models and does not replace the calibrated artifacts required by the application.
+The canonical command consumes the duplicate-aware split manifest, fits TF-IDF on training rows only, calibrates the five production models, writes predictions and metrics, and generates the trusted manifest. The old six-model workflow is retained only as `legacy/train_legacy.py` and is not a production rebuild.
 
 **5. Run the server**
 
 ```bash
 python app.py
 ```
+
+The application can start without model artifacts so that `/health`, `/docs`, and the frontend remain available for diagnosis. In that state `/health` returns HTTP 503 with `status: "not_ready"` and `models_loaded: false`, while `/analyze` returns HTTP 503 with `Inference unavailable: trusted model artifacts are not ready.` and never fabricates a prediction. The frontend displays `API available · models unavailable`. Inference becomes ready only after the artifact bundle passes the repository's verification checks; this does not authorize use of untrusted or historically unauthenticated artifacts.
 
 DistilBERT deep analysis is optional. The base requirements do not install Transformers or PyTorch. Even if these dependencies are installed separately, deep analysis is available only if the DistilBERT model loads successfully; otherwise, `/analyze/deep` returns HTTP 503. The standard five-model ensemble does not require DistilBERT.
 
@@ -159,6 +161,8 @@ Run the full pytest suite (no server needed):
 ```bash
 python -m pytest -v tests/
 ```
+
+The repository CI job runs the synthetic application/readiness and contract suites without downloading datasets, model artifacts, or the spaCy language model. The model-dependent held-out test requires separately provisioned, trusted artifacts and is not part of the no-artifact CI job.
 
 ---
 
@@ -269,7 +273,9 @@ Returns API usage statistics and health metrics. Note: These metrics are process
 
 ## Model Accuracy
 
-The production ensemble was trained on 20,700 articles and evaluated on a held-out set of 3,653 articles (24,353 labeled articles in total). Averaging the five calibrated models' probabilities reaches 98.44% held-out accuracy with a Brier score of 0.013835.
+The primary grouped evaluation reports 96.39% accuracy on 3,653 held-out articles, with ROC-AUC 96.47%, Brier score 0.03490, and ECE 0.01330. This split keeps duplicate-aware groups together and is the headline release metric.
+
+The original random split reported 98.44% accuracy and Brier score 0.013835. It used the same 20,700/3,653 row counts but a random stratified split; the grouped protocol is more conservative because it prevents related article groups from crossing the evaluation boundary. These are different protocols and should not be compared as a controlled model change.
 
 | Model | Accuracy | Precision | Recall | F1 Score |
 |-------|----------|-----------|--------|----------|
@@ -287,17 +293,18 @@ The production ensemble was trained on 20,700 articles and evaluated on a held-o
 
 Classifier accuracy is measured on the training distribution's dominant topics; performance on underrepresented topics (e.g., science/space news) has not been separately validated and may be less reliable.
 
+The dataset contains strong source-style signals, including Reuters-like bylines and outlet wording. The model may learn source style rather than fact validity. TruthScan is not a fact-checker, and no out-of-domain evaluation has been completed.
+
 The production ensemble uses five models. Random Forest was removed because its calibrated artifact caused memory issues on constrained deployment environments; the five-model ensemble performs equal or better on the held-out evaluation.
 
 - TruthScan estimates whether an article resembles patterns learned from its dataset; it does not verify claims against live external sources, and confidence is calibrated probability on the evaluation distribution, not factual certainty.
 
 | Model | Type | Accuracy | Hosted |
 |---|---|---|---|
-| Ensemble (5 models) | TF-IDF + scikit-learn | 98.4396% | Local |
-| DistilBERT | Fine-tuned Transformer | 99.97%* | Hugging Face |
+| Ensemble (5 models) | TF-IDF + scikit-learn | 96.39% grouped / 98.44% original random split | Local |
+| DistilBERT | Fine-tuned Transformer | 99.97% reported, not reproducible here | Hugging Face |
 
-*Measured via 5-fold CV + held-out evaluation with a leakage audit on September 16, 2026.
-\**External model, not yet locally reproduced.*
+*The DistilBERT figure is externally reported and is not reproducible from this repository; its training script and evaluation artifacts are absent.*
 
 Hugging Face Model: https://huggingface.co/GuptaAshutosh/truthscan-fake-news-distilbert
 
