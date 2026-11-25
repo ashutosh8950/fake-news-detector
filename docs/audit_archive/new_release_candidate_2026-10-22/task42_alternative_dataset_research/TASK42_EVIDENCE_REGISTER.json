@@ -1,0 +1,24 @@
+{
+  "schema_version": "task42_alternative_dataset_evidence_v1",
+  "retrieval_date": "2026-10-22",
+  "research_only": true,
+  "candidate_approval": "NONE",
+  "existing_dataset_status": "NO_GO_BLOCKED_INSUFFICIENT_EVIDENCE",
+  "sources": [
+    {"id":"fever_dataset","url":"https://fever.ai/dataset/fever.html","source_type":"official dataset site","access":"ACCESSIBLE","supports":"185445 claims; SUPPORTS/REFUTES/NOT ENOUGH INFO labels; Wikipedia-derived claim-verification task; JSONL fields and evidence links","limitations":"Not article-level fake/real news; no blanket public-hosting or model-distribution permission stated","assessed":"technical suitability, provenance"},
+    {"id":"fever_license","url":"https://fever.ai/download/fever/license.html","source_type":"official FEVER license notice","access":"ACCESSIBLE","supports":"Annotations incorporate Wikipedia material and must follow applicable Wikipedia terms or CC BY-SA 3.0 where terms are unavailable","limitations":"Rights vary by applicable Wikipedia article; does not itself clear all downstream uses or third-party rights","assessed":"academic use, redistribution, model/public-use rights"},
+    {"id":"fever_repository","url":"https://github.com/awslabs/fever","source_type":"official repository","access":"ACCESSIBLE","supports":"Official project identity, paper, task description, and code provenance","limitations":"Repository code license is not the same as dataset/content rights","assessed":"provenance"},
+    {"id":"nela_repository","url":"https://github.com/MELALab/nela-gt","source_type":"official project repository","access":"ACCESSIBLE","supports":"Article/source metadata, collection periods, source-level labels, embedded tweets, and copyright-aware text transformation","limitations":"No broad dataset license or public-hosting/model-distribution grant verified; source labels may not equal article truth","assessed":"provenance, technical suitability, copyright handling"},
+    {"id":"zenodo_candidate","url":"https://zenodo.org/records/18135595","source_type":"official Zenodo record","access":"ACCESSIBLE","supports":"v1.1, creator, DOI, labeled fake/true news description, displayed CC BY 4.0 and asset metadata","limitations":"Underlying article rights, exact schema, source mapping, public hosting, commercial use and model rights unresolved","assessed":"provenance, license, downstream rights"},
+    {"id":"liar_archive","url":"https://sites.cs.ucsb.edu/~william/data/","source_type":"official UCSB archive","access":"ACCESSIBLE","supports":"Official LIAR archive identity and archive date","limitations":"No downstream license or complete third-party rights chain","assessed":"provenance"},
+    {"id":"liar_paper","url":"https://arxiv.org/abs/1705.00648","source_type":"original research paper","access":"ACCESSIBLE","supports":"Short PolitiFact claims and six-label task description","limitations":"Academic publication is not a downstream-use license","assessed":"technical suitability, provenance"},
+    {"id":"welfake_record","url":"https://zenodo.org/records/4561253","source_type":"candidate Zenodo record","access":"INACCESSIBLE_DURING_AUDIT_429","supports":null,"limitations":"Primary record could not be retrieved; no license or exact version was promoted to evidence","assessed":"provenance, license"}
+  ],
+  "candidates": [
+    {"id":"fever","status":"RESEARCH_LEAD","college_demo":"CONDITIONAL_PENDING_CONFIRMATION","public_website":"BLOCKED_INSUFFICIENT_EVIDENCE","reason":"Strongest license notice but different claim-verification task and article/Wikipedia terms remain use-specific."},
+    {"id":"nela_gt","status":"RESEARCH_LEAD","college_demo":"CONDITIONAL_PENDING_CONFIRMATION","public_website":"BLOCKED_INSUFFICIENT_EVIDENCE","reason":"Official copyright-aware transformation and article metadata; no broad downstream license."},
+    {"id":"zenodo_18135595_v1_1","status":"BLOCKED_INSUFFICIENT_EVIDENCE","college_demo":"BLOCKED_INSUFFICIENT_EVIDENCE","public_website":"BLOCKED_INSUFFICIENT_EVIDENCE","reason":"Record-level CC BY assertion does not resolve underlying article rights."},
+    {"id":"liar","status":"BLOCKED_INSUFFICIENT_EVIDENCE","college_demo":"BLOCKED_INSUFFICIENT_EVIDENCE","public_website":"BLOCKED_INSUFFICIENT_EVIDENCE","reason":"Claim-level mismatch and unresolved downstream rights."},
+    {"id":"welfake","status":"BLOCKED_INSUFFICIENT_EVIDENCE","college_demo":"BLOCKED_INSUFFICIENT_EVIDENCE","public_website":"BLOCKED_INSUFFICIENT_EVIDENCE","reason":"Primary record/license unavailable in this audit."}
+  ]
+}

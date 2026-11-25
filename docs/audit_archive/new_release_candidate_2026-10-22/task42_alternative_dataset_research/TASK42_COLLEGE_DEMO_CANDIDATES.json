@@ -1,0 +1,13 @@
+{
+  "schema_version": "task42_college_demo_candidates_v1",
+  "track": "college_academic_demonstration",
+  "authorization": "NONE",
+  "candidates": [
+    {"id":"fever","status":"RESEARCH_LEAD","permitted_next_action":"Owner-authorized research-only review of applicable Wikipedia terms and a separately scoped claim-verification demo","technical_fit":"Not binary fake/real news; labels SUPPORTS/REFUTES/NOT ENOUGH INFO with evidence","rights_evidence":"Official FEVER license notice binds annotations to applicable Wikipedia terms or CC BY-SA 3.0 where unavailable","blockers":["Owner authorization","Use-specific rights review","New task/evaluation contract","No public hosting implied"]},
+    {"id":"nela_gt","status":"RESEARCH_LEAD","permitted_next_action":"Owner-authorized rights and data-contract review only","technical_fit":"Article-level source reliability labels, not direct article truth labels","rights_evidence":"Official repository documents copyright-aware text transformation","blockers":["No broad license verified","Source-level label bias/leakage","Owner and qualified rights review"]},
+    {"id":"zenodo_18135595_v1_1","status":"BLOCKED_INSUFFICIENT_EVIDENCE","permitted_next_action":"No acquisition; continue rights clarification","technical_fit":"Apparent binary article task, exact schema unverified","rights_evidence":"Zenodo record displays CC BY 4.0 for datasets","blockers":["Underlying rights, exact content identity, owner approval"]},
+    {"id":"liar","status":"BLOCKED_INSUFFICIENT_EVIDENCE","permitted_next_action":"No acquisition; rights review only if owner selects it","technical_fit":"Claim-level six labels, not article binary","rights_evidence":"Official archive and paper only","blockers":["Downstream rights and task mismatch"]},
+    {"id":"welfake","status":"BLOCKED_INSUFFICIENT_EVIDENCE","permitted_next_action":"No acquisition until primary record is verified","technical_fit":"Potential article-level fake-news lead","rights_evidence":"Not verified in this audit","blockers":["Inaccessible primary record and unverified license"]}
+  ],
+  "refusal_default": true
+}

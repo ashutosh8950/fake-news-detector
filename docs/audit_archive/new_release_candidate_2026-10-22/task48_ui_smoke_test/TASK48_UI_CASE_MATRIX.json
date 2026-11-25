@@ -1,0 +1,20 @@
+{
+  "schema_version": "task48_ui_case_matrix_v1",
+  "verdict": "CONDITIONAL_PASS_STATIC_AND_SYNTHETIC_SCOPE",
+  "cases": [
+    {"id":"C1","name":"SUPPORTED with valid evidence","expected":"Synthetic evidence is accepted and labeled","observed":"Fixture returned SUPPORTED; renderer included SYNTHETIC EVIDENCE","evidence":"local Python smoke harness","status":"PASS"},
+    {"id":"C2","name":"REFUTED with valid evidence","expected":"Synthetic evidence is accepted and labeled","observed":"Fixture returned REFUTED; renderer completed safely","evidence":"local Python smoke harness","status":"PASS"},
+    {"id":"C3","name":"INSUFFICIENT_EVIDENCE empty evidence","expected":"Empty evidence is accepted and insufficiency shown","observed":"Fixture returned empty list; renderer used No evidence available","evidence":"Task 44/46 unittest and local smoke harness","status":"PASS"},
+    {"id":"C4","name":"Malformed response","expected":"Controlled error without traceback","observed":"Renderer returned data-state error section","evidence":"test_invalid_ui_response_returns_controlled_error and local smoke harness","status":"PASS"},
+    {"id":"C5","name":"Missing/malformed evidence","expected":"Rejected safely","observed":"None item rejected; error state returned","evidence":"test_evidence_items_are_strictly_validated and local smoke harness","status":"PASS"},
+    {"id":"C6","name":"Hostile HTML/script/event-handler strings","expected":"Inert escaped text","observed":"No active script/img tags; escaped entities present","evidence":"test_hostile_strings_are_escaped and local smoke harness","status":"PASS"},
+    {"id":"C7","name":"Malformed then valid response","expected":"Valid result renders after prior error","observed":"Error output followed by valid synthetic evidence output","evidence":"local Python smoke harness","status":"PASS"},
+    {"id":"C8","name":"Empty/whitespace/oversized claim","expected":"Request validation rejects","observed":"Existing tests passed for whitespace and 4001-character input","evidence":"test_empty_and_oversized_claims_fail","status":"PASS"},
+    {"id":"C9","name":"Synthetic/non-authoritative labeling","expected":"UI distinguishes prototype from real fact-checking","observed":"Static mockup and renderer include synthetic and non-authoritative disclaimers","evidence":"static UI check and renderer output","status":"PASS"},
+    {"id":"C10","name":"Browser interaction and console","expected":"Actual browser behavior verified if applicable","observed":"Not executed; mockup has no JavaScript, enabled control, or backend binding","evidence":"static source inspection","status":"UNVERIFIED","limitation":"Browser DOM/event behavior remains untested"}
+  ],
+  "regression_suite":{"passed":12,"failed":0,"skipped":0,"exit_code":0},
+  "browser_test":{"executed":false,"reason":"Static disabled mockup has no interactive response flow"},
+  "production_approval":false,
+  "track_b_enabled":false
+}

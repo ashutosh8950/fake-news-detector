@@ -1,0 +1,14 @@
+{
+  "schema_version": "task30_blocked_examples_v1",
+  "examples": [
+    {"case": "manifest_bytes_do_not_match_trusted_digest", "decision": "REFUSED"},
+    {"case": "certificate_does_not_bind_manifest_source_or_policy", "decision": "REFUSED"},
+    {"case": "source_hash_not_in_external_trusted_digest_set", "decision": "REFUSED"},
+    {"case": "missing_or_mismatched_policy_fingerprint", "decision": "REFUSED"},
+    {"case": "unknown_or_revoked_signing_key", "decision": "REFUSED"},
+    {"case": "modified_signed_payload", "decision": "REFUSED"},
+    {"case": "overlapping_or_incomplete_partition_manifest", "decision": "REFUSED"},
+    {"case": "environment_lock_or_python_mismatch", "decision": "REFUSED"},
+    {"case": "all_strict_synthetic_gates_pass", "decision": "PREFLIGHT_PASS_STOPPED_BEFORE_TRAINING", "training_permitted": false, "artifacts_created": false}
+  ]
+}

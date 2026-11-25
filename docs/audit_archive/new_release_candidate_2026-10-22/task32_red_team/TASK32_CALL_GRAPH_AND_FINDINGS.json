@@ -1,0 +1,38 @@
+{
+  "schema_version": "task32_red_team_findings_v1",
+  "status": "CONDITIONAL_PASS_CANDIDATE_SCOPE_ONLY",
+  "head_before_after": "8c41ae005f4bee178a2b0104cb29049f00182081",
+  "entry_points": [
+    {"path": "evaluation_results/new_release_candidate_2026-10-22/task31_secure_integration/secure_build_boundary.py", "function": "candidate_preflight_only", "verified": true, "finding": "Rejects legacy schema, requires roots, calls strict verifier, never authorizes build."},
+    {"path": "evaluation_results/new_release_candidate_2026-10-22/task28_runner_preflight/candidate_runner_preflight.py", "function": "run_preflight_secure", "verified": true, "finding": "Strict validation and signature path; production mode now refuses because no production trust root is configured."},
+    {"path": "evaluation_results/new_release_candidate_2026-10-22/task28_runner_preflight/candidate_runner_preflight.py", "function": "run_preflight", "verified": true, "finding": "Legacy compatibility result explicitly carries build_authorized=false and authorization_mode=legacy_non_authorizing; Task31 boundary rejects its schema."},
+    {"path": "train.py", "function": "train", "verified": true, "finding": "Direct model-fitting and joblib.dump path; no secure preflight call found."},
+    {"path": "phase2_calibration.py", "function": "main", "verified": true, "finding": "Direct calibration/model export path; no secure preflight call found."},
+    {"path": "predictor.py", "function": "load_models", "verified": true, "finding": "Production deserialization path; not a candidate build path and not invoked."},
+    {"path": "download_models.py", "function": "download_models", "verified": true, "finding": "Production artifact staging/downloader; not a candidate build path and not invoked."}
+  ],
+  "bypass_attempts": [
+    {"case": "lower_level_candidate_build", "result": "REFUSED", "evidence": "invoke_build is an explicit fail-closed stub."},
+    {"case": "fabricated_preflight_result", "result": "REFUSED", "evidence": "candidate_preflight_only requires task30_evidence_v1 and recomputes strict evidence."},
+    {"case": "legacy_interface", "result": "REFUSED_AT_BOUNDARY", "evidence": "legacy schema rejected; legacy result is explicitly non-authorizing."},
+    {"case": "renamed_synthetic_production_key", "result": "REFUSED", "evidence": "production mode refuses because independent production trust-root provisioning is absent."},
+    {"case": "self_consistent_untrusted_roots", "result": "REFUSED_AT_PRODUCTION_BOUNDARY", "evidence": "candidate boundary requires roots but strict production mode remains unavailable."},
+    {"case": "stale_release_id_or_signed_payload", "result": "REFUSED", "evidence": "signature payload binding and canonical payload mismatch tests."},
+    {"case": "changed_lock_or_environment", "result": "REFUSED", "evidence": "strict lock-byte and environment binding tests."},
+    {"case": "path_escape_or_alias", "result": "REFUSED", "evidence": "strict evidence path containment and symlink rejection tests."},
+    {"case": "direct_train_script", "result": "SOURCE_LEVEL_BYPASS_EXISTS_OUTSIDE_BOUNDARY", "severity": "HIGH", "evidence": "train.py:train fits and writes models without calling preflight; not executed."},
+    {"case": "direct_calibration_script", "result": "SOURCE_LEVEL_BYPASS_EXISTS_OUTSIDE_BOUNDARY", "severity": "HIGH", "evidence": "phase2_calibration.py:main writes calibrated artifacts without calling preflight; not executed."}
+  ],
+  "trust_findings": {
+    "test_only_key": "Rejected by candidate boundary and production mode.",
+    "embedded_public_key": "Not trusted; strict verifier uses caller-provided mapping only.",
+    "production_trust_root": "Missing; production mode fails closed.",
+    "approval_scope": "Binds candidate ID, source hashes, policy, manifest, certificate, environment, scope, and decision in synthetic tests."
+  },
+  "remaining_blockers": [
+    "Direct training/calibration entry points are not integrated with secure preflight.",
+    "No organization-controlled production trust root is configured.",
+    "Dataset provenance/licensing, owner approvals, and complete authenticated dependency lock remain unresolved.",
+    "Native filesystem race/symlink coverage remains partial."
+  ]
+}

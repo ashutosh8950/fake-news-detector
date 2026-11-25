@@ -1,0 +1,20 @@
+{
+  "schema_version": "task48_ui_case_matrix_v1",
+  "verdict": "CONDITIONAL_PASS_STATIC_AND_SYNTHETIC_SCOPE",
+  "cases": [
+    {"id":"C1","name":"supported_valid_evidence","expected":"SUPPORTED renders with evidence","observed":"Renderer returned valid supported response","evidence":"local synthetic fixture","status":"PASS"},
+    {"id":"C2","name":"refuted_valid_evidence","expected":"REFUTED renders with evidence","observed":"Renderer returned valid refuted response","evidence":"local synthetic fixture","status":"PASS"},
+    {"id":"C3","name":"insufficient_empty_evidence","expected":"INSUFFICIENT_EVIDENCE accepts empty evidence","observed":"Renderer returned insufficient response with empty list","evidence":"local synthetic fixture","status":"PASS"},
+    {"id":"C4","name":"malformed_response","expected":"Controlled error","observed":"Error state without traceback","evidence":"local synthetic fixture with null evidence","status":"PASS"},
+    {"id":"C5","name":"malformed_evidence","expected":"Invalid evidence rejected","observed":"ContractError raised safely","evidence":"invalid entries and missing snippet","status":"PASS"},
+    {"id":"C6","name":"hostile_strings","expected":"Text remains inert","observed":"Escaped output, no active tags","evidence":"synthetic script/img/event-handler strings","status":"PASS"},
+    {"id":"C7","name":"error_recovery","expected":"Valid result after malformed response","observed":"Renderer recovered on next valid response","evidence":"local sequential renderer calls","status":"PASS"},
+    {"id":"C8","name":"claim_limits","expected":"Blank, whitespace, oversized claims rejected","observed":"All rejected by request validator","evidence":"synthetic request fixtures","status":"PASS"},
+    {"id":"C9","name":"synthetic_disclaimer","expected":"Non-authoritative synthetic distinction visible","observed":"Static UI includes required labels","evidence":"UI_MOCKUP.html static inspection","status":"PASS"},
+    {"id":"C10","name":"browser_interaction","expected":"Browser behavior verified","observed":"Not run; current mockup has no interactive flow","evidence":"static source inspection","status":"UNVERIFIED"}
+  ],
+  "regression_suite": {"passed":12,"failed":0,"skipped":0,"exit_code":0},
+  "browser_test": {"executed":false,"reason":"Static disabled mockup has no JavaScript, backend, or repeated-submission flow"},
+  "track_b_enabled": false,
+  "production_approval": false
+}

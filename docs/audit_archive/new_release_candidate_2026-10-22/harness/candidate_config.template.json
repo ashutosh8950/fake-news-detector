@@ -1,0 +1,38 @@
+{
+  "candidate_id": "REQUIRED_NEW_CANDIDATE_ID",
+  "allow_real_data_training": false,
+  "dataset_identity": "UNRESOLVED",
+  "dataset_version": "UNRESOLVED",
+  "dataset_schema": {
+    "required_columns": ["title", "text", "subject", "date"]
+  },
+  "source_data_hashes": "REQUIRED_SOURCE_DATA_HASH_RECORD",
+  "label_mapping": {
+    "0": "Fake",
+    "1": "Real"
+  },
+  "licensing_evidence": {
+    "status": "unresolved",
+    "source": null,
+    "date": null
+  },
+  "provenance_evidence": {
+    "status": "unresolved",
+    "source": null,
+    "date": null
+  },
+  "source_revision": "REQUIRED_SOURCE_REVISION",
+  "preprocessing_revision": "REQUIRED_PREPROCESSING_REVISION",
+  "grouping_policy": "REQUIRED_GROUPING_POLICY_AND_VERSION",
+  "grouping_approval": {
+    "status": "unresolved",
+    "source": null,
+    "date": null
+  },
+  "partition_manifest": "REQUIRED_VALIDATED_PARTITION_MANIFEST",
+  "estimator_config": "REQUIRED_ESTIMATOR_CONFIGURATION",
+  "vectorizer_config": "REQUIRED_VECTORIZER_CONFIGURATION",
+  "calibration_config": "REQUIRED_CALIBRATION_CONFIGURATION",
+  "environment_record": "REQUIRED_ENVIRONMENT_RECORD",
+  "output_root": "REQUIRED_EXPLICIT_NEW_OUTPUT_ROOT"
+}

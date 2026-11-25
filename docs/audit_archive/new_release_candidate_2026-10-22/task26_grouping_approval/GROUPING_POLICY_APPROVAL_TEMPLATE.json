@@ -1,0 +1,60 @@
+{
+  "schema_version": "task26_grouping_approval_v1",
+  "decision_status": "PENDING",
+  "proceed_to_isolated_real_data_build": false,
+  "refusal_default": true,
+  "selected_policy": null,
+  "policy_options": [
+    {
+      "policy_id": "all_keys_v1",
+      "configuration_fingerprint": "c0bd2fb96caccd8b4ad75177ecf1625b11ad9107346775ada00fdd52cf911f9b",
+      "source_data": {
+        "Fake.csv": {"sha256": "672ab39a75ac75fef9ecbb1a84e2936e064b44a32197a4801d9d0fb63ca9d57e", "status": "local_consistency_record_only"},
+        "True.csv": {"sha256": "c3105d9266fd2ad484aad43b13801930434ffcd68894cc975128e52433a0c6ad", "status": "local_consistency_record_only"}
+      },
+      "manifests": {
+        "outer": {"path": "evaluation_results/duplicate_aware/final_v5/primary/split_manifest.csv", "sha256": "AFE2A950C8F7AD81AE50107BEF8BFBA5D463574B6A79728F503CD4A716288F6F"},
+        "inner": {"path": "evaluation_results/duplicate_aware/final_v5/primary/inner_split_manifest.csv", "sha256": "BB617C0FC7CF1DF787B31BF7F89FC68CC7A58C12756737FAB42C46DFC0A865BE"},
+        "group_summary": {"path": "evaluation_results/duplicate_aware/final_v5/primary/group_summary.json", "sha256": "002326842B762895F0B1B6CE5AE34091AF63D06781542C96F76F94C0C1024A93"},
+        "reservation_hash": "7af88dd07e099e81539fa962fc4a1578cfb6ed8ed3d1f549c088230faa74cc94"
+      }
+    },
+    {
+      "policy_id": "body_combined_only_v1",
+      "configuration_fingerprint": "824aeec9c7b2633446616ae297a43a7764b9a0de6c166e393f251322a3b64243",
+      "source_data": {
+        "Fake.csv": {"sha256": "672ab39a75ac75fef9ecbb1a84e2936e064b44a32197a4801d9d0fb63ca9d57e", "status": "local_consistency_record_only"},
+        "True.csv": {"sha256": "c3105d9266fd2ad484aad43b13801930434ffcd68894cc975128e52433a0c6ad", "status": "local_consistency_record_only"}
+      },
+      "manifests": {
+        "outer": {"path": "evaluation_results/duplicate_aware/final_v5/body_combined_only/split_manifest.csv", "sha256": "50B548EAE6F904347650BCBE7C61B017166118C57A9AE59B56454B807F591728"},
+        "inner": {"path": "evaluation_results/duplicate_aware/final_v5/body_combined_only/inner_split_manifest.csv", "sha256": "6DF90DE2967358722E00F319C923C0C7A74A03BCB9843CABE0978A3B94ED6407"},
+        "group_summary": {"path": "evaluation_results/duplicate_aware/final_v5/body_combined_only/group_summary.json", "sha256": "480C90A2C9D8BFA43CEEF3999F6F64CA62ABA559B99BCFAA25615D5B4A07177D"},
+        "reservation_hash": "c8ae5a7cfd5d9dfbcc6192885ef1f77bb275156bc39054a868b340ea232ce52c"
+      }
+    }
+  ],
+  "owner_decisions": {
+    "source_data_hashes_approved": false,
+    "configuration_fingerprint_approved": false,
+    "manifest_and_reservation_approved": false,
+    "mixed_label_and_leakage_limitations_accepted": false,
+    "isolated_build_authorized_after_all_gates": false,
+    "owner_identity": null,
+    "decision_date": null,
+    "rationale": null,
+    "evidence_reference": null
+  },
+  "validation_evidence_references": [
+    "evaluation_results/group_aware_model_evaluation/v3/manifest_validation.json",
+    "evaluation_results/group_aware_model_evaluation/v3/manifest_configuration_fingerprints.json",
+    "evaluation_results/group_aware_model_evaluation/v3/protocol.md"
+  ],
+  "outstanding_requirements": [
+    "Owner selects and approves exactly one policy.",
+    "Source hashes, schema, provenance, and licensing are independently reviewed.",
+    "Manifest and embedded reservation evidence are revalidated against the exact source files.",
+    "Complete dependency/environment and isolated-runner gates pass.",
+    "Release authentication and deployment approval remain separate future gates."
+  ]
+}

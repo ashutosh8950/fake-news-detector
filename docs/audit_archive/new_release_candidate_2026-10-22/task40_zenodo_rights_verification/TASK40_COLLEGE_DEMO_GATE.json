@@ -1,0 +1,15 @@
+{
+  "schema_version": "task40_college_demo_gate_v1",
+  "candidate": "zenodo_18135595_v1_1",
+  "track": "college_academic_demonstration",
+  "status": "BLOCKED_INSUFFICIENT_EVIDENCE",
+  "evidence": ["Official record identifies v1.1, creator, DOI, dataset asset, displayed MD5, and CC BY 4.0 label", "Official CC BY deed permits sharing/adaptation for licensed material with attribution"],
+  "unresolved_issues": ["Underlying article and third-party rights", "Exact schema/labels and source mapping", "Attribution and notice plan", "Owner authorization and qualified rights review", "Grouping/partition and environment gates"],
+  "permitted_next_action": "Research-only owner decision and rights/provenance intake; no acquisition, processing, training, or artifact generation",
+  "acquisition_authorized": false,
+  "training_authorized": false,
+  "artifact_creation_authorized": false,
+  "deployment_authorized": false,
+  "owner_decision": "PENDING",
+  "refusal_default": true
+}

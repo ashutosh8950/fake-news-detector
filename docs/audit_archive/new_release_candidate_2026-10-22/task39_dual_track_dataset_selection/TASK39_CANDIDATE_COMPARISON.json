@@ -1,0 +1,78 @@
+{
+  "schema_version": "task39_candidate_comparison_v1",
+  "retrieval_date": "2026-10-22",
+  "research_only": true,
+  "candidate_selected": null,
+  "existing_dataset_status": "NO_GO_BLOCKED_INSUFFICIENT_EVIDENCE",
+  "candidates": [
+    {
+      "id": "zenodo_18135595_v1_1",
+      "name": "Disinformation: Code and Datasets v1.1",
+      "canonical_source": "https://zenodo.org/records/18135595",
+      "source_type": "Zenodo record / working paper package",
+      "published_version": "v1.1, published 2026-01-02; DOI 10.5281/zenodo.18135595",
+      "creator": "Sadam Hussain, Goldsmiths University of London",
+      "published_license": "CC BY 4.0 for datasets; MIT for code, as stated on the record",
+      "published_contents": "Labeled news-article datasets described as disinformation/fake news versus true news, plus code; exact files and schema not independently inspected in this task",
+      "technical_fit": "PROMISING_BUT_UNVERIFIED; apparent article-level binary framing, but schema, language/topic coverage, label construction, duplicates, and source fields require authorized review",
+      "activity_status": {
+        "college_demo": "CONDITIONAL_PENDING_CONFIRMATION",
+        "public_website": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "commercial_use": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "trained_model_distribution": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "raw_data_redistribution": "CONDITIONAL_PENDING_CONFIRMATION"
+      },
+      "evidence_limitations": [
+        "CC BY label on a Zenodo record does not establish rights for every underlying article or third-party material",
+        "No source-to-local acquisition mapping or local file digest exists because no acquisition occurred",
+        "Record does not expressly address public inference hosting, model distribution, or commercial use",
+        "Exact dataset schema, label definitions, and leakage structure were not verified from files"
+      ],
+      "approval": "NONE"
+    },
+    {
+      "id": "liar",
+      "name": "LIAR",
+      "canonical_source": "https://sites.cs.ucsb.edu/~william/data/",
+      "source_type": "Official archive and original paper",
+      "published_license": "Not stated in reviewed official dataset documentation",
+      "technical_fit": "Claim-level short statements with six labels; not a drop-in article-level binary replacement",
+      "activity_status": {"college_demo": "CONDITIONAL_PENDING_CONFIRMATION", "public_website": "BLOCKED_INSUFFICIENT_EVIDENCE", "commercial_use": "BLOCKED_INSUFFICIENT_EVIDENCE", "trained_model_distribution": "BLOCKED_INSUFFICIENT_EVIDENCE", "raw_data_redistribution": "BLOCKED_INSUFFICIENT_EVIDENCE"},
+      "evidence_limitations": ["PolitiFact/source rights and downstream permissions unresolved", "No candidate acquisition or source digest"],
+      "approval": "NONE"
+    },
+    {
+      "id": "fakeddit",
+      "name": "r/Fakeddit",
+      "canonical_source": "https://github.com/entitize/Fakeddit",
+      "source_type": "Official project repository and paper",
+      "published_license": "Dataset-specific license not verified in reviewed repository material",
+      "technical_fit": "Reddit-derived multimodal/text benchmark; requires a new task contract and text-only/multimodal decision",
+      "activity_status": {"college_demo": "CONDITIONAL_PENDING_CONFIRMATION", "public_website": "BLOCKED_INSUFFICIENT_EVIDENCE", "commercial_use": "BLOCKED_INSUFFICIENT_EVIDENCE", "trained_model_distribution": "BLOCKED_INSUFFICIENT_EVIDENCE", "raw_data_redistribution": "BLOCKED_INSUFFICIENT_EVIDENCE"},
+      "evidence_limitations": ["Reddit/user/media rights and deletion/privacy obligations", "No dataset-specific license or candidate acquisition record"],
+      "approval": "NONE"
+    },
+    {
+      "id": "coaid",
+      "name": "CoAID",
+      "canonical_source": "https://github.com/cuilimeng/CoAID",
+      "source_type": "Official repository and paper",
+      "published_license": "Not stated in reviewed official README",
+      "technical_fit": "COVID-19 healthcare misinformation; domain-specific and not a general replacement",
+      "activity_status": {"college_demo": "CONDITIONAL_PENDING_CONFIRMATION", "public_website": "BLOCKED_INSUFFICIENT_EVIDENCE", "commercial_use": "BLOCKED_INSUFFICIENT_EVIDENCE", "trained_model_distribution": "BLOCKED_INSUFFICIENT_EVIDENCE", "raw_data_redistribution": "BLOCKED_INSUFFICIENT_EVIDENCE"},
+      "evidence_limitations": ["Rights and model distribution permissions unresolved", "Domain and content-rights review required"],
+      "approval": "NONE"
+    },
+    {
+      "id": "fakenewsnet",
+      "name": "FakeNewsNet",
+      "canonical_source": "https://github.com/KaiDMML/FakeNewsNet",
+      "source_type": "Official repository and paper",
+      "published_license": "No general dataset license identified in reviewed README",
+      "technical_fit": "News/social metadata and collection sources; not a direct replacement for the current CSV corpus",
+      "activity_status": {"college_demo": "CONDITIONAL_PENDING_CONFIRMATION", "public_website": "BLOCKED_INSUFFICIENT_EVIDENCE", "commercial_use": "BLOCKED_INSUFFICIENT_EVIDENCE", "trained_model_distribution": "BLOCKED_INSUFFICIENT_EVIDENCE", "raw_data_redistribution": "PROHIBITED_BY_DOCUMENTED_TERMS"},
+      "evidence_limitations": ["Official README says complete dataset cannot be distributed due to Twitter privacy and publisher copyright", "Other uses remain permission-dependent"],
+      "approval": "NONE"
+    }
+  ]
+}

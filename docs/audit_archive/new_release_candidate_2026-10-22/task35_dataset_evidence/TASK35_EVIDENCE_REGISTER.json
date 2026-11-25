@@ -1,0 +1,85 @@
+{
+  "schema_version": "task35_dataset_evidence_v1",
+  "audit_date": "2026-10-22",
+  "git_head": "8c41ae005f4bee178a2b0104cb29049f00182081",
+  "audit_result": "CONDITIONAL_PASS_EVIDENCE_AUDIT",
+  "dataset_eligibility": "BLOCKED_INSUFFICIENT_EVIDENCE",
+  "local_files": [
+    {
+      "path": "data/Fake.csv",
+      "size_bytes": 30163788,
+      "sha256": "672ab39a75ac75fef9ecbb1a84e2936e064b44a32197a4801d9d0fb63ca9d57e",
+      "identity_status": "VERIFIED_CURRENT_MATCH_TO_LOCAL_RECORD",
+      "authenticity_status": "UNKNOWN",
+      "license_status": "UNKNOWN",
+      "row_count_status": "CARRIED_FORWARD_FROM_PRIOR_AUDIT"
+    },
+    {
+      "path": "data/True.csv",
+      "size_bytes": 34031181,
+      "sha256": "c3105d9266fd2ad484aad43b13801930434ffcd68894cc975128e52433a0c6ad",
+      "identity_status": "VERIFIED_CURRENT_MATCH_TO_LOCAL_RECORD",
+      "authenticity_status": "UNKNOWN",
+      "license_status": "UNKNOWN",
+      "row_count_status": "CARRIED_FORWARD_FROM_PRIOR_AUDIT"
+    }
+  ],
+  "local_sources": [
+    {
+      "path": "download_data.py",
+      "classification": "CODE_INTENT_ONLY",
+      "finding": "Names Hugging Face as primary route, Kaggle as manual fallback, and applies transformations; does not prove historical execution."
+    },
+    {
+      "path": "evaluation_results/group_aware_model_evaluation/v3/source_provenance.json",
+      "classification": "LOCAL_CONSISTENCY_RECORD_ONLY",
+      "finding": "Records local paths, hashes, sizes, schema fingerprint, carried-forward rows, and label rules; no acquisition date, source revision, source digest, or rights record."
+    }
+  ],
+  "public_sources": [
+    {
+      "url": "https://huggingface.co/datasets/GonzaloA/fake_news",
+      "access_date": "2026-10-22",
+      "classification": "AUTHORITATIVE_BUT_NOT_CRYPTOGRAPHICALLY_AUTHENTICATED",
+      "finding": "Public dataset page shows approximately 24.4k train rows and title/text/label fields."
+    },
+    {
+      "url": "https://huggingface.co/datasets/GonzaloA/fake_news/commit/b690c7927f78544dc08a6a4817e50e7384182024",
+      "access_date": "2026-10-22",
+      "classification": "AUTHORITATIVE_BUT_NOT_CRYPTOGRAPHICALLY_AUTHENTICATED",
+      "finding": "2022-12-09 commit records Parquet conversion and hosted Git-LFS object metadata, not the local CSV pair."
+    },
+    {
+      "url": "https://huggingface.co/datasets/GonzaloA/fake_news/raw/main/README.md",
+      "access_date": "2026-10-22",
+      "classification": "AUTHORITATIVE_BUT_NOT_CRYPTOGRAPHICALLY_AUTHENTICATED",
+      "finding": "Dataset-card metadata reports license unknown and names a curator/contact; no project-use grant."
+    },
+    {
+      "url": "https://www.kaggle.com/datasets/clmentbisaillon/fake-and-real-news-dataset",
+      "access_date": "2026-10-22",
+      "classification": "AUTHORITATIVE_BUT_NOT_CRYPTOGRAPHICALLY_AUTHENTICATED",
+      "finding": "Public metadata lists Fake.csv/True.csv, four columns, displayed counts 23502/21417, and CC BY-NC-SA 4.0; no local-byte mapping or uploader authority proof."
+    }
+  ],
+  "intended_use_status": {
+    "training_and_evaluation": "CONDITIONAL_PENDING_CONFIRMATION",
+    "derived_model_artifact_distribution": "BLOCKED_INSUFFICIENT_EVIDENCE",
+    "public_inference_hosting": "BLOCKED_INSUFFICIENT_EVIDENCE",
+    "dataset_redistribution": "BLOCKED_INSUFFICIENT_EVIDENCE"
+  },
+  "missing_evidence": [
+    "Authenticated acquisition event and exact source revision",
+    "Source artifact digest and deterministic source-to-local mapping",
+    "Rights-holder-authorized permission for each intended use",
+    "Assessment of third-party article rights and restrictions",
+    "Owner/legal release-scope decision"
+  ],
+  "safety": {
+    "dataset_rows_processed": false,
+    "datasets_downloaded": false,
+    "models_loaded": false,
+    "training_or_evaluation_run": false,
+    "production_or_candidate_files_modified": false
+  }
+}

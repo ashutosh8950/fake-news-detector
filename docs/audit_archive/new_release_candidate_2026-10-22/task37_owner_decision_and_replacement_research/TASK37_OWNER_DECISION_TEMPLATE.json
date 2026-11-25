@@ -1,0 +1,43 @@
+{
+  "schema_version": "task37_owner_decision_template_v1",
+  "decision_status": "PENDING",
+  "owner_identity": null,
+  "owner_authority_evidence": null,
+  "path_a_existing_dataset": {
+    "continue_provenance_recovery": null,
+    "close_path": null,
+    "rationale": null
+  },
+  "path_b_replacement_research": {
+    "authorize_research_only": null,
+    "selected_candidate_id": null,
+    "rationale": null
+  },
+  "replacement_acquisition": {
+    "authorize_acquisition": null,
+    "candidate_revision": null,
+    "source_url": null,
+    "rationale": null
+  },
+  "intended_uses": {
+    "internal_evaluation": null,
+    "model_artifact_distribution": null,
+    "public_inference_hosting": null,
+    "commercial_use": null,
+    "raw_dataset_redistribution": null
+  },
+  "release_authority": {
+    "authorized_person_or_organization": null,
+    "authority_evidence_reference": null,
+    "approval_status": "PENDING"
+  },
+  "required_before_any_acquisition": [
+    "Exact candidate revision",
+    "Version-specific license or written permission",
+    "Third-party content rights review",
+    "Owner approval of intended uses",
+    "Independent source and local digest records"
+  ],
+  "refusal_default": true,
+  "note": "Null, missing, unsigned, or editable values must not be interpreted as approval. This template is not an authorization record."
+}

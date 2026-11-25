@@ -1,0 +1,27 @@
+{
+  "schema_version": "task29_blocked_examples_v1",
+  "examples": [
+    {
+      "name": "manifest_source_mismatch",
+      "result": "REFUSED",
+      "reason": "partition manifest source fingerprint does not match dataset identity"
+    },
+    {
+      "name": "unknown_license",
+      "result": "REFUSED",
+      "reason": "provenance/licensing evidence is missing, unreviewed, or incomplete for intended uses"
+    },
+    {
+      "name": "unsigned_authorization",
+      "result": "REFUSED",
+      "reason": "release authorization is missing, unsigned, or not for a distinct new release"
+    },
+    {
+      "name": "synthetic_all_gates",
+      "result": "PREFLIGHT_PASS_STOPPED_BEFORE_TRAINING",
+      "training_permitted": false,
+      "artifacts_created": false,
+      "warning": "Synthetic fields are not real approval or authentication. Current implementation would accept an editable authenticated=true claim; this is an integration security gap."
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "inventory_schema": "truthscan_candidate_environment_v1",
+  "observed_at": "2026-10-22",
+  "repository_head": "8c41ae005f4bee178a2b0104cb29049f00182081",
+  "platform": {
+    "os_observed": "Microsoft Windows NT 10.0.19045.0",
+    "architecture": "AMD64",
+    "os_api_note": "WMI query was access-denied; runtime APIs and Python platform metadata were used."
+  },
+  "candidate_environment": {
+    "kind": "existing local .venv",
+    "path": "C:\\Users\\gupta\\Downloads\\FAKE_NEWS_DETECTION\\.venv",
+    "python_version": "3.11.9",
+    "python_executable": "C:\\Users\\gupta\\Downloads\\FAKE_NEWS_DETECTION\\.venv\\Scripts\\python.exe",
+    "pip_version": "24.0",
+    "pip_check": "No broken requirements found.",
+    "freeze_record": "venv_freeze_all.txt",
+    "package_count_from_freeze": 77,
+    "spacy": {
+      "version": "3.8.16",
+      "model_name": "en_core_web_sm",
+      "model_version": "3.8.0",
+      "model_is_installed_package": true,
+      "model_location": "C:\\Users\\gupta\\Downloads\\FAKE_NEWS_DETECTION\\.venv\\Lib\\site-packages",
+      "direct_url": "https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl",
+      "metadata_declared_sha256": "1932429db727d4bff3deed6b34cfc05df17794f4a52eeb26cf8928f7c1a0fb85",
+      "hash_status": "metadata_only_not_artifact_verified",
+      "loaded": false
+    },
+    "relevant_packages": {
+      "fastapi": "0.141.1",
+      "uvicorn": "0.53.0",
+      "gunicorn": "26.2.0",
+      "scikit-learn": "1.9.0",
+      "pandas": "3.0.6",
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "joblib": "1.6.0",
+      "requests": "2.34.2",
+      "loguru": "0.7.3",
+      "pydantic-settings": "2.15.0",
+      "slowapi": "0.1.10",
+      "pytest": "9.1.1",
+      "httpx": "0.28.1",
+      "python-multipart": "0.0.32",
+      "aiofiles": "25.1.0"
+    }
+  },
+  "default_environment": {
+    "kind": "default Python",
+    "python_version": "3.12.10",
+    "python_executable": "C:\\Users\\gupta\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+    "pip_version": "25.0.1",
+    "pip_check": "No broken requirements found.",
+    "package_count_from_freeze": 151,
+    "relevant_packages": {
+      "spacy": null,
+      "en_core_web_sm": null,
+      "fastapi": null,
+      "uvicorn": null,
+      "gunicorn": null,
+      "scikit-learn": "1.3.2",
+      "pandas": "2.1.4",
+      "numpy": "1.26.4",
+      "scipy": "1.17.1",
+      "joblib": "1.6.0",
+      "requests": "2.32.3",
+      "pytest": "8.3.5",
+      "httpx": "0.27.0"
+    },
+    "suitable_for_candidate": false,
+    "reason": "Missing spaCy/model and different Python and scientific-library versions."
+  },
+  "verification": {
+    "package_artifact_hashes_verified": false,
+    "package_wheels_identified_locally": false,
+    "local_pip_cache": "HTTP cache present; no locally built wheels cached; package artifact identity was not established.",
+    "complete_lock_available": false,
+    "offline_reconstruction_available": false,
+    "real_model_artifacts_loaded": false,
+    "real_dataset_processed": false
+  }
+}

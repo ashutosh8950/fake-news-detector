@@ -1,0 +1,8 @@
+{
+  "schema_version": "task28_preflight_result_v1",
+  "decision": "REFUSED",
+  "training_permitted": false,
+  "reason": "provenance/licensing evidence is missing, unreviewed, or incomplete for intended uses",
+  "gates": {"dataset_identity": {"status": "PASS"}, "provenance_licensing": {"status": "BLOCKED"}},
+  "side_effects": {"directories_created": false, "artifacts_created": false}
+}

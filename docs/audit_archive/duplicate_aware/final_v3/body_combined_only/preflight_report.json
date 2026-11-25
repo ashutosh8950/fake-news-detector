@@ -1,0 +1,110 @@
+{
+  "group_count": 24349,
+  "inner_split": {
+    "accepted_changes": 0,
+    "candidate_evaluations": 61960,
+    "feasibility_mode": "reservation_certificate",
+    "objective_key": {
+      "assignment_tie_break_length": 20800,
+      "assignment_tie_break_sha256": "0d15593d78b6f532ceea305ffe1d976b374dcd1fede75ce6ec14c0d166fadc90",
+      "class_deviation_quantized": 4919982545,
+      "objective_quantized": 4902298965,
+      "partition_row_counts": [
+        13412,
+        3168,
+        4220
+      ],
+      "row_deviation_quantized": 4884615385
+    },
+    "optimization_limit_reached": false,
+    "optimization_note": "Large-input path uses reservation-pinned deterministic greedy assignment; exhaustive local swaps are not attempted.",
+    "reserved_group_count": 220,
+    "statistics": {
+      "final_calibration": {
+        "class_bearing_groups": {
+          "0": 1928,
+          "1": 2292
+        },
+        "class_counts": {
+          "0": 1928,
+          "1": 2292
+        },
+        "groups": 4220,
+        "rows": 4220
+      },
+      "method_selection": {
+        "class_bearing_groups": {
+          "0": 1439,
+          "1": 1729
+        },
+        "class_counts": {
+          "0": 1439,
+          "1": 1729
+        },
+        "groups": 3168,
+        "rows": 3168
+      },
+      "proper_fit": {
+        "class_bearing_groups": {
+          "0": 6124,
+          "1": 7288
+        },
+        "class_counts": {
+          "0": 6124,
+          "1": 7288
+        },
+        "groups": 13412,
+        "rows": 13412
+      }
+    }
+  },
+  "normalization": "NFKC; casefold; non-alphanumeric runs to spaces; collapse whitespace; trim",
+  "outer_split": {
+    "accepted_changes": 0,
+    "candidate_evaluations": 48502,
+    "feasibility_mode": "reservation_certificate",
+    "objective_key": {
+      "assignment_tie_break_length": 24349,
+      "assignment_tie_break_sha256": "5964f102b230393bebafb3af53d75bf038cd65405d07e11ecfc5a8a43de84033",
+      "class_deviation_quantized": 4136671139,
+      "objective_quantized": 4120444139,
+      "partition_row_counts": [
+        3553,
+        20800
+      ],
+      "row_deviation_quantized": 4104217140
+    },
+    "optimization_limit_reached": false,
+    "optimization_note": "Large-input path uses reservation-pinned deterministic greedy assignment; exhaustive local swaps are not attempted.",
+    "reserved_group_count": 196,
+    "statistics": {
+      "test": {
+        "class_bearing_groups": {
+          "0": 1613,
+          "1": 1936
+        },
+        "class_counts": {
+          "0": 1616,
+          "1": 1937
+        },
+        "groups": 3549,
+        "rows": 3553
+      },
+      "train": {
+        "class_bearing_groups": {
+          "0": 9491,
+          "1": 11309
+        },
+        "class_counts": {
+          "0": 9491,
+          "1": 11309
+        },
+        "groups": 20800,
+        "rows": 20800
+      }
+    }
+  },
+  "policy": "body_combined_only_v1",
+  "row_count": 24353,
+  "training_and_calibration_only": true
+}

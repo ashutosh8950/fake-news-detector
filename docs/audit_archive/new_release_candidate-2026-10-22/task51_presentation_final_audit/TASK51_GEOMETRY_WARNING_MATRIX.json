@@ -1,0 +1,33 @@
+{
+  "schema_version": "task51_geometry_warning_matrix_v1",
+  "source_presentation": "../task50_academic_presentation/TruthScan_Academic_Presentation.pptx",
+  "validator": {
+    "slide_count": 12,
+    "slide_size_inches": [13.3333, 7.5],
+    "finding_count": 0,
+    "warning_count": 13,
+    "validator": "inspect_presentation_layout_geometry.py"
+  },
+  "warnings": [
+    {"id":"W01","slide":3,"object_ids":["5"],"kind":"object_outside_slide_boundary","cause":"The IN SCOPE bullet textbox has oversized nominal height from the presentation bullet helper.","classification":"CONFIRMED_HARMLESS","visible_defect":false,"correction_required":false},
+    {"id":"W02","slide":3,"object_ids":["7"],"kind":"object_outside_slide_boundary","cause":"The OUT OF SCOPE bullet textbox has oversized nominal height from the presentation bullet helper.","classification":"CONFIRMED_HARMLESS","visible_defect":false,"correction_required":false},
+    {"id":"W03","slide":5,"object_ids":["4","5"],"kind":"substantial_text_frame_overlap","cause":"The step-1 number label is intentionally centered over its circular step marker.","classification":"CONFIRMED_HARMLESS","visible_defect":false,"correction_required":false},
+    {"id":"W04","slide":5,"object_ids":["7","8"],"kind":"substantial_text_frame_overlap","cause":"The step-2 number label is intentionally centered over its circular step marker.","classification":"CONFIRMED_HARMLESS","visible_defect":false,"correction_required":false},
+    {"id":"W05","slide":5,"object_ids":["10","11"],"kind":"substantial_text_frame_overlap","cause":"The step-3 number label is intentionally centered over its circular step marker.","classification":"CONFIRMED_HARMLESS","visible_defect":false,"correction_required":false},
+    {"id":"W06","slide":5,"object_ids":["13","14"],"kind":"substantial_text_frame_overlap","cause":"The step-4 number label is intentionally centered over its circular step marker.","classification":"CONFIRMED_HARMLESS","visible_defect":false,"correction_required":false},
+    {"id":"W07","slide":5,"object_ids":["16","17"],"kind":"substantial_text_frame_overlap","cause":"The step-5 number label is intentionally centered over its circular step marker.","classification":"CONFIRMED_HARMLESS","visible_defect":false,"correction_required":false},
+    {"id":"W08","slide":6,"object_ids":["5"],"kind":"object_outside_slide_boundary","cause":"The MODEL PATH bullet textbox has oversized nominal height; rendered bullets remain inside the visible slide.","classification":"CONFIRMED_HARMLESS","visible_defect":false,"correction_required":false},
+    {"id":"W09","slide":7,"object_ids":["28"],"kind":"object_outside_slide_boundary","cause":"The CAVEATS bullet textbox has oversized nominal height; rendered bullets remain inside the visible slide.","classification":"CONFIRMED_HARMLESS","visible_defect":false,"correction_required":false},
+    {"id":"W10","slide":9,"object_ids":["12"],"kind":"object_outside_slide_boundary","cause":"The What it demonstrates bullet textbox has oversized nominal height; rendered bullets remain inside the visible slide.","classification":"CONFIRMED_HARMLESS","visible_defect":false,"correction_required":false},
+    {"id":"W11","slide":9,"object_ids":["14"],"kind":"object_outside_slide_boundary","cause":"The What it does not demonstrate bullet textbox has oversized nominal height; rendered bullets remain inside the visible slide.","classification":"CONFIRMED_HARMLESS","visible_defect":false,"correction_required":false},
+    {"id":"W12","slide":11,"object_ids":["5"],"kind":"object_outside_slide_boundary","cause":"The RELEASE BLOCKERS bullet textbox has oversized nominal height; rendered bullets remain inside the visible slide.","classification":"CONFIRMED_HARMLESS","visible_defect":false,"correction_required":false},
+    {"id":"W13","slide":11,"object_ids":["7"],"kind":"object_outside_slide_boundary","cause":"The ETHICAL PRESENTATION bullet textbox has oversized nominal height; rendered bullets remain inside the visible slide.","classification":"CONFIRMED_HARMLESS","visible_defect":false,"correction_required":false}
+  ],
+  "overall_classification": "PASS_WITH_NONMATERIAL_LAYOUT_WARNINGS",
+  "corrected_copy_created": false,
+  "limitations": [
+    "The geometry validator analyzes object bounds rather than final native PowerPoint rendering.",
+    "Native desktop PowerPoint opening and font substitution were not independently exercised.",
+    "The warning classification is supported by the rendered PNG inspection and source-level object mapping, not by changing the original deck."
+  ]
+}

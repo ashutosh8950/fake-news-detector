@@ -1,0 +1,61 @@
+{
+  "schema_version": "task41_owner_decision_checklist_v1",
+  "candidate": "zenodo_18135595_v1_1",
+  "source_record": "https://zenodo.org/records/18135595",
+  "decision_status": "PENDING",
+  "refusal_default": true,
+  "prior_gate_status": {
+    "college_demo": "BLOCKED_INSUFFICIENT_EVIDENCE",
+    "public_website": "BLOCKED_INSUFFICIENT_EVIDENCE"
+  },
+  "decisions": [
+    {
+      "id": "A_college_academic_demonstration",
+      "activity": "College/academic demonstration",
+      "status": "PENDING",
+      "responsible_decider": "Project owner after qualified rights review",
+      "required_evidence": ["Authority of respondent", "Version-specific license scope", "Rights for underlying articles and third-party material", "Permission for training/evaluation and demonstration", "Attribution, notices, privacy and takedown obligations", "Exact version and acquisition record"],
+      "blocked_if": ["Compilation-only license or unclear coverage", "No authority over underlying content", "No written or otherwise independently verifiable permission for the intended demonstration", "Owner decision missing"]
+    },
+    {
+      "id": "B_public_inference_website",
+      "activity": "Publicly accessible inference website",
+      "status": "PENDING",
+      "responsible_decider": "Project owner and qualified rights reviewer",
+      "required_evidence": ["All A evidence", "Explicit public-hosting scope", "Commercial/noncommercial determination", "Privacy, deletion, takedown and publisher-rights review", "Security, monitoring, release and deployment approval"],
+      "blocked_if": ["Public hosting not expressly covered", "Commercial scope unclear", "Third-party or privacy obligations unresolved", "Deployment approval missing"]
+    },
+    {
+      "id": "C_training_and_evaluation",
+      "activity": "Training and internal evaluation",
+      "status": "PENDING",
+      "responsible_decider": "Project owner after rights review",
+      "required_evidence": ["Permission for copying/storage/transformation", "Permission for machine-learning use", "Exact source/version mapping", "Approved grouping and partitions", "Environment and secure-preflight evidence"],
+      "blocked_if": ["Acquisition is not authorized", "Rights scope excludes training", "Source mapping or data identity is missing", "Any technical preflight gate fails"]
+    },
+    {
+      "id": "D_trained_model_distribution",
+      "activity": "Distribution of trained model artifacts",
+      "status": "PENDING",
+      "responsible_decider": "Project owner and qualified rights reviewer",
+      "required_evidence": ["Explicit permission or qualified basis for derived model distribution", "Attribution and notice requirements", "Third-party-content and privacy review", "Authenticated release process"],
+      "blocked_if": ["Only raw-data rights are established", "Derived-model scope is silent or excluded", "Release authentication or approval is missing"]
+    },
+    {
+      "id": "E_raw_or_transformed_data_redistribution",
+      "activity": "Redistribution of raw or transformed dataset content",
+      "status": "PENDING",
+      "responsible_decider": "Project owner and qualified rights reviewer",
+      "required_evidence": ["Explicit redistribution permission for the exact files and transformations", "Rights for embedded third-party material", "Attribution and notice requirements", "Privacy/deletion/takedown controls"],
+      "blocked_if": ["License applies only to compilation metadata", "Any included component has incompatible terms", "Third-party rights or deletion handling is unresolved"]
+    }
+  ],
+  "owner_answers": {
+    "continue_zenodo_rights_review": "PENDING",
+    "authorize_acquisition_later": "PENDING",
+    "authorized_rights_reviewer": null,
+    "intended_commercial_status": "PENDING",
+    "release_authority": null
+  },
+  "notes": ["A response to one decision does not clear another.", "Owner authorization to seek clarification is not acquisition, training, release, hosting, or deployment authorization.", "No current field is evidence of legal permission by itself."]
+}

@@ -1,0 +1,96 @@
+{
+  "schema_version": "task38_targeted_rights_evidence_v1",
+  "retrieval_date": "2026-10-22",
+  "existing_dataset_status": "NO_GO_BLOCKED_INSUFFICIENT_EVIDENCE",
+  "candidate_approval": "NONE",
+  "sources": [
+    {
+      "dataset": "LIAR",
+      "url": "https://sites.cs.ucsb.edu/~william/data/",
+      "source_type": "official dataset archive index",
+      "supported_conclusion": "An official UCSB-hosted archive named liar_dataset.zip exists and is dated 2017-04-23; the index does not state a downstream license.",
+      "limitations": "The archive was not downloaded; file contents, embedded README terms, and digest were not independently verified.",
+      "assessed_right": "source identity and provenance"
+    },
+    {
+      "dataset": "LIAR",
+      "url": "https://arxiv.org/abs/1705.00648",
+      "source_type": "original research publication",
+      "supported_conclusion": "The paper describes 12.8K manually labeled short statements from PolitiFact and the label/task design.",
+      "limitations": "A research paper is not a license or permission for commercial use, hosting, model distribution, or raw redistribution.",
+      "assessed_right": "research provenance and task identity"
+    },
+    {
+      "dataset": "LIAR",
+      "url": "https://github.com/tfs4/liar_dataset/blob/master/README",
+      "source_type": "third-party mirror of dataset README",
+      "supported_conclusion": "The displayed README states original sources retain copyright and says the dataset is for research purposes only.",
+      "limitations": "Mirror status means the README copy was not authenticated against the official archive; it cannot be treated as a complete license grant.",
+      "assessed_right": "research-only language and source copyright"
+    },
+    {
+      "dataset": "LIAR source material",
+      "url": "https://politifact.com/copyright/",
+      "source_type": "official rights-holder/platform terms",
+      "supported_conclusion": "PolitiFact identifies Poynter ownership, personal/noncommercial use, restrictions on significant archiving/databases and derivative/publishing uses, and a written-consent route.",
+      "limitations": "The page addresses PolitiFact site content; legal applicability to every LIAR field and downstream model is unresolved.",
+      "assessed_right": "copyright, copying, database, derivative and commercial-use constraints"
+    },
+    {
+      "dataset": "LIAR",
+      "url": "https://huggingface.co/datasets/ucsbai/liar/blob/main/README.md",
+      "source_type": "public dataset card",
+      "supported_conclusion": "The card identifies LIAR as PolitiFact-sourced short statements and leaves licensing details incomplete.",
+      "limitations": "The hosted card is not the original rights grant and does not establish the exact official archive revision.",
+      "assessed_right": "license and provenance status"
+    },
+    {
+      "dataset": "Fakeddit",
+      "url": "https://github.com/entitize/Fakeddit/blob/master/README.md?plain=1",
+      "source_type": "official project repository documentation",
+      "supported_conclusion": "The repository documents v2.0 text/metadata, image, and comment components, public test material, and usage guidance including multimodal-only paper evaluation.",
+      "limitations": "No dataset license was found in the reviewed README; exact file revision and digests were not established.",
+      "assessed_right": "component identity, provenance and usage scope"
+    },
+    {
+      "dataset": "Fakeddit",
+      "url": "https://arxiv.org/abs/1911.03854",
+      "source_type": "original research publication",
+      "supported_conclusion": "The paper describes a Reddit-derived multimodal benchmark with fine-grained fake-news categories.",
+      "limitations": "The paper is not a dataset license or blanket authorization for model distribution, hosting, commercial use, or raw redistribution.",
+      "assessed_right": "research provenance and task identity"
+    },
+    {
+      "dataset": "Fakeddit/Reddit content",
+      "url": "https://support.reddithelp.com/hc/en-us/articles/26410290525844-Public-Content-Policy",
+      "source_type": "official platform policy",
+      "supported_conclusion": "Reddit distinguishes noncommercial public-content uses from commercial purposes, describes licensing arrangements, deletion handling, and restrictions around private/deleted content and sensitive profiling.",
+      "limitations": "This is not a Fakeddit-specific license and does not authorize every file component or every downstream use.",
+      "assessed_right": "platform content, commercial use, deletion and privacy obligations"
+    },
+    {
+      "dataset": "Fakeddit",
+      "url": "https://fakeddit.netlify.app/",
+      "source_type": "official project page",
+      "supported_conclusion": "The project page identifies a large multimodal fake-news benchmark and links the project repository and paper.",
+      "limitations": "No dataset-specific license or downstream-use grant was established.",
+      "assessed_right": "dataset identity and technical suitability"
+    }
+  ],
+  "activity_conclusions": {
+    "liar": {
+      "internal_research_and_evaluation": "CONDITIONAL_PENDING_CONFIRMATION",
+      "commercial_use": "BLOCKED_INSUFFICIENT_EVIDENCE",
+      "model_artifact_distribution": "BLOCKED_INSUFFICIENT_EVIDENCE",
+      "public_hosting": "BLOCKED_INSUFFICIENT_EVIDENCE",
+      "raw_redistribution": "BLOCKED_INSUFFICIENT_EVIDENCE"
+    },
+    "fakeddit": {
+      "internal_research_and_evaluation": "CONDITIONAL_PENDING_CONFIRMATION",
+      "commercial_use": "BLOCKED_INSUFFICIENT_EVIDENCE",
+      "model_artifact_distribution": "BLOCKED_INSUFFICIENT_EVIDENCE",
+      "public_hosting": "BLOCKED_INSUFFICIENT_EVIDENCE",
+      "raw_redistribution": "BLOCKED_INSUFFICIENT_EVIDENCE"
+    }
+  }
+}

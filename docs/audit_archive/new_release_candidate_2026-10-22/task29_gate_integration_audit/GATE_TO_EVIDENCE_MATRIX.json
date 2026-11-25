@@ -1,0 +1,94 @@
+{
+  "schema_version": "task29_gate_matrix_v1",
+  "overall_status": "FAIL_INTEGRATION_GAPS_REMAIN",
+  "source_implementation": "evaluation_results/new_release_candidate_2026-10-22/task28_runner_preflight/candidate_runner_preflight.py",
+  "gates": [
+    {
+      "gate": "dataset_identity",
+      "required_evidence": "Repository-relative source paths, exact SHA-256 values, explicit approval source.",
+      "implementation": "run_preflight -> dataset_identity checks; _sha",
+      "status": "STRUCTURALLY_ENFORCED",
+      "trust_class": "owner_or_local_claim_only",
+      "stale_or_mismatch_rejected": true,
+      "limitation": "Does not open the source files or recompute their hashes; does not authenticate the approval source."
+    },
+    {
+      "gate": "provenance_licensing",
+      "required_evidence": "Reviewed evidence covering training, artifact distribution, and hosting.",
+      "implementation": "run_preflight -> provenance_licensing checks",
+      "status": "STRUCTURALLY_ENFORCED",
+      "trust_class": "owner_or_local_claim_only",
+      "stale_or_mismatch_rejected": false,
+      "limitation": "Accepts editable status/approved/evidence_source fields; no rights-holder or signature verification."
+    },
+    {
+      "gate": "grouping_policy",
+      "required_evidence": "Approved policy ID and exact configuration fingerprint.",
+      "implementation": "run_preflight -> grouping_policy; optional expected_policy_fingerprint parameter",
+      "status": "CONDITIONAL",
+      "trust_class": "owner_or_local_claim_only",
+      "stale_or_mismatch_rejected": "only when caller supplies expected_policy_fingerprint",
+      "limitation": "The function does not require an expected fingerprint and does not consume Task 26 approval records directly."
+    },
+    {
+      "gate": "partition_manifest",
+      "required_evidence": "Manifest hash, certificate hash, policy ID, source-data fingerprint, and approval.",
+      "implementation": "run_preflight -> partition_manifest checks",
+      "status": "PARTIAL",
+      "trust_class": "local consistency only",
+      "stale_or_mismatch_rejected": "source fingerprint mismatch only",
+      "limitation": "Hash values are format-checked but not recomputed from manifest/certificate files; certificate hash is not cryptographically bound to manifest bytes."
+    },
+    {
+      "gate": "partition_integrity",
+      "required_evidence": "Approved results for group disjointness, complete coverage, and leakage checks.",
+      "implementation": "run_preflight -> partition_integrity checks",
+      "status": "ASSERTION_ONLY",
+      "trust_class": "supplied_result",
+      "stale_or_mismatch_rejected": false,
+      "limitation": "Does not independently parse or recompute the partition manifest."
+    },
+    {
+      "gate": "environment",
+      "required_evidence": "Reviewed Python/platform record and complete lock or accepted limitations.",
+      "implementation": "run_preflight -> environment checks",
+      "status": "ASSERTION_ONLY",
+      "trust_class": "owner_or_local_claim_only",
+      "stale_or_mismatch_rejected": false,
+      "limitation": "Accepts accepted_with_limitations and does not authenticate or compare the environment record to the running interpreter."
+    },
+    {
+      "gate": "runner_isolation",
+      "required_evidence": "Containment, overwrite protection, and failure cleanup verification.",
+      "implementation": "run_preflight -> runner_isolation checks; _validate_output_root; write_gate_report",
+      "status": "PARTIALLY_ENFORCED",
+      "trust_class": "local assertion plus path checks",
+      "stale_or_mismatch_rejected": false,
+      "limitation": "Path checks are implemented, but the three isolation booleans are supplied evidence. Filesystem races and native symlink behavior are not fully proven."
+    },
+    {
+      "gate": "release_authorization",
+      "required_evidence": "Authenticated authorization for a distinct new release.",
+      "implementation": "run_preflight -> release_authorization checks",
+      "status": "FAILS_TRUST_BOUNDARY",
+      "trust_class": "editable_local_assertion",
+      "stale_or_mismatch_rejected": false,
+      "limitation": "authenticated=true and evidence_source are accepted without signature verification, trusted-key lookup, or binding to exact policy/manifest/source hashes."
+    },
+    {
+      "gate": "preflight_execution_boundary",
+      "required_evidence": "No training, model loading, dataset processing, or artifact generation during preflight.",
+      "implementation": "module imports and run_preflight behavior; training_permitted is always false",
+      "status": "ENFORCED_FOR_THIS_MODULE",
+      "trust_class": "direct source inspection and synthetic test",
+      "stale_or_mismatch_rejected": true,
+      "limitation": "No real-data runner exists here, so integration with a future training entry point is not proven."
+    }
+  ],
+  "unresolved_real_evidence": [
+    "Task 26 owner decision remains PENDING.",
+    "Task 27 dataset provenance/licensing remains BLOCKED_INSUFFICIENT_EVIDENCE.",
+    "Task 25 complete dependency lock remains unavailable.",
+    "No organization-controlled signature/trust-root verifier is present."
+  ]
+}

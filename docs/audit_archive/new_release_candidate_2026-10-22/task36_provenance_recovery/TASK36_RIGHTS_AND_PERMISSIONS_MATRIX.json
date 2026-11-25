@@ -1,0 +1,52 @@
+{
+  "schema_version": "task36_rights_matrix_v1",
+  "audit_date": "2026-10-22",
+  "overall_dataset_eligibility": "BLOCKED_INSUFFICIENT_EVIDENCE",
+  "activities": [
+    {
+      "activity": "training_and_internal_evaluation",
+      "decision": "CONDITIONAL_PENDING_CONFIRMATION",
+      "license_or_permission": "unknown",
+      "rights_holder_identity": "not established",
+      "authority": "not established",
+      "conditions": "unknown",
+      "third_party_content_status": "unresolved",
+      "evidence": ["download_data.py", "task35 evidence register", "Hugging Face README"],
+      "required_confirmation": "Authenticated permission or applicable license covering the exact corpus and training/evaluation use."
+    },
+    {
+      "activity": "trained_model_artifact_distribution",
+      "decision": "BLOCKED_INSUFFICIENT_EVIDENCE",
+      "license_or_permission": "none found",
+      "rights_holder_identity": "not established",
+      "authority": "not established",
+      "conditions": "unknown, including derivative-model and attribution obligations",
+      "third_party_content_status": "unresolved",
+      "evidence": ["task27 dataset report", "task35 report"],
+      "required_confirmation": "Written or version-specific permission from an authorized rights holder explicitly covering derived model artifacts."
+    },
+    {
+      "activity": "public_inference_hosting",
+      "decision": "BLOCKED_INSUFFICIENT_EVIDENCE",
+      "license_or_permission": "none found",
+      "rights_holder_identity": "not established",
+      "authority": "not established",
+      "conditions": "commercial/noncommercial scope, notices, privacy, takedown, and derivative-use conditions unknown",
+      "third_party_content_status": "unresolved",
+      "evidence": ["Kaggle public metadata", "task35 report"],
+      "required_confirmation": "Permission covering the intended hosting model and any commercial use, plus conditions and third-party-rights review."
+    },
+    {
+      "activity": "source_dataset_or_derived_content_redistribution",
+      "decision": "BLOCKED_INSUFFICIENT_EVIDENCE",
+      "license_or_permission": "none found for exact local files",
+      "rights_holder_identity": "not established",
+      "authority": "not established",
+      "conditions": "unknown; share-alike and attribution terms cannot be applied without source identity",
+      "third_party_content_status": "unresolved",
+      "evidence": ["Kaggle page listing", "task35 report"],
+      "required_confirmation": "Separate redistribution permission for the exact source material and embedded content."
+    }
+  ],
+  "legal_limitation": "This is an evidence and release-readiness classification, not a definitive legal opinion."
+}

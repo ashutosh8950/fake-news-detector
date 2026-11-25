@@ -1,0 +1,58 @@
+{
+  "schema_version": "task40_zenodo_evidence_register_v1",
+  "retrieval_date": "2026-10-22",
+  "research_only": true,
+  "candidate": "zenodo_18135595_v1_1",
+  "overall_status": "BLOCKED_INSUFFICIENT_EVIDENCE",
+  "candidate_approval": "NONE",
+  "sources": [
+    {
+      "id": "zenodo_record",
+      "url": "https://zenodo.org/records/18135595",
+      "source_type": "official Zenodo record",
+      "access_status": "ACCESSIBLE",
+      "supported_facts": ["v1.1", "published January 2 2026", "creator Sadam Hussain / Goldsmiths University of London", "DOI 10.5281/zenodo.18135595", "two named ZIP assets", "dataset label CC BY 4.0", "displayed dataset MD5 64b4e8888f95ec104611de9d01ffe903", "record describes labeled fake/disinformation versus true news articles"],
+      "rights_scope_supported": "The record publisher presents the dataset package under CC BY 4.0.",
+      "limitations": ["No proof that creator controlled every underlying article or third-party right", "No explicit public-hosting, model-distribution, or commercial grant", "No source-to-local mapping because no acquisition occurred", "Exact schema and rows not inspected"],
+      "activity_assessed": ["provenance", "academic demonstration", "public hosting", "commercial use", "model distribution", "raw redistribution"]
+    },
+    {
+      "id": "creative_commons_by_4",
+      "url": "https://creativecommons.org/licenses/by/4.0/",
+      "source_type": "official Creative Commons license deed",
+      "access_status": "ACCESSIBLE",
+      "supported_facts": ["sharing and adaptation are permitted, including commercially, subject to the license", "attribution is required", "no additional restrictions may be applied", "other privacy, publicity, moral-rights, or similar permissions may still be needed"],
+      "rights_scope_supported": "General terms of CC BY 4.0 for material actually licensed under it.",
+      "limitations": ["Does not establish that all Zenodo package elements are owned or licensable by the record creator", "Deed is a summary; legal code and fact-specific review remain necessary"],
+      "activity_assessed": ["academic demonstration", "public hosting", "commercial use", "model distribution", "raw redistribution"]
+    },
+    {
+      "id": "zenodo_api",
+      "url": "https://zenodo.org/api/records/18135595",
+      "source_type": "official Zenodo metadata API",
+      "access_status": "INACCESSIBLE_THROUGH_READ_ONLY_SOURCE_INTERFACE",
+      "supported_facts": [],
+      "rights_scope_supported": null,
+      "limitations": ["Metadata API could not be retrieved in this audit; absence of access is not evidence of absence"],
+      "activity_assessed": ["metadata verification"]
+    },
+    {
+      "id": "linked_working_paper_target",
+      "url": "https://zenodo.org/search?q=metadata.creators.person_or_org.name%3A%22Hussain%2C+Sadam%22",
+      "source_type": "official Zenodo link target",
+      "access_status": "INACCESSIBLE_THROUGH_READ_ONLY_SOURCE_INTERFACE",
+      "supported_facts": [],
+      "rights_scope_supported": null,
+      "limitations": ["Link target returned a cache-miss error; no inference made about the paper or its terms"],
+      "activity_assessed": ["provenance", "technical suitability"]
+    }
+  ],
+  "activity_decisions": {
+    "college_demo": {"status": "BLOCKED_INSUFFICIENT_EVIDENCE", "reason": "Exact rights scope, content provenance, file identity, and owner authorization remain unresolved."},
+    "public_inference_hosting": {"status": "BLOCKED_INSUFFICIENT_EVIDENCE", "reason": "No explicit hosting permission, third-party rights review, privacy/takedown plan, or deployment approval."},
+    "commercial_use": {"status": "BLOCKED_INSUFFICIENT_EVIDENCE", "reason": "CC BY may permit commercial use of licensed material, but package coverage and underlying rights are unresolved."},
+    "trained_model_distribution": {"status": "BLOCKED_INSUFFICIENT_EVIDENCE", "reason": "No explicit downstream model-distribution permission or rights analysis."},
+    "raw_dataset_redistribution": {"status": "BLOCKED_INSUFFICIENT_EVIDENCE", "reason": "Exact third-party content coverage and redistribution scope are unresolved."}
+  },
+  "unresolved_questions": ["Who owns or controls the underlying article rights?", "What exact files and transformations are covered by CC BY 4.0?", "Are public hosting, model distribution, commercial use, and raw redistribution permitted?", "What privacy, takedown, attribution, and notice obligations apply?"]
+}

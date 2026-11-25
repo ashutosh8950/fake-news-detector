@@ -1,0 +1,23 @@
+{
+  "schema_version": "task30_gate_security_matrix_v1",
+  "status": "CONDITIONAL_PASS_STRICT_PATH_ONLY",
+  "strict_entrypoint": "candidate_runner_preflight.run_preflight_secure",
+  "gates": [
+    {"gate": "dataset_identity", "check": "Rehashes repository-relative source bytes and compares against an externally supplied trusted_source_digests mapping", "status": "IMPLEMENTED_AND_TESTED", "trust_boundary": "external digest set still requires independent provisioning"},
+    {"gate": "evidence_files", "check": "Resolves files beneath evidence_root, rejects traversal/absolute paths/symlinks, rehashes bytes, and compares to trusted_file_digests", "status": "IMPLEMENTED_AND_TESTED", "trust_boundary": "trusted_file_digests are caller-provided"},
+    {"gate": "grouping_policy", "check": "Requires expected_policy_config, hashes canonical JSON, and binds policy ID/fingerprint", "status": "IMPLEMENTED_AND_TESTED", "trust_boundary": "approved config must be supplied from an independent policy record"},
+    {"gate": "manifest_certificate", "check": "Verifies actual manifest/certificate bytes and requires certificate binding to manifest digest, source hashes, policy ID, and policy fingerprint", "status": "IMPLEMENTED_AND_TESTED", "trust_boundary": "expected file digests must come from an external trusted record"},
+    {"gate": "partition_integrity", "check": "Validates exact partition names, unique expected row IDs, membership presence, group disjointness, source hashes, policy binding, and mixed-label field", "status": "IMPLEMENTED_AND_TESTED_SYNTHETIC_ONLY", "trust_boundary": "real manifest schema must match task30_partition_manifest_v1"},
+    {"gate": "environment", "check": "Verifies environment file bytes, exact Python/platform, complete lock status, and actual lock-file digest", "status": "IMPLEMENTED_AND_TESTED", "trust_boundary": "does not establish package provenance or legal approval"},
+    {"gate": "approval_signature", "check": "Verifies Ed25519 signature over canonical payload using caller-supplied trusted public key; rejects revoked/unknown keys and payload drift", "status": "IMPLEMENTED_AND_TESTED_WITH_TEST_KEY", "trust_boundary": "no production trust root is configured; test keys are prohibited when test_only is false"},
+    {"gate": "execution_boundary", "check": "Strict preflight always returns training_permitted=false and creates no output/artifacts", "status": "IMPLEMENTED_AND_TESTED", "trust_boundary": "future runner must use the strict entrypoint, not legacy Task28 schema"},
+    {"gate": "legacy_task28_entrypoint", "check": "Existing run_preflight remains a compatibility implementation for task28_evidence_v1 and is not cryptographically hardened", "status": "REQUIRES_MIGRATION", "trust_boundary": "must not be used by any real-data runner"}
+  ],
+  "real_world_blockers": [
+    "No organization-controlled production public key/trust store is configured.",
+    "Existing Task 26/27 records are unsigned/unapproved and cannot satisfy strict authorization.",
+    "Existing production manifests do not have the Task 30 membership schema and are not regenerated here.",
+    "The available environment snapshot is not a complete authenticated lock.",
+    "No real-data execution path is enabled or authorized."
+  ]
+}

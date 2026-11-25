@@ -1,0 +1,31 @@
+{
+  "schema_version": "task43_dual_track_release_gate_matrix_v1",
+  "planning_only": true,
+  "tracks": {
+    "track_a_article_classifier": {
+      "task": "fake_vs_real_news_article",
+      "status": "BLOCKED",
+      "gates": [
+        {"id":"A1","name":"historical/source dataset provenance","status":"BLOCKED","evidence":"Tasks 35-42 prior reports; no authenticated acquisition chain for current data"},
+        {"id":"A2","name":"artifact authenticity","status":"BLOCKED","evidence":"Historical production bundle not independently authenticated"},
+        {"id":"A3","name":"rebuild configuration and partitions","status":"BLOCKED","evidence":"Owner/grouping/environment decisions remain unresolved"},
+        {"id":"A4","name":"model/API compatibility","status":"DOCUMENTED_BASELINE","evidence":"Observed in predictor.py and routers/api.py; not release approval"},
+        {"id":"A5","name":"security and deployment approval","status":"BLOCKED","evidence":"Trust root, release authorization, and deployment review unresolved"}
+      ]
+    },
+    "track_b_fever_claim_demo": {
+      "task": "claim_verification",
+      "status": "NOT_AUTHORIZED",
+      "gates": [
+        {"id":"B1","name":"owner authorization to pursue FEVER","status":"PENDING","evidence":"No supplied authorization"},
+        {"id":"B2","name":"dataset/license scope","status":"CONDITIONAL_PENDING_CONFIRMATION","evidence":"Official FEVER license notice refers to applicable Wikipedia terms or CC BY-SA 3.0"},
+        {"id":"B3","name":"task/schema contract","status":"PROPOSED_ONLY","evidence":"SUPPORTS, REFUTES, NOT ENOUGH INFO documented by official FEVER site"},
+        {"id":"B4","name":"claim/evidence model validation","status":"NOT_RUN","evidence":"No data processing or training authorized"},
+        {"id":"B5","name":"separate artifact and release trust","status":"BLOCKED","evidence":"No Track B artifacts, trust root, or release approval"},
+        {"id":"B6","name":"public hosting and deployment","status":"BLOCKED","evidence":"No downstream hosting, privacy, monitoring, or deployment approval"}
+      ]
+    }
+  },
+  "shared_safe_work": ["Documentation", "synthetic API contract tests", "UI mockups without data", "route/schema review", "architecture diagrams", "threat-model and disclaimer review"],
+  "refusal_default": true
+}

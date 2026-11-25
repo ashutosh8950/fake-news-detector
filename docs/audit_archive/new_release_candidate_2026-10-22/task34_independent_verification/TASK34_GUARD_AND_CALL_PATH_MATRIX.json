@@ -1,0 +1,23 @@
+{
+  "schema_version": "task34_guard_matrix_v1",
+  "status": "PASS_WITH_LIMITATIONS",
+  "verified": [
+    {"claim": "Task 33 calls Task 31 secure boundary", "evidence": "gated_candidate_build.py:run_gated_preflight"},
+    {"claim": "Missing roots, legacy schema, and caller booleans refuse", "evidence": "run_gated_preflight checks and Task 34 tests"},
+    {"claim": "Secure exceptions fail closed", "evidence": "run_gated_preflight exception handler and synthetic test"},
+    {"claim": "Synthetic secure success cannot authorize training", "evidence": "post-boundary refusal result and synthetic test"},
+    {"claim": "Explicit legacy candidate flags refuse before heavy imports", "evidence": "train.py and phase2_calibration.py top-level guards; subprocess tests"},
+    {"claim": "Dry-run is side-effect free in tested scope", "evidence": "dry_run_config and temporary-directory test"}
+  ],
+  "limitations": [
+    "Ordinary no-argument train.py and phase2_calibration.py development paths still call their legacy functions.",
+    "Python source guards cannot stop a local user who edits source or calls internal functions directly.",
+    "The tests do not execute training, calibration, model loading, or real-data paths.",
+    "Native Windows symlink behavior remains covered only by the prior privilege-dependent test.",
+    "No real production trust root, owner approval, dataset license, or authenticated release evidence exists."
+  ],
+  "release_authorized": false,
+  "training_permitted": false,
+  "artifacts_created": false,
+  "recommendation": "Resolve external evidence and design a reviewed future training stage behind the gated boundary; do not train yet."
+}

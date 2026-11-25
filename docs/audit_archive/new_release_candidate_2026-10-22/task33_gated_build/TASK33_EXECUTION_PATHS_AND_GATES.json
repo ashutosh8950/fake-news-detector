@@ -1,0 +1,26 @@
+{
+  "schema_version": "task33_execution_paths_v1",
+  "candidate_entry_point": "task33_gated_build/gated_candidate_build.py:run_gated_preflight",
+  "candidate_build_enabled": false,
+  "training_permitted": false,
+  "build_authorized": false,
+  "secure_boundary": "task31_secure_integration/secure_build_boundary.py:candidate_preflight_only",
+  "secure_verifier": "task28_runner_preflight/candidate_runner_preflight.py:run_preflight_secure",
+  "legacy_paths": {
+    "train.py:train": "ordinary development function; explicit candidate-release CLI mode refuses",
+    "phase2_calibration.py:main": "ordinary development function; explicit candidate-release CLI mode refuses"
+  },
+  "required_gates": [
+    "independent trust roots and expected digests",
+    "dataset provenance and licensing",
+    "approved grouping and partition evidence",
+    "dependency lock and environment evidence",
+    "release authorization bound to candidate identity"
+  ],
+  "current_status": "BLOCKED",
+  "limitations": [
+    "Python guards do not prevent a local user from editing source or calling arbitrary internal functions",
+    "No real production trust root or owner approval is provisioned",
+    "No training or artifact stage exists in this candidate-only orchestrator"
+  ]
+}

@@ -1,0 +1,2828 @@
+{
+  "configuration": {
+    "feasibility_modes": [
+      "exact_memoized_oracle",
+      "reservation_certificate"
+    ],
+    "grouping_algorithm_id": "transitive_key_components_v1",
+    "inner_requirements": {
+      "final_calibration": {
+        "min_class_bearing_groups": {
+          "0": 2,
+          "1": 2
+        },
+        "min_groups": 2,
+        "min_rows_by_class": {
+          "0": 30,
+          "1": 30
+        }
+      },
+      "method_selection": {
+        "min_class_bearing_groups": {
+          "0": 2,
+          "1": 2
+        },
+        "min_groups": 2,
+        "min_rows_by_class": {
+          "0": 30,
+          "1": 30
+        }
+      },
+      "proper_fit": {
+        "min_class_bearing_groups": {
+          "0": 2,
+          "1": 2
+        },
+        "min_groups": 2,
+        "min_rows_by_class": {
+          "0": 50,
+          "1": 50
+        }
+      }
+    },
+    "inner_targets": {
+      "final_calibration": 0.2,
+      "method_selection": 0.16,
+      "proper_fit": 0.64
+    },
+    "manifest_schema_version": "duplicate_aware_manifest_v2",
+    "max_candidate_evaluations": 1000000,
+    "max_exact_oracle_groups": 250,
+    "max_oracle_states": 2000000,
+    "normalization_policy_id": "unicode_alphanumeric_v2",
+    "normalization_spec": "NFKC; casefold; every non-alphanumeric character to a separator; collapse separators to ASCII spaces; trim",
+    "objective_scale": 1000000000000,
+    "outer_requirements": {
+      "test": {
+        "min_class_bearing_groups": {
+          "0": 2,
+          "1": 2
+        },
+        "min_groups": 2,
+        "min_rows_by_class": {
+          "0": 50,
+          "1": 50
+        }
+      },
+      "train": {
+        "min_class_bearing_groups": {
+          "0": 2,
+          "1": 2
+        },
+        "min_groups": 2,
+        "min_rows_by_class": {
+          "0": 50,
+          "1": 50
+        }
+      }
+    },
+    "outer_targets": {
+      "test": 0.15,
+      "train": 0.85
+    },
+    "policy_id": "all_keys_v1",
+    "random_state": 42,
+    "reservation_algorithm_id": "deterministic_reservation_certificate_v1",
+    "selected_key_types": [
+      "title",
+      "body",
+      "combined"
+    ],
+    "split_algorithm_id": "deterministic_group_split_v2"
+  },
+  "configuration_fingerprint": "c0bd2fb96caccd8b4ad75177ecf1625b11ad9107346775ada00fdd52cf911f9b",
+  "group_count": 24053,
+  "grouping_algorithm_id": "transitive_key_components_v1",
+  "inner_split": {
+    "accepted_changes": 0,
+    "candidate_evaluations": 61257,
+    "feasibility_mode": "reservation_certificate",
+    "objective_key": {
+      "assignment_tie_break_length": 20505,
+      "assignment_tie_break_sha256": "b6d867dd9ec6f1cd159766a2e0d3703830cff8f8f543a8581902f4154bd5fa02",
+      "class_deviation_quantized": 585985155,
+      "objective_quantized": 553862143,
+      "partition_row_counts": [
+        13248,
+        3282,
+        4170
+      ],
+      "row_deviation_quantized": 521739130
+    },
+    "optimization_limit_reached": false,
+    "optimization_note": "Large-input path uses reservation-pinned deterministic greedy assignment; exhaustive local swaps are not attempted.",
+    "reservation_algorithm_id": "deterministic_reservation_certificate_v1",
+    "reservation_evidence": [
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1,
+          "1": 1
+        },
+        "classes": [
+          0,
+          1
+        ],
+        "group_id": "g_5c447264b637f059105104926c6a0d8635639e694d31016812fde1d8b23265c7",
+        "partition": "proper_fit",
+        "row_count": 2,
+        "selection_order": 1,
+        "selection_score": 302
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 10
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_86aa2d72876bebf9caca190e2d373116251a8263524f945a136bfa61cc63a2e6",
+        "partition": "proper_fit",
+        "row_count": 10,
+        "selection_order": 2,
+        "selection_score": 210
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 6
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_f3e7dd8d304fc3c8ac06ca6ba853ea220c331484190b365785fce63eba68b8c0",
+        "partition": "proper_fit",
+        "row_count": 6,
+        "selection_order": 3,
+        "selection_score": 106
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 5
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_c8ffb592566317855fd1c3b9fdde5b37d48e698d73bd74d6ef870968b9db62c7",
+        "partition": "proper_fit",
+        "row_count": 5,
+        "selection_order": 4,
+        "selection_score": 5
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 5
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_405569dafc0ac8e01991467fd026c76c02f68548eccee58a927bf1dea43bb60f",
+        "partition": "proper_fit",
+        "row_count": 5,
+        "selection_order": 5,
+        "selection_score": 5
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 4
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_7e7735a5ba4a3855ae4359910e414f8df4b8b07e4c4d8c6a47b3b92ac5da60e4",
+        "partition": "proper_fit",
+        "row_count": 4,
+        "selection_order": 6,
+        "selection_score": 4
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 3
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_e5fc23f67445073175a5e767500e1a55fffe6c7b7c776a22c94e21c2c52d19ba",
+        "partition": "proper_fit",
+        "row_count": 3,
+        "selection_order": 7,
+        "selection_score": 3
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 3
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_bdaba72ef60650c3c61c53818abd93708f92080615fc7dc6b95243e1e523b6c5",
+        "partition": "proper_fit",
+        "row_count": 3,
+        "selection_order": 8,
+        "selection_score": 3
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 3
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_1cd2ac8af8cad63fb16f5dd1eb9b464019944170a0fce1e7f44c8c03beed9d08",
+        "partition": "proper_fit",
+        "row_count": 3,
+        "selection_order": 9,
+        "selection_score": 3
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_fe90c639cbe8fe891cf7c0450b241fd00cb96a68a9ed716fb95279587f51b296",
+        "partition": "proper_fit",
+        "row_count": 2,
+        "selection_order": 10,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_fe7f42e5c9df4d64a604a74befe5487c4e486d3e8d744c7f5708a6f3cf880dd2",
+        "partition": "proper_fit",
+        "row_count": 2,
+        "selection_order": 11,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_fe6ab34e0f5b0f853ddc199902ab14587d15e8cfc042f5298825309c9ec82fdc",
+        "partition": "proper_fit",
+        "row_count": 2,
+        "selection_order": 12,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_fe13e8ecd1e866d0b338968a3bede47bfcffcb4c4f477a681a85da7c96fdc837",
+        "partition": "proper_fit",
+        "row_count": 2,
+        "selection_order": 13,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_fd70dee4f5077b4444f369f32e5fa8ac2b4136585672a6e5b8ae1489f66f66a4",
+        "partition": "proper_fit",
+        "row_count": 2,
+        "selection_order": 14,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_fcce34814bff5095b45f1cf43a717c397d82704a2ee2755c5f6bbb9b541486fc",
+        "partition": "proper_fit",
+        "row_count": 2,
+        "selection_order": 15,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_f895919781c5c41aa094097a8a0cd12df59221dd7946b9804f8122c6b7282b73",
+        "partition": "proper_fit",
+        "row_count": 2,
+        "selection_order": 16,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_f7845493606203d9b15dc6dfd81d414015139c34701de31baa64bddb316f5182",
+        "partition": "proper_fit",
+        "row_count": 2,
+        "selection_order": 17,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_f2dfdb0e7198b1544fea008bebfd3bca01c371bd3c46eb30c2b24f69647fec9f",
+        "partition": "proper_fit",
+        "row_count": 2,
+        "selection_order": 18,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_efb81fa44912e22b96ce930f21da6e4468f37bb29512a48cb4393a67b04673c9",
+        "partition": "proper_fit",
+        "row_count": 2,
+        "selection_order": 19,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_ef077adeacc71293608ba7ee32c2b926a542bca8037ec6e13566f74673c4718d",
+        "partition": "proper_fit",
+        "row_count": 2,
+        "selection_order": 20,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_e978e997fd45317db8f5f20e2bec9a90e70f53cc3f07f88b76e933e063d9ea9c",
+        "partition": "proper_fit",
+        "row_count": 2,
+        "selection_order": 21,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_e4d98db78a45ec545831e9689c88992add1bbafcc99f5b1721eb692317ad030c",
+        "partition": "proper_fit",
+        "row_count": 2,
+        "selection_order": 22,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_e46843cafb31dcf75206035b7793c66c29f7131b634277a297eedbd47de3e0e3",
+        "partition": "proper_fit",
+        "row_count": 2,
+        "selection_order": 23,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_d1ba152528bb4ac44b8702f69e753b15486bbe13b2ba736547e6d7087233b7ec",
+        "partition": "proper_fit",
+        "row_count": 2,
+        "selection_order": 24,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_cc5e3a516311aded381653738a1bb63066468d4959e8c4141b9676d28b63e131",
+        "partition": "proper_fit",
+        "row_count": 2,
+        "selection_order": 25,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_c3039b1a9d49bf329a9b5b0bf361f6a720df8b687b80aba39420d122a91b02c7",
+        "partition": "proper_fit",
+        "row_count": 2,
+        "selection_order": 26,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_b94641fc058b20b3e5e2fb3348420d2542fb6a6e64f0e0ca3d9828ba46eb9dbb",
+        "partition": "proper_fit",
+        "row_count": 2,
+        "selection_order": 27,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_81db86fab9bf4f015982fa64066b8291c1215376040ffd58b5a1036eb9d0e716",
+        "partition": "proper_fit",
+        "row_count": 2,
+        "selection_order": 28,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_8064636aa748ce445bfc21dae439e4e8a74de316c15d0664dd9c9e6ffa6f0517",
+        "partition": "proper_fit",
+        "row_count": 2,
+        "selection_order": 29,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_7f785e790ebd7b2e2c77b382813d6ac778410fc1d2eedc1c173d4460eed02cf9",
+        "partition": "proper_fit",
+        "row_count": 2,
+        "selection_order": 30,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_7ef49ac6436e765980b5f923a7ab799801541d264735814d3298005621d0bd77",
+        "partition": "proper_fit",
+        "row_count": 2,
+        "selection_order": 31,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_5e192831e1f20a22eb56e609059f0e9129eed4a9e72ef36aca50b5caadbdcd97",
+        "partition": "proper_fit",
+        "row_count": 2,
+        "selection_order": 32,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_42a850b9dd61b561c6ee532fabc2786485626f07d1df904e029819901b52f142",
+        "partition": "proper_fit",
+        "row_count": 2,
+        "selection_order": 33,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_349f39a6cafff5fc30f1401c630b4d0f0088d1608e4370a82c04eeaa1bd5ac14",
+        "partition": "proper_fit",
+        "row_count": 2,
+        "selection_order": 34,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_1cd7d5c901077e60442a2665ab2ae96970d55362ab5965e93066ed11b576c969",
+        "partition": "proper_fit",
+        "row_count": 2,
+        "selection_order": 35,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_1c9ee031ac0916598d79d15677621ce3f75762f5e40260bde0fcd01b387ac1c7",
+        "partition": "proper_fit",
+        "row_count": 2,
+        "selection_order": 36,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_1729c3a49d74ca62261749eb98ac16774d8812489a0c92e18e671a9331f712cd",
+        "partition": "proper_fit",
+        "row_count": 2,
+        "selection_order": 37,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_0a4b983cbc36905ce4b0d8d9752d8e74d2ed5bf07db63817bfe49db83b276ae2",
+        "partition": "proper_fit",
+        "row_count": 2,
+        "selection_order": 38,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_0602f7a381149425a1710602eace7f68ad075695c3b80a38a62b0eac9360a984",
+        "partition": "proper_fit",
+        "row_count": 2,
+        "selection_order": 39,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_dff9eb7f47ae4247d521481e1d5910b53278e8f86b16c36a926107eecf206a52",
+        "partition": "method_selection",
+        "row_count": 2,
+        "selection_order": 40,
+        "selection_score": 202
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_dfd336773b4f866a8c51b822e6b201ba6902ecdeff398a9318b7ea2c503b9fdb",
+        "partition": "method_selection",
+        "row_count": 2,
+        "selection_order": 41,
+        "selection_score": 202
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_dba260d030e14558a91d3d146d153af0eb8ee6301d0739b868847d981968c305",
+        "partition": "method_selection",
+        "row_count": 1,
+        "selection_order": 42,
+        "selection_score": 101
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_db9edcee81aa039c1233ae015766e7731e1e34bf14ff9877b11233fee03a0c3c",
+        "partition": "method_selection",
+        "row_count": 1,
+        "selection_order": 43,
+        "selection_score": 101
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_d5feddbb48316358a9a888c579099432d491479405e201884cd96056e6c23bbb",
+        "partition": "method_selection",
+        "row_count": 2,
+        "selection_order": 44,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_d134236b196b44996820264f6808db3f46dc48888ada2b8d5f0bfe725bde3e9e",
+        "partition": "method_selection",
+        "row_count": 2,
+        "selection_order": 45,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_ced40a554fb58354a66b0a8e9019d4e602fdf29a38c0005b994cdadfa0f528d7",
+        "partition": "method_selection",
+        "row_count": 2,
+        "selection_order": 46,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_ccee14057fda8ebbb7d70e0c362a86896df60d97025abbfc67fcd8595334dc62",
+        "partition": "method_selection",
+        "row_count": 2,
+        "selection_order": 47,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_cabe2bf9d2574a3651cdf24ec7b8b749342a25c25465f2c51665bd9b48908d45",
+        "partition": "method_selection",
+        "row_count": 2,
+        "selection_order": 48,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_c810a4e39a2b5eed3906f031dd53e06706bc00b62b5bdeada03b10dbcda42b3c",
+        "partition": "method_selection",
+        "row_count": 2,
+        "selection_order": 49,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_c54295ea65a6440f0f1868e65cc612be6dd7fe8a3d56a27c26c9fa786630bbf1",
+        "partition": "method_selection",
+        "row_count": 2,
+        "selection_order": 50,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_c4dbb47e6e9b1f97902fbe4f857dd8c20d15d5fc3c957b0c21c60c673aaaec97",
+        "partition": "method_selection",
+        "row_count": 2,
+        "selection_order": 51,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_c31a92565c7b241fd21cab0eab1d0bc4a4716654d8dc4c748404d6df8a264356",
+        "partition": "method_selection",
+        "row_count": 2,
+        "selection_order": 52,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_c0b4fbf564f7a61ef4dcb4a33002ec96b66940d412395abae599170377a21a5c",
+        "partition": "method_selection",
+        "row_count": 2,
+        "selection_order": 53,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_bfc3e7f08f0b51b4751a58f68f7d2edb9be915d7438e44d002e67b9146725531",
+        "partition": "method_selection",
+        "row_count": 2,
+        "selection_order": 54,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_bf7bcade43744c788ba811832e47da8d3f93fff9d973dcff75dc75ab30c7940f",
+        "partition": "method_selection",
+        "row_count": 2,
+        "selection_order": 55,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_b9e22aee68f08df6bf6dbfea6a4728dd7b7a4f79da0160e4e2dd61b614a77daa",
+        "partition": "method_selection",
+        "row_count": 2,
+        "selection_order": 56,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_db9acf03899ed664634d55676dd82a32395dff3f8bd31299e9ebb3f2f5174216",
+        "partition": "method_selection",
+        "row_count": 1,
+        "selection_order": 57,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_db848e839e7701bd08f8b642da452d063acc77e5fb16482f745a1928ae81ea3b",
+        "partition": "method_selection",
+        "row_count": 1,
+        "selection_order": 58,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_db8234e00539e9082ca7ee6b963b5ce80cf9524227ae14093370662f7d392451",
+        "partition": "method_selection",
+        "row_count": 1,
+        "selection_order": 59,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_db793be7520bf6d25d81d64ab5ee0d88d35e9eaec65d84366031b36769c655cc",
+        "partition": "method_selection",
+        "row_count": 1,
+        "selection_order": 60,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_db7926ac4378eca1ef87ea482487d157afa27cddcb8aa80105a04144d8e68690",
+        "partition": "method_selection",
+        "row_count": 1,
+        "selection_order": 61,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_db75a1a51232dbd93bbcf5f42bc17dc6ab4deb5b129f0bd592a8840a1c9f5c85",
+        "partition": "method_selection",
+        "row_count": 1,
+        "selection_order": 62,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_db7263026f52b18bfb600568f54d60a5afdcc47ffeae8cf20a1afdf37af41170",
+        "partition": "method_selection",
+        "row_count": 1,
+        "selection_order": 63,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_db71062ae26482da5e5aa720a3ba49e951db6e9e03ed2aa6850bf7a8516efaa1",
+        "partition": "method_selection",
+        "row_count": 1,
+        "selection_order": 64,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_db7047cdbb5623f9ffb359d9433ebc51dd2e13acf13dcb83b060834773a71ffa",
+        "partition": "method_selection",
+        "row_count": 1,
+        "selection_order": 65,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_db6c9aa74c9f86ab02aeda7477222ef2dbd0bddfd6dd50d657994a9d96927b0e",
+        "partition": "method_selection",
+        "row_count": 1,
+        "selection_order": 66,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_db6326b285b0632d58d77ffcdc3a268109b356565bfe53261a0f3061d70e7413",
+        "partition": "method_selection",
+        "row_count": 1,
+        "selection_order": 67,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_db5aea5906b402869ca31e26ac0c96cccefa72bc3f7c9295b5421e1ee62a9bd0",
+        "partition": "method_selection",
+        "row_count": 1,
+        "selection_order": 68,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_db59909be610e788081489a3049bcaf565792f6df93461b923357dff41180f64",
+        "partition": "method_selection",
+        "row_count": 1,
+        "selection_order": 69,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_db52eab284480e79612bb62ec2a9f5f5d7d9e698b1d0d2018dd6baf2599eb8f8",
+        "partition": "method_selection",
+        "row_count": 1,
+        "selection_order": 70,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_db4fb1fca8d9ca5e8466ee30b30c99f4122b0b6f933b8cbe527fb03d8785b8d2",
+        "partition": "method_selection",
+        "row_count": 1,
+        "selection_order": 71,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_db4f236161729d9ab5695d484ca3cc409951cc80a9fd5109d28eb23794788eec",
+        "partition": "method_selection",
+        "row_count": 1,
+        "selection_order": 72,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_db4f01ac4da3d0c853b3e5db90497a09c31f38492f2719d68f650b5db394ca10",
+        "partition": "method_selection",
+        "row_count": 1,
+        "selection_order": 73,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_db4d513b643d9ce1268439eefd4e08e8c9f5b060da70804f5d2f8ce3935834c6",
+        "partition": "method_selection",
+        "row_count": 1,
+        "selection_order": 74,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_db4cf599e947a86465045a35bdd7420a8539892407f1167a911e073515ea3522",
+        "partition": "method_selection",
+        "row_count": 1,
+        "selection_order": 75,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_db48a271e67afc4e4ec71174bc71b6f53b26ba2f6beaf5560e885e4e78b48ca3",
+        "partition": "method_selection",
+        "row_count": 1,
+        "selection_order": 76,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_db44021141d43cec3f7b72db4d6625f05d5ab3711dbc6986ae73d6319100689f",
+        "partition": "method_selection",
+        "row_count": 1,
+        "selection_order": 77,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_db33905a9bf1a3af92ca45420283e8fe60080b401bcb09eec781224793b36912",
+        "partition": "method_selection",
+        "row_count": 1,
+        "selection_order": 78,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_db1bef5759742ffab2f42aaa2bf0d73d2967ebe00e4d9998cd4b839fe4f8a363",
+        "partition": "method_selection",
+        "row_count": 1,
+        "selection_order": 79,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_db15c20166331fb4a1cde41f2115bc3a7cff94210f9171564888fa672fd623c3",
+        "partition": "method_selection",
+        "row_count": 1,
+        "selection_order": 80,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_db13646ca903a47dc7674858f23778cf89af1a72098f504f258351792ac1101a",
+        "partition": "method_selection",
+        "row_count": 1,
+        "selection_order": 81,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_db1175bc8e8a1dbff314aa5cedbcfa866374cfa238780cfcf4003431491e8cef",
+        "partition": "method_selection",
+        "row_count": 1,
+        "selection_order": 82,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_db075c03ad5254f16262c0488b6473032ee09601df5fbbe6204a52381243d74e",
+        "partition": "method_selection",
+        "row_count": 1,
+        "selection_order": 83,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_db04d175d8c93727b186dab1852c6b47c785b7b10a006ad7e4816b187fd4e701",
+        "partition": "method_selection",
+        "row_count": 1,
+        "selection_order": 84,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_b982af1af2c9e4029d73bff9e8093304a9dd4d08b0444e113f85cc72142a4a56",
+        "partition": "final_calibration",
+        "row_count": 2,
+        "selection_order": 85,
+        "selection_score": 202
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_b96cfbe561c9b8bf1fb508b3e313a3e523b1a48a631a46ebe294307d3dd1be31",
+        "partition": "final_calibration",
+        "row_count": 2,
+        "selection_order": 86,
+        "selection_score": 202
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_db04cab8ec43eefa662b189995a6d4a335a0874f5640c495cce9dd70d83c7f7a",
+        "partition": "final_calibration",
+        "row_count": 1,
+        "selection_order": 87,
+        "selection_score": 101
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_db034a2664b13924074d1714e10e0819a54580162c819f8da508c291d1734251",
+        "partition": "final_calibration",
+        "row_count": 1,
+        "selection_order": 88,
+        "selection_score": 101
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_b903cf2f5ff6e97ca566bade8219e40e8e9555d762d663d5ab702e45546240dc",
+        "partition": "final_calibration",
+        "row_count": 2,
+        "selection_order": 89,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_b766262e322ad0d63df7b0156e5c76a2263e8863d7404ba0f1707f34e8aab6d9",
+        "partition": "final_calibration",
+        "row_count": 2,
+        "selection_order": 90,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_b46597f58697772295aa91c0657d495b7028b5f4f32fa699511ba7471b706599",
+        "partition": "final_calibration",
+        "row_count": 2,
+        "selection_order": 91,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_b2bf0ae830c5a482b331694e26f24272391b007b0eacd1364b2786e5e0be10e5",
+        "partition": "final_calibration",
+        "row_count": 2,
+        "selection_order": 92,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_b2580982bd3a1f4d9df31a6f49c9c4a08a385b721f7a4a87db2a14b093ab8b09",
+        "partition": "final_calibration",
+        "row_count": 2,
+        "selection_order": 93,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_b1f61ed1a1c605b144a4645e84a61e1ec0b5cf45843df58b96d1539c7fe7cf2d",
+        "partition": "final_calibration",
+        "row_count": 2,
+        "selection_order": 94,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_b1bc97d6152d9d8eaac973abf98258deb30875febc11ad344539602076c60f77",
+        "partition": "final_calibration",
+        "row_count": 2,
+        "selection_order": 95,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_b1951a9c3b74abd10bbdf3f9a5639135272181aa77f93ac19a52593648fe0b36",
+        "partition": "final_calibration",
+        "row_count": 2,
+        "selection_order": 96,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_af18969bd55324c7c88f306fb507838ae6f3ce76f41b8bb7300870fff6bddd7c",
+        "partition": "final_calibration",
+        "row_count": 2,
+        "selection_order": 97,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_a8430702bd0ab996b935abcc92878ed5a8a4985b15f8b96e4fe92347b476b4a4",
+        "partition": "final_calibration",
+        "row_count": 2,
+        "selection_order": 98,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_a772f42988a30c70ba9d386625dfd63b7f05f5669f55236c3a18a3e162c71828",
+        "partition": "final_calibration",
+        "row_count": 2,
+        "selection_order": 99,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_a5be8e6fd874c8974c7d08d5384cbfd1450d853ba3a45cd2bbd2470ebafca13e",
+        "partition": "final_calibration",
+        "row_count": 2,
+        "selection_order": 100,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_a58675484cdee4c5a33ab24f59faaaf4fcdc111e907bd8e4ff9ec67f37ba03fc",
+        "partition": "final_calibration",
+        "row_count": 2,
+        "selection_order": 101,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_dafbc94749fc22d14873e404874cebfdc36d56a77a06b34682557c3414dcda03",
+        "partition": "final_calibration",
+        "row_count": 1,
+        "selection_order": 102,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_dafad91ddde4fa80f167d6c5aee049de933ac1c41460d1a5af8c8677e54e59b6",
+        "partition": "final_calibration",
+        "row_count": 1,
+        "selection_order": 103,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_daf407a8868610b21c902e5c5fa6865ae16573b8e74082f5e78a20f36fefc523",
+        "partition": "final_calibration",
+        "row_count": 1,
+        "selection_order": 104,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_daf3b13298c486c65f208b4c396c6773e5cda3759b8937ca6f990e03eda991a9",
+        "partition": "final_calibration",
+        "row_count": 1,
+        "selection_order": 105,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_dae993e87339ab14489d085ff12c80d524d91120b293f026b700d4aa303a0047",
+        "partition": "final_calibration",
+        "row_count": 1,
+        "selection_order": 106,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_dae907a7e43c0d110c83fa4f57117fc703a5a5c352d1118a3f48cbe6731e6017",
+        "partition": "final_calibration",
+        "row_count": 1,
+        "selection_order": 107,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_dae5ef0030f58d631426049045d147a06e3b4b8d4d19f6730241259b4080d3cb",
+        "partition": "final_calibration",
+        "row_count": 1,
+        "selection_order": 108,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_dae131eddc6728bc4d323845a4fe40e3a9bb3646b859371cb87cd5524e006797",
+        "partition": "final_calibration",
+        "row_count": 1,
+        "selection_order": 109,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_dadfe88e91ff0be3b79f9d83bc8d0d60ccdc54966c35775c6e8e89d5f5b1adc8",
+        "partition": "final_calibration",
+        "row_count": 1,
+        "selection_order": 110,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_dad15093a86dba17d782cb3d24be72c8a4bca5687788b965e6fadeb86f22bcf9",
+        "partition": "final_calibration",
+        "row_count": 1,
+        "selection_order": 111,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_dad00683e077543ade9a258de03d2f17b966c25b1bd2f82ffc8e5e1cd023adf4",
+        "partition": "final_calibration",
+        "row_count": 1,
+        "selection_order": 112,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_dac848043b8873a08f6bce578e9ad8c0b15f4be2ad610b18c14144127fa07a4f",
+        "partition": "final_calibration",
+        "row_count": 1,
+        "selection_order": 113,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_dac750cc1cf281c23e0a6d7b0ab414b26897fc3a5bdc6a2647b9c8ed68e32781",
+        "partition": "final_calibration",
+        "row_count": 1,
+        "selection_order": 114,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_dab043af4960b2a0bb117c70ec455fbf8594608ca0e5ff3ce38f40367fb19a51",
+        "partition": "final_calibration",
+        "row_count": 1,
+        "selection_order": 115,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_daae9bd57b26f60334c958d5c9ed6c03af34d6769c118a6094eb1384a09af17c",
+        "partition": "final_calibration",
+        "row_count": 1,
+        "selection_order": 116,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_daabdc096b67ba44f0a5e099a72a9319ef4f91eb756dcd0be34730fd47917ce7",
+        "partition": "final_calibration",
+        "row_count": 1,
+        "selection_order": 117,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_daa7f43a5e13d7dd6c93167a4bd524976ec9d7606b3f75dceba11245c077d49c",
+        "partition": "final_calibration",
+        "row_count": 1,
+        "selection_order": 118,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_daa11750773ae6748da97616dae20c91849ad7fbf86677ae91d57540ea91a108",
+        "partition": "final_calibration",
+        "row_count": 1,
+        "selection_order": 119,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_daa0ca09bb50197987768c56db7afbd4f9d5ed58dda4aaa004d5ba1b807e0de5",
+        "partition": "final_calibration",
+        "row_count": 1,
+        "selection_order": 120,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_da995dc90c4d0dbac9a37f20b1462fc3c4393d02a3b3099b852dbdce0a93f506",
+        "partition": "final_calibration",
+        "row_count": 1,
+        "selection_order": 121,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_da90625d18afdcf738a0bd68b69b241d1d40b9769542250cf3f02713ed6bb406",
+        "partition": "final_calibration",
+        "row_count": 1,
+        "selection_order": 122,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_da8ed16fd08121c5444bc897312ae1247a69d254d35a07fa132cb1e4c72ed90b",
+        "partition": "final_calibration",
+        "row_count": 1,
+        "selection_order": 123,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_da7cb3700f7b3efa04e01775f43a9049b6be0f6a63c0ecf15a5087de7aeff938",
+        "partition": "final_calibration",
+        "row_count": 1,
+        "selection_order": 124,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_da731f7aeefb11b1236024b283a19fc77dc82f4c9353b0a06d25b6f476e07222",
+        "partition": "final_calibration",
+        "row_count": 1,
+        "selection_order": 125,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_da72ef4cce04a480f0aeda1db4e7d808faad180faa1c7ae3f4bc21404efa123b",
+        "partition": "final_calibration",
+        "row_count": 1,
+        "selection_order": 126,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_da6bc1d621950a15472a328fe27d115e41d1c5fc51b27406f44315054bc673b6",
+        "partition": "final_calibration",
+        "row_count": 1,
+        "selection_order": 127,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_da6b18d613e7df0dae0e05483536a3e18836d0f7583ac7a56e4dda317302fb4d",
+        "partition": "final_calibration",
+        "row_count": 1,
+        "selection_order": 128,
+        "selection_score": 1
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_da65ebb38ef9af0dbe020dc2fc0c252ca6307e88dee9eb546f1c90a9ee148dff",
+        "partition": "final_calibration",
+        "row_count": 1,
+        "selection_order": 129,
+        "selection_score": 1
+      }
+    ],
+    "reservation_hash": "7af88dd07e099e81539fa962fc4a1578cfb6ed8ed3d1f549c088230faa74cc94",
+    "reserved_group_count": 129,
+    "statistics": {
+      "final_calibration": {
+        "class_bearing_groups": {
+          "0": 1918,
+          "1": 2237
+        },
+        "class_counts": {
+          "0": 1918,
+          "1": 2252
+        },
+        "groups": 4155,
+        "rows": 4170
+      },
+      "method_selection": {
+        "class_bearing_groups": {
+          "0": 1481,
+          "1": 1786
+        },
+        "class_counts": {
+          "0": 1481,
+          "1": 1801
+        },
+        "groups": 3267,
+        "rows": 3282
+      },
+      "proper_fit": {
+        "class_bearing_groups": {
+          "0": 6014,
+          "1": 7070
+        },
+        "class_counts": {
+          "0": 6042,
+          "1": 7206
+        },
+        "groups": 13083,
+        "rows": 13248
+      }
+    }
+  },
+  "manifest_schema_version": "duplicate_aware_manifest_v2",
+  "normalization": "NFKC; casefold; every non-alphanumeric character to a separator; collapse separators to ASCII spaces; trim",
+  "normalization_policy_id": "unicode_alphanumeric_v2",
+  "outer_split": {
+    "accepted_changes": 0,
+    "candidate_evaluations": 48065,
+    "feasibility_mode": "reservation_certificate",
+    "objective_key": {
+      "assignment_tie_break_length": 24053,
+      "assignment_tie_break_sha256": "929076499747a93e28f400025c2eb17382cc0c4b6b0a127716f386414b7a38a2",
+      "class_deviation_quantized": 6025557,
+      "objective_quantized": 4039346,
+      "partition_row_counts": [
+        3653,
+        20700
+      ],
+      "row_deviation_quantized": 2053135
+    },
+    "optimization_limit_reached": false,
+    "optimization_note": "Large-input path uses reservation-pinned deterministic greedy assignment; exhaustive local swaps are not attempted.",
+    "reservation_algorithm_id": "deterministic_reservation_certificate_v1",
+    "reservation_evidence": [
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 52,
+          "1": 53
+        },
+        "classes": [
+          0,
+          1
+        ],
+        "group_id": "g_33070316228d88ee6e39eec65a3eeba76542e4cdb4e4e9ecd9da73a207cbcba3",
+        "partition": "test",
+        "row_count": 105,
+        "selection_order": 1,
+        "selection_score": 400
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1,
+          "1": 1
+        },
+        "classes": [
+          0,
+          1
+        ],
+        "group_id": "g_e3b82595c4e973e0773d171afe86ff76a493d6561f565e8ed77b6584b2dfa7f1",
+        "partition": "test",
+        "row_count": 2,
+        "selection_order": 2,
+        "selection_score": 300
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 1,
+          "1": 1
+        },
+        "classes": [
+          0,
+          1
+        ],
+        "group_id": "g_5c447264b637f059105104926c6a0d8635639e694d31016812fde1d8b23265c7",
+        "partition": "train",
+        "row_count": 2,
+        "selection_order": 3,
+        "selection_score": 302
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 10
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_86aa2d72876bebf9caca190e2d373116251a8263524f945a136bfa61cc63a2e6",
+        "partition": "train",
+        "row_count": 10,
+        "selection_order": 4,
+        "selection_score": 210
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 6
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_f3e7dd8d304fc3c8ac06ca6ba853ea220c331484190b365785fce63eba68b8c0",
+        "partition": "train",
+        "row_count": 6,
+        "selection_order": 5,
+        "selection_score": 106
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 5
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_c8ffb592566317855fd1c3b9fdde5b37d48e698d73bd74d6ef870968b9db62c7",
+        "partition": "train",
+        "row_count": 5,
+        "selection_order": 6,
+        "selection_score": 5
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 5
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_405569dafc0ac8e01991467fd026c76c02f68548eccee58a927bf1dea43bb60f",
+        "partition": "train",
+        "row_count": 5,
+        "selection_order": 7,
+        "selection_score": 5
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 4
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_7e7735a5ba4a3855ae4359910e414f8df4b8b07e4c4d8c6a47b3b92ac5da60e4",
+        "partition": "train",
+        "row_count": 4,
+        "selection_order": 8,
+        "selection_score": 4
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 3
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_e5fc23f67445073175a5e767500e1a55fffe6c7b7c776a22c94e21c2c52d19ba",
+        "partition": "train",
+        "row_count": 3,
+        "selection_order": 9,
+        "selection_score": 3
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 3
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_bdaba72ef60650c3c61c53818abd93708f92080615fc7dc6b95243e1e523b6c5",
+        "partition": "train",
+        "row_count": 3,
+        "selection_order": 10,
+        "selection_score": 3
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 3
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_1cd2ac8af8cad63fb16f5dd1eb9b464019944170a0fce1e7f44c8c03beed9d08",
+        "partition": "train",
+        "row_count": 3,
+        "selection_order": 11,
+        "selection_score": 3
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_fe90c639cbe8fe891cf7c0450b241fd00cb96a68a9ed716fb95279587f51b296",
+        "partition": "train",
+        "row_count": 2,
+        "selection_order": 12,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_fe7f42e5c9df4d64a604a74befe5487c4e486d3e8d744c7f5708a6f3cf880dd2",
+        "partition": "train",
+        "row_count": 2,
+        "selection_order": 13,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_fe6ab34e0f5b0f853ddc199902ab14587d15e8cfc042f5298825309c9ec82fdc",
+        "partition": "train",
+        "row_count": 2,
+        "selection_order": 14,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_fe13e8ecd1e866d0b338968a3bede47bfcffcb4c4f477a681a85da7c96fdc837",
+        "partition": "train",
+        "row_count": 2,
+        "selection_order": 15,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_fd70dee4f5077b4444f369f32e5fa8ac2b4136585672a6e5b8ae1489f66f66a4",
+        "partition": "train",
+        "row_count": 2,
+        "selection_order": 16,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_fcce34814bff5095b45f1cf43a717c397d82704a2ee2755c5f6bbb9b541486fc",
+        "partition": "train",
+        "row_count": 2,
+        "selection_order": 17,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_f895919781c5c41aa094097a8a0cd12df59221dd7946b9804f8122c6b7282b73",
+        "partition": "train",
+        "row_count": 2,
+        "selection_order": 18,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_f7845493606203d9b15dc6dfd81d414015139c34701de31baa64bddb316f5182",
+        "partition": "train",
+        "row_count": 2,
+        "selection_order": 19,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_f2dfdb0e7198b1544fea008bebfd3bca01c371bd3c46eb30c2b24f69647fec9f",
+        "partition": "train",
+        "row_count": 2,
+        "selection_order": 20,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_efb81fa44912e22b96ce930f21da6e4468f37bb29512a48cb4393a67b04673c9",
+        "partition": "train",
+        "row_count": 2,
+        "selection_order": 21,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_ef077adeacc71293608ba7ee32c2b926a542bca8037ec6e13566f74673c4718d",
+        "partition": "train",
+        "row_count": 2,
+        "selection_order": 22,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_e978e997fd45317db8f5f20e2bec9a90e70f53cc3f07f88b76e933e063d9ea9c",
+        "partition": "train",
+        "row_count": 2,
+        "selection_order": 23,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "1": 2
+        },
+        "classes": [
+          1
+        ],
+        "group_id": "g_e4d98db78a45ec545831e9689c88992add1bbafcc99f5b1721eb692317ad030c",
+        "partition": "train",
+        "row_count": 2,
+        "selection_order": 24,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_e46843cafb31dcf75206035b7793c66c29f7131b634277a297eedbd47de3e0e3",
+        "partition": "train",
+        "row_count": 2,
+        "selection_order": 25,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_d1ba152528bb4ac44b8702f69e753b15486bbe13b2ba736547e6d7087233b7ec",
+        "partition": "train",
+        "row_count": 2,
+        "selection_order": 26,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_cc5e3a516311aded381653738a1bb63066468d4959e8c4141b9676d28b63e131",
+        "partition": "train",
+        "row_count": 2,
+        "selection_order": 27,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_c3039b1a9d49bf329a9b5b0bf361f6a720df8b687b80aba39420d122a91b02c7",
+        "partition": "train",
+        "row_count": 2,
+        "selection_order": 28,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_b94641fc058b20b3e5e2fb3348420d2542fb6a6e64f0e0ca3d9828ba46eb9dbb",
+        "partition": "train",
+        "row_count": 2,
+        "selection_order": 29,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_81db86fab9bf4f015982fa64066b8291c1215376040ffd58b5a1036eb9d0e716",
+        "partition": "train",
+        "row_count": 2,
+        "selection_order": 30,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_8064636aa748ce445bfc21dae439e4e8a74de316c15d0664dd9c9e6ffa6f0517",
+        "partition": "train",
+        "row_count": 2,
+        "selection_order": 31,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_7f785e790ebd7b2e2c77b382813d6ac778410fc1d2eedc1c173d4460eed02cf9",
+        "partition": "train",
+        "row_count": 2,
+        "selection_order": 32,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_7ef49ac6436e765980b5f923a7ab799801541d264735814d3298005621d0bd77",
+        "partition": "train",
+        "row_count": 2,
+        "selection_order": 33,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_5e192831e1f20a22eb56e609059f0e9129eed4a9e72ef36aca50b5caadbdcd97",
+        "partition": "train",
+        "row_count": 2,
+        "selection_order": 34,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_42a850b9dd61b561c6ee532fabc2786485626f07d1df904e029819901b52f142",
+        "partition": "train",
+        "row_count": 2,
+        "selection_order": 35,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_349f39a6cafff5fc30f1401c630b4d0f0088d1608e4370a82c04eeaa1bd5ac14",
+        "partition": "train",
+        "row_count": 2,
+        "selection_order": 36,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_1cd7d5c901077e60442a2665ab2ae96970d55362ab5965e93066ed11b576c969",
+        "partition": "train",
+        "row_count": 2,
+        "selection_order": 37,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_1c9ee031ac0916598d79d15677621ce3f75762f5e40260bde0fcd01b387ac1c7",
+        "partition": "train",
+        "row_count": 2,
+        "selection_order": 38,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_1729c3a49d74ca62261749eb98ac16774d8812489a0c92e18e671a9331f712cd",
+        "partition": "train",
+        "row_count": 2,
+        "selection_order": 39,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_0a4b983cbc36905ce4b0d8d9752d8e74d2ed5bf07db63817bfe49db83b276ae2",
+        "partition": "train",
+        "row_count": 2,
+        "selection_order": 40,
+        "selection_score": 2
+      },
+      {
+        "candidate_rank": 1,
+        "class_counts": {
+          "0": 2
+        },
+        "classes": [
+          0
+        ],
+        "group_id": "g_0602f7a381149425a1710602eace7f68ad075695c3b80a38a62b0eac9360a984",
+        "partition": "train",
+        "row_count": 2,
+        "selection_order": 41,
+        "selection_score": 1
+      }
+    ],
+    "reservation_hash": "4f8d10450373e1554b58765040886729f5abf2cbf62f450db36ce0936b55e327",
+    "reserved_group_count": 41,
+    "statistics": {
+      "test": {
+        "class_bearing_groups": {
+          "0": 1615,
+          "1": 1935
+        },
+        "class_counts": {
+          "0": 1666,
+          "1": 1987
+        },
+        "groups": 3548,
+        "rows": 3653
+      },
+      "train": {
+        "class_bearing_groups": {
+          "0": 9413,
+          "1": 11093
+        },
+        "class_counts": {
+          "0": 9441,
+          "1": 11259
+        },
+        "groups": 20505,
+        "rows": 20700
+      }
+    }
+  },
+  "policy": "all_keys_v1",
+  "provenance": {
+    "configuration_fingerprints": {
+      "all_keys_v1": "c0bd2fb96caccd8b4ad75177ecf1625b11ad9107346775ada00fdd52cf911f9b",
+      "body_combined_only_v1": "824aeec9c7b2633446616ae297a43a7764b9a0de6c166e393f251322a3b64243"
+    },
+    "configurations": {
+      "all_keys_v1": {
+        "feasibility_modes": [
+          "exact_memoized_oracle",
+          "reservation_certificate"
+        ],
+        "grouping_algorithm_id": "transitive_key_components_v1",
+        "inner_requirements": {
+          "final_calibration": {
+            "min_class_bearing_groups": {
+              "0": 2,
+              "1": 2
+            },
+            "min_groups": 2,
+            "min_rows_by_class": {
+              "0": 30,
+              "1": 30
+            }
+          },
+          "method_selection": {
+            "min_class_bearing_groups": {
+              "0": 2,
+              "1": 2
+            },
+            "min_groups": 2,
+            "min_rows_by_class": {
+              "0": 30,
+              "1": 30
+            }
+          },
+          "proper_fit": {
+            "min_class_bearing_groups": {
+              "0": 2,
+              "1": 2
+            },
+            "min_groups": 2,
+            "min_rows_by_class": {
+              "0": 50,
+              "1": 50
+            }
+          }
+        },
+        "inner_targets": {
+          "final_calibration": 0.2,
+          "method_selection": 0.16,
+          "proper_fit": 0.64
+        },
+        "manifest_schema_version": "duplicate_aware_manifest_v2",
+        "max_candidate_evaluations": 1000000,
+        "max_exact_oracle_groups": 250,
+        "max_oracle_states": 2000000,
+        "normalization_policy_id": "unicode_alphanumeric_v2",
+        "normalization_spec": "NFKC; casefold; every non-alphanumeric character to a separator; collapse separators to ASCII spaces; trim",
+        "objective_scale": 1000000000000,
+        "outer_requirements": {
+          "test": {
+            "min_class_bearing_groups": {
+              "0": 2,
+              "1": 2
+            },
+            "min_groups": 2,
+            "min_rows_by_class": {
+              "0": 50,
+              "1": 50
+            }
+          },
+          "train": {
+            "min_class_bearing_groups": {
+              "0": 2,
+              "1": 2
+            },
+            "min_groups": 2,
+            "min_rows_by_class": {
+              "0": 50,
+              "1": 50
+            }
+          }
+        },
+        "outer_targets": {
+          "test": 0.15,
+          "train": 0.85
+        },
+        "policy_id": "all_keys_v1",
+        "random_state": 42,
+        "reservation_algorithm_id": "deterministic_reservation_certificate_v1",
+        "selected_key_types": [
+          "title",
+          "body",
+          "combined"
+        ],
+        "split_algorithm_id": "deterministic_group_split_v2"
+      },
+      "body_combined_only_v1": {
+        "feasibility_modes": [
+          "exact_memoized_oracle",
+          "reservation_certificate"
+        ],
+        "grouping_algorithm_id": "transitive_key_components_v1",
+        "inner_requirements": {
+          "final_calibration": {
+            "min_class_bearing_groups": {
+              "0": 2,
+              "1": 2
+            },
+            "min_groups": 2,
+            "min_rows_by_class": {
+              "0": 30,
+              "1": 30
+            }
+          },
+          "method_selection": {
+            "min_class_bearing_groups": {
+              "0": 2,
+              "1": 2
+            },
+            "min_groups": 2,
+            "min_rows_by_class": {
+              "0": 30,
+              "1": 30
+            }
+          },
+          "proper_fit": {
+            "min_class_bearing_groups": {
+              "0": 2,
+              "1": 2
+            },
+            "min_groups": 2,
+            "min_rows_by_class": {
+              "0": 50,
+              "1": 50
+            }
+          }
+        },
+        "inner_targets": {
+          "final_calibration": 0.2,
+          "method_selection": 0.16,
+          "proper_fit": 0.64
+        },
+        "manifest_schema_version": "duplicate_aware_manifest_v2",
+        "max_candidate_evaluations": 1000000,
+        "max_exact_oracle_groups": 250,
+        "max_oracle_states": 2000000,
+        "normalization_policy_id": "unicode_alphanumeric_v2",
+        "normalization_spec": "NFKC; casefold; every non-alphanumeric character to a separator; collapse separators to ASCII spaces; trim",
+        "objective_scale": 1000000000000,
+        "outer_requirements": {
+          "test": {
+            "min_class_bearing_groups": {
+              "0": 2,
+              "1": 2
+            },
+            "min_groups": 2,
+            "min_rows_by_class": {
+              "0": 50,
+              "1": 50
+            }
+          },
+          "train": {
+            "min_class_bearing_groups": {
+              "0": 2,
+              "1": 2
+            },
+            "min_groups": 2,
+            "min_rows_by_class": {
+              "0": 50,
+              "1": 50
+            }
+          }
+        },
+        "outer_targets": {
+          "test": 0.15,
+          "train": 0.85
+        },
+        "policy_id": "body_combined_only_v1",
+        "random_state": 42,
+        "reservation_algorithm_id": "deterministic_reservation_certificate_v1",
+        "selected_key_types": [
+          "body",
+          "combined"
+        ],
+        "split_algorithm_id": "deterministic_group_split_v2"
+      }
+    },
+    "grouping_algorithm_id": "transitive_key_components_v1",
+    "inputs": {
+      "fake": {
+        "filename": "Fake.csv",
+        "label": 0,
+        "row_count": 11107,
+        "schema_columns": [
+          "title",
+          "text",
+          "subject",
+          "date"
+        ],
+        "schema_fingerprint": "17c163df559764e031edaf2188a3b24e1bc8d69cfeaaae02cc0bd5bb157e7a5c",
+        "sha256": "672ab39a75ac75fef9ecbb1a84e2936e064b44a32197a4801d9d0fb63ca9d57e",
+        "size_bytes": 30163788
+      },
+      "true": {
+        "filename": "True.csv",
+        "label": 1,
+        "row_count": 13246,
+        "schema_columns": [
+          "title",
+          "text",
+          "subject",
+          "date"
+        ],
+        "schema_fingerprint": "17c163df559764e031edaf2188a3b24e1bc8d69cfeaaae02cc0bd5bb157e7a5c",
+        "sha256": "c3105d9266fd2ad484aad43b13801930434ffcd68894cc975128e52433a0c6ad",
+        "size_bytes": 34031181
+      }
+    },
+    "manifest_schema_version": "duplicate_aware_manifest_v2",
+    "normalization_policy_id": "unicode_alphanumeric_v2",
+    "normalization_spec": "NFKC; casefold; every non-alphanumeric character to a separator; collapse separators to ASCII spaces; trim",
+    "provenance_schema_version": "manifest_provenance_v1",
+    "reservation_algorithm_id": "deterministic_reservation_certificate_v1",
+    "split_algorithm_id": "deterministic_group_split_v2"
+  },
+  "row_count": 24353,
+  "split_algorithm_id": "deterministic_group_split_v2",
+  "training_and_calibration_only": true
+}

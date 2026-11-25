@@ -1,0 +1,17 @@
+{
+  "schema_version": "task46_security_regression_matrix_v1",
+  "status": "PASS_ISOLATED_SYNTHETIC_ONLY",
+  "findings_addressed": [
+    {"id":"F-01","original_issue":"Positive outcome accepted without evidence","status":"FIXED_AND_TESTED","implementation":"validate_response requires non-empty validated evidence for SUPPORTED and REFUTED","tests":["test_positive_outcomes_require_evidence"]},
+    {"id":"F-02","original_issue":"Evidence item shape not validated; renderer could raise AttributeError","status":"FIXED_AND_TESTED","implementation":"validate_response enforces mapping, allowlisted keys, required snippet, bounded metadata; render_mock_ui catches ContractError","tests":["test_evidence_items_are_strictly_validated","test_invalid_ui_response_returns_controlled_error"]},
+    {"id":"F-03","original_issue":"Hostile-string regression coverage missing","status":"FIXED_AND_TESTED","implementation":"html.escape remains applied to rendered dynamic strings and hostile-string regression was added","tests":["test_hostile_strings_are_escaped"]}
+  ],
+  "outcome_rules": {
+    "SUPPORTED":"requires_valid_nonempty_evidence",
+    "REFUTED":"requires_valid_nonempty_evidence",
+    "INSUFFICIENT_EVIDENCE":"requires_empty_evidence"
+  },
+  "test_result":{"command":"python -m unittest discover -s evaluation_results/new_release_candidate_2026-10-22/task44_synthetic_prototype -p \"test_*.py\" -v","passed":12,"failed":0,"skipped":0},
+  "production_boundary":{"track_b_route_registered":false,"production_source_modified":false,"model_or_dataset_access":false,"training_or_evaluation":false,"artifact_creation":false,"deployment_enabled":false},
+  "release_approval":false
+}
