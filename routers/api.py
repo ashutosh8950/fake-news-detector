@@ -1,12 +1,15 @@
+import os
+import secrets
 import time
-from fastapi import APIRouter, HTTPException, Request
-from pydantic import BaseModel, Field, field_validator
-from loguru import logger
 
-from predictor import predictor
-from distilbert_predictor import distilbert_predictor
+from fastapi import APIRouter, HTTPException, Request, Response
+from loguru import logger
+from pydantic import BaseModel, Field, RootModel, field_validator
 from slowapi import Limiter
 from slowapi.util import get_remote_address
+
+from distilbert_predictor import distilbert_predictor
+from predictor import predictor
 
 router = APIRouter()
 limiter = Limiter(key_func=get_remote_address)
@@ -15,6 +18,7 @@ START_TIME = time.time()
 
 # ── Metrics counters ──────────────────────────────────────────────────────────
 _metrics = {"total": 0, "fake": 0, "real": 0, "confidence_sum": 0.0}
+METRICS_ACCESS_TOKEN = os.environ.get("METRICS_ACCESS_TOKEN")
 
 # ── Schemas ───────────────────────────────────────────────────────────────────
 class AnalyzeRequest(BaseModel):
@@ -50,26 +54,107 @@ class MetricsResponse(BaseModel):
     models_loaded:  bool
     api_version:    str
 
+
+class ErrorResponse(BaseModel):
+    detail: str | None = None
+    error: str | None = None
+    message: str | None = None
+    request_id: str | None = None
+
+
+class ModelPrediction(BaseModel):
+    name: str
+    label: str
+    is_fake: bool
+    confidence: float
+
+
+class AnalyzeResponse(BaseModel):
+    ensemble_is_fake: bool
+    ensemble_label: str
+    overall_confidence: float
+    fake_votes: int
+    real_votes: int
+    total_models: int
+    models: dict[str, ModelPrediction]
+    processed_length: int
+    processing_time_ms: float
+
+
+class DeepAnalyzeResponse(BaseModel):
+    label: str
+    confidence: float
+    processing_time_ms: float
+
+
+class ModelInfo(BaseModel):
+    name: str
+    accuracy: float
+    brier_score: float | None = None
+    calibration_method: str | None = None
+
+
+class ModelsInfoResponse(RootModel[dict[str, ModelInfo]]):
+    """Named root model so the existing dynamic model-key JSON is preserved."""
+
+
+ERROR_RESPONSES = {
+    401: {"model": ErrorResponse},
+    404: {"model": ErrorResponse},
+    422: {"model": ErrorResponse},
+    429: {"model": ErrorResponse},
+    500: {"model": ErrorResponse},
+    503: {"model": ErrorResponse},
+}
+
 # ── Routes ────────────────────────────────────────────────────────────────────
-@router.get("/health", response_model=HealthResponse, tags=["System"])
-async def health():
+@router.get(
+    "/health",
+    response_model=HealthResponse,
+    responses={503: {"description": "Application is available but trusted model artifacts are not ready."}},
+    tags=["System"],
+)
+async def health(response: Response):
+    ready = bool(predictor.loaded)
+    response.status_code = 200 if ready else 503
     return {
-        "status":         "ok",
-        "models_loaded":  predictor.loaded,
+        "status":         "ok" if ready else "not_ready",
+        "models_loaded":  ready,
         "uptime_seconds": round(time.time() - START_TIME, 1),
         "api_version":    "2.0.0",
     }
 
-@router.get("/models/info", tags=["System"])
+@router.get(
+    "/models/info",
+    response_model=ModelsInfoResponse,
+    responses=ERROR_RESPONSES,
+    tags=["System"],
+)
 async def models_info():
     """Return accuracy statistics for all trained models."""
     if not predictor.loaded:
-        raise HTTPException(503, "Models not loaded yet")
+        raise HTTPException(
+            503,
+            "Model information unavailable: trusted model artifacts are not ready.",
+        )
     return predictor.get_model_info()
 
 @router.get("/metrics", response_model=MetricsResponse, tags=["System"])
-async def metrics_endpoint():
-    """Return API usage statistics and health metrics."""
+async def metrics_endpoint(request: Request):
+    """Return metrics only when deployment config supplies a bearer token."""
+    if not METRICS_ACCESS_TOKEN:
+        raise HTTPException(status_code=404, detail="Not found")
+
+    scheme, _, supplied_token = request.headers.get("Authorization", "").partition(" ")
+    if scheme.lower() != "bearer" or not supplied_token or not secrets.compare_digest(
+        supplied_token, METRICS_ACCESS_TOKEN
+    ):
+        raise HTTPException(
+            status_code=401,
+            detail="Metrics authorization required",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
     total = _metrics["total"]
     avg_conf = round(_metrics["confidence_sum"] / total, 2) if total > 0 else 0.0
     return {
@@ -82,7 +167,15 @@ async def metrics_endpoint():
         "api_version":    "2.0.0",
     }
 
-@router.post("/analyze", tags=["Detection"])
+@router.post(
+    "/analyze",
+    response_model=AnalyzeResponse,
+    responses={
+        **ERROR_RESPONSES,
+        503: {"model": ErrorResponse, "description": "Inference is unavailable until trusted model artifacts are ready."},
+    },
+    tags=["Detection"],
+)
 @limiter.limit("10/minute")
 async def analyze(request: Request, req: AnalyzeRequest):
     """
@@ -90,7 +183,10 @@ async def analyze(request: Request, req: AnalyzeRequest):
     with confidence scores from each of the 5 production ML models.
     """
     if not predictor.loaded:
-        raise HTTPException(503, "Models are still loading, please try again")
+        raise HTTPException(
+            503,
+            "Inference unavailable: trusted model artifacts are not ready.",
+        )
 
     start = time.time()
     try:
@@ -111,7 +207,12 @@ async def analyze(request: Request, req: AnalyzeRequest):
     )
     return result
 
-@router.post("/analyze/deep", tags=["Detection"])
+@router.post(
+    "/analyze/deep",
+    response_model=DeepAnalyzeResponse,
+    responses=ERROR_RESPONSES,
+    tags=["Detection"],
+)
 @limiter.limit("5/minute")
 async def analyze_deep(request: Request, req: AnalyzeRequest):
     """
