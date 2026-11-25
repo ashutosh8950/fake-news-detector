@@ -1,5 +1,13 @@
 venv/
 .venv/
+venv
+env/
+ENV/
+__pycache__/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
 AI_Interview_*.md
 Resume_Claim_Verification.md
 __pycache__/
@@ -10,7 +18,11 @@ __pycache__/
 .env
 data/
 models/
+!models/
+!models/calibrated/
+!models/calibrated/artifact_manifest.json
 .pytest_cache/
 evaluation_results/held_out_test_set.csv
+coverage.xml
 *.log
 .DS_Store

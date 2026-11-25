@@ -1,0 +1,14 @@
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+exclude = ["docs/audit_archive", "evaluation_results", "notebooks"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true
+check_untyped_defs = true
+exclude = "^(docs/audit_archive|evaluation_results)/"

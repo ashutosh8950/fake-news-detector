@@ -11,7 +11,6 @@ from sklearn.metrics import accuracy_score, brier_score_loss
 
 from preprocessor import preprocess
 
-
 MODEL_KEYS = ["lr", "dt", "gbc", "rfc", "nb", "svc"]
 MODEL_NAMES = {
     "lr": "Logistic Regression",
@@ -63,8 +62,6 @@ def main() -> None:
         old_probability_class1 = old_class_one_probability(old_model, old_vectors)
         new_probability = new_model.predict_proba(new_vectors)[:, 1]
         new_pred = (new_probability >= 0.5).astype(int)
-        old_confidence = np.where(old_pred == 1, old_probability_class1, 1.0 - old_probability_class1)
-        new_confidence = np.where(new_pred == 1, new_probability, 1.0 - new_probability)
         old_predictions[key] = old_pred
         new_probabilities[key] = new_probability
         rows.append(
