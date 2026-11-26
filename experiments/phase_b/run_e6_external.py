@@ -43,23 +43,9 @@ def download_frame(name: str, spec: dict[str, str], directory: Path) -> pd.DataF
     manual = MANUAL_DIR / f"{name}.parquet"
     if manual.exists():
         return pd.read_parquet(manual)
-    response = requests.get(
-        "https://datasets-server.huggingface.co/parquet",
-        params={"dataset": spec["repo"]},
-        timeout=60,
+    raise FileNotFoundError(
+        f"Missing {manual}. Run download_external.py locally; E6 is local-file only."
     )
-    response.raise_for_status()
-    files = response.json()["parquet_files"]
-    if not files:
-        raise RuntimeError(f"No Parquet file was advertised for {name}")
-    local = directory / f"{name}.parquet"
-    with requests.get(files[0]["url"], stream=True, timeout=300) as download:
-        download.raise_for_status()
-        with local.open("wb") as handle:
-            for chunk in download.iter_content(chunk_size=1024 * 1024):
-                if chunk:
-                    handle.write(chunk)
-    return pd.read_parquet(local)
 
 
 def normalize(value: object) -> str:
