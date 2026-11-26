@@ -34,14 +34,26 @@ The light preprocessor applies the production cleaning rules and stopword filter
 | E5 | original model, first two sentences | 95.46% | — | complete |
 | E5 | stripped model, first two sentences | 93.62% | — | complete |
 | E6 | external datasets | NOT FOUND | NOT FOUND | network blocked |
+| E3b | v1 stripped→stripped, LinearSVC | 96.11% | 0.991427 | complete |
+| E3b | v2 stripped→stripped, LinearSVC | 95.92% | 0.990683 | complete |
+| E3b | v1 char TF-IDF first 50 | 87.74% | 0.947344 | complete |
+| E3b | v2 char TF-IDF first 50 | 87.87% | 0.946419 | complete |
 
 The held-out test set contains 3,653 rows: 1,666 fake and 1,987 real. Full per-class metrics, confusion matrices, feature lists, before/after examples, and short-input fake percentages are in the experiment JSON files.
+
+## E3b residual shortcut audit
+
+The v1 stripped LR top-50 features were classified as 82% content words, 6% outlet/format artifacts, and 12% time/topic artifacts for fake-associated features; real-associated features were 54% content, 0% outlet/format, and 46% time/topic. Residual artifacts included `video`, `watch`, `breitbart`, politician names, weekday/month tokens, `government`, `parliament`, and election phrases. The 30-example samples are stored in `e3b_residual_shortcuts.json` and are printed by the script.
+
+The v1 and v2 first-50-character probes were 87.74% and 87.87%, respectively. v2 did not improve this residual probe. The v2 stripped→stripped LinearSVC result was 95.92%, 0.19 points below v1 and 0.88 points below the original 96.80% baseline. Topic/time counts showed strong class-specific concentration: on the held-out set, `trump` occurred 6,366 times in fake examples versus 4,217 in real examples, while `donald`, `obama`, `clinton`, `hillary`, `america`, and `muslim` were prominent in fake examples; `north`, `korea`, `china`, `iran`, and `parliament` were prominent in real examples. These are correlations, not causal evidence.
 
 ## E7 verdict
 
 The controlled marker-stripping result gives a directly measured shortcut effect of approximately 0.68 percentage points for the best model: LinearSVC falls from 96.80% to 96.11% when both training and test text are stripped. This is not a complete “fraction of accuracy” decomposition; the high 96.36% first-50-character character model and 76.18% style-only model show additional formatting/style signal that marker stripping does not remove. Therefore, at least a measurable ~0.7 points of headline accuracy is associated with removable source/format markers, while the total shortcut contribution is NOT IDENTIFIABLE from these probes alone.
 
 E6 external generalization was not evaluated because the environment blocked the Hugging Face datasets-server connection with Windows `WinError 10013`. No external accuracy is claimed. The exact manual Parquet paths are recorded in `e6_external.json`.
+
+The 96.80% in-domain grouped-split accuracy measures performance on this dataset's source, time, topic, and writing-style mixture after duplicate groups are separated. It does not measure fact-checking ability, publisher-held-out generalization, time-held-out generalization, or performance on outside data. Until E6 is run on the downloaded external files, the model's real-world accuracy is NOT FOUND.
 
 ### Phase C recommendation
 
@@ -52,6 +64,8 @@ Add genuinely independent publishers, dates, topics, and geographies; include ar
 Run from the repository root with the project environment active:
 
 ```powershell
+python -m pip install datasets pyarrow pandas
+& .venv\Scripts\python.exe -B experiments\phase_b\download_external.py
 & .venv\Scripts\python.exe -B experiments\phase_b\prep_cache.py
 & .venv\Scripts\python.exe -B experiments\phase_b\run_e1_baseline.py
 & .venv\Scripts\python.exe -B experiments\phase_b\run_e2_top_features.py
@@ -59,4 +73,5 @@ Run from the repository root with the project environment active:
 & .venv\Scripts\python.exe -B experiments\phase_b\run_e3_marker_stripping.py
 & .venv\Scripts\python.exe -B experiments\phase_b\run_e5_short_input.py
 & .venv\Scripts\python.exe -B experiments\phase_b\run_e6_external.py
+& .venv\Scripts\python.exe -B experiments\phase_b\run_e3b_residual_shortcuts.py
 ```
