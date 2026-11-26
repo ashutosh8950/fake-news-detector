@@ -34,9 +34,9 @@ def text_probe(train_values, test_values, labels_train, labels_test, analyzer="w
 def main() -> None:
     train, test, _ = load_grouped_data()
     labels_train, labels_test = train["label"], test["label"]
-    title_train, title_test = preprocess_rows(train, title_only=True), preprocess_rows(test, title_only=True)
-    body_train = [__import__("preprocessor").preprocess("", row.text[:300]) for row in train.itertuples(index=False)]
-    body_test = [__import__("preprocessor").preprocess("", row.text[:300]) for row in test.itertuples(index=False)]
+    title_train, title_test = preprocess_rows(train, title_only=True, light=True), preprocess_rows(test, title_only=True, light=True)
+    body_train = preprocess_rows(train, body_chars=300, light=True)
+    body_test = preprocess_rows(test, body_chars=300, light=True)
     char_train = [row.text[:50] for row in train.itertuples(index=False)]
     char_test = [row.text[:50] for row in test.itertuples(index=False)]
     style_train = style_features([row.text for row in train.itertuples(index=False)])

@@ -3,7 +3,7 @@
 from pathlib import Path
 import re
 
-from common import evaluate_models, fit_models, load_grouped_data, preprocess_batch, preprocess_rows, write_json
+from common import evaluate_models, fit_models, light_preprocess, load_grouped_data, preprocess_rows, write_json
 
 
 def strip_source_markers(text: str, title: str = "") -> tuple[str, str]:
@@ -28,7 +28,7 @@ def stripped_rows(frame):
         title, body = strip_source_markers(row.text, row.title)
         titles.append(title)
         bodies.append(body)
-    return preprocess_batch(f"{t} {t} {t} {b}" for t, b in zip(titles, bodies))
+    return [light_preprocess(t, b) for t, b in zip(titles, bodies)]
 
 
 def run(train_text, test_text, train, test):
@@ -38,7 +38,7 @@ def run(train_text, test_text, train, test):
 
 def main() -> None:
     train, test, _ = load_grouped_data()
-    original_train, original_test = preprocess_rows(train), preprocess_rows(test)
+    original_train, original_test = preprocess_rows(train, light=True), preprocess_rows(test, light=True)
     stripped_train, stripped_test = stripped_rows(train), stripped_rows(test)
     conditions = {
         "original_train_original_test": run(original_train, original_test, train, test),
