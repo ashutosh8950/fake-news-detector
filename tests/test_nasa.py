@@ -1,8 +1,8 @@
-import pytest
 import pandas as pd
+import pytest
 from fastapi.testclient import TestClient
-from app import app
 
+from app import app
 
 HELD_OUT_PATH = "tests/fixtures/nasa_test_sample.csv"
 

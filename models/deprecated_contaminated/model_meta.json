@@ -1,0 +1,49 @@
+{
+  "lr": {
+    "name": "Logistic Regression",
+    "accuracy": 97.53,
+    "precision": 97.53,
+    "recall": 97.53,
+    "f1": 97.53
+  },
+  "dt": {
+    "name": "Decision Tree",
+    "accuracy": 97.6,
+    "precision": 97.6,
+    "recall": 97.6,
+    "f1": 97.6
+  },
+  "gbc": {
+    "name": "Gradient Boosting",
+    "accuracy": 98.52,
+    "precision": 98.54,
+    "recall": 98.52,
+    "f1": 98.52
+  },
+  "rfc": {
+    "name": "Random Forest",
+    "accuracy": 96.91,
+    "precision": 96.91,
+    "recall": 96.91,
+    "f1": 96.91
+  },
+  "nb": {
+    "name": "Naive Bayes",
+    "accuracy": 95.17,
+    "precision": 95.18,
+    "recall": 95.17,
+    "f1": 95.17
+  },
+  "svc": {
+    "name": "Linear SVC",
+    "accuracy": 98.06,
+    "precision": 98.06,
+    "recall": 98.06,
+    "f1": 98.06
+  },
+  "ensemble": {
+    "name": "Six-model majority-vote ensemble",
+    "ensemble_accuracy_measured": 97.9743,
+    "evaluation_methodology": "Measured via 5-fold CV + held-out evaluation on 15% test set, with leakage audit."
+  }
+}

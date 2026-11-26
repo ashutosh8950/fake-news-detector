@@ -1,0 +1,11 @@
+{
+  "environment": {
+    "en_core_web_sm": "3.8.0",
+    "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "spacy": "3.8.16"
+  },
+  "implementation": "preprocessor.preprocess",
+  "representative_outputs_verified": true,
+  "result": "6 passed",
+  "test_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_production_preprocessing.py"
+}

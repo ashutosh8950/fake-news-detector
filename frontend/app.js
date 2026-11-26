@@ -13,6 +13,10 @@ const STORAGE = {
   theme:   'truthscan.theme',
 };
 
+// Privacy boundary: retire the legacy content-bearing history key without
+// clearing unrelated application preferences or storage entries.
+localStorage.removeItem(STORAGE.history);
+
 const SAMPLES = {
   fake: {
     title: 'BREAKING: Scientists Confirm 5G Towers Spread COVID-19',
@@ -31,7 +35,9 @@ const ICONS = {
 
 // ── State ────────────────────────────────────────────────────────────────────
 const state = {
-  history: loadJSON(STORAGE.history, []),
+  // History is session-only. Submitted article/title content must not be
+  // restored from browser storage on a later visit.
+  history: [],
   stats:   loadJSON(STORAGE.stats, { total: 0, fake: 0, real: 0, confidenceSum: 0 }),
   theme:   localStorage.getItem(STORAGE.theme) || 'dark',
   busy:    false,
@@ -184,11 +190,12 @@ function initScrollSpy() {
 async function checkHealth() {
   try {
     const res = await fetch(`${API_BASE}/health`, { cache: 'no-store' });
-    if (!res.ok) throw new Error(res.statusText);
     const data = await res.json();
     if (data.status === 'ok' && data.models_loaded) {
       setStatus('online', 'API Online');
       if (!state.modelInfo) loadModelInfo();
+    } else if (data.status === 'not_ready' && data.models_loaded === false) {
+      setStatus('loading', 'API available · models unavailable');
     } else {
       setStatus('loading', 'Loading models…');
     }
@@ -207,12 +214,20 @@ function setStatus(kind, text) {
 async function loadModelInfo() {
   try {
     const res = await fetch(`${API_BASE}/models/info`);
-    if (!res.ok) throw new Error(res.statusText);
+    if (!res.ok) {
+      if (res.status === 503) {
+        throw new Error('MODEL_UNAVAILABLE');
+      }
+      throw new Error('MODEL_INFO_UNAVAILABLE');
+    }
     state.modelInfo = await res.json();
     renderModelCards(state.modelInfo);
-  } catch {
+  } catch (err) {
     if (!state.modelInfo) {
-      els.modelsGrid.innerHTML = '<div class="models-error">Model metrics unavailable — the API may still be starting. Retrying with the next health check.</div>';
+      const message = err?.message === 'MODEL_UNAVAILABLE'
+        ? 'Model metrics unavailable — trusted model artifacts are not ready.'
+        : 'Model metrics unavailable — the API may be offline or still starting. Retry when it is available.';
+      els.modelsGrid.innerHTML = `<div class="models-error">${message}</div>`;
     }
   }
 }
@@ -297,9 +312,12 @@ async function runAnalysis(mode) {
       throw new Error(detail || `Server responded with ${res.status}`);
     }
     const data = await res.json();
+    if (!window.TruthScanResponseContract || !window.TruthScanResponseContract.validate(mode, data)) {
+      throw new Error('The API returned an invalid response. Please try again.');
+    }
     const result = normalizeResult(mode, data);
     renderResult(result);
-    recordAnalysis(result, title || text);
+    recordAnalysis(result);
   } catch (err) {
     showError(err.message || 'Could not reach the API. Is the server running?');
   } finally {
@@ -404,13 +422,14 @@ function setBusy(busy, mode) {
 }
 
 function showError(msg) {
+  els.results.hidden = true;
   els.errorMsg.textContent = msg;
   els.errorBox.hidden = false;
 }
 function hideError() { els.errorBox.hidden = true; }
 
-// ── Persistence: stats + history ─────────────────────────────────────────────
-function recordAnalysis(r, snippetSource) {
+// ── Persistence: aggregate stats only; history is session-only ───────────────
+function recordAnalysis(r) {
   state.stats.total += 1;
   state.stats[r.isFake ? 'fake' : 'real'] += 1;
   state.stats.confidenceSum += r.confidence;
@@ -423,10 +442,8 @@ function recordAnalysis(r, snippetSource) {
     isFake: r.isFake,
     label: r.label,
     confidence: r.confidence,
-    snippet: snippetSource.slice(0, 120),
   });
   state.history = state.history.slice(0, HISTORY_LIMIT);
-  saveJSON(STORAGE.history, state.history);
 
   renderStats();
   renderCharts();
@@ -436,7 +453,7 @@ function recordAnalysis(r, snippetSource) {
 function clearHistory() {
   state.history = [];
   state.stats = { total: 0, fake: 0, real: 0, confidenceSum: 0 };
-  saveJSON(STORAGE.history, state.history);
+  localStorage.removeItem(STORAGE.history);
   saveJSON(STORAGE.stats, state.stats);
   renderStats();
   renderCharts();
@@ -495,8 +512,8 @@ function renderHistory() {
   els.historyList.innerHTML = state.history.map((h, i) => `
     <li class="history-item" style="--delay:${i * 0.05}s">
       <span class="badge ${h.isFake ? 'fake' : 'real'}">${escapeHtml(h.label)}</span>
-      <span class="history-snippet" title="${escapeHtml(h.snippet)}">
-        ${escapeHtml(h.snippet)}
+      <span class="history-snippet" title="Article analyzed in this session">
+        Article analyzed in this session
         <small>${h.mode === 'deep' ? 'DistilBERT' : 'Ensemble'}</small>
       </span>
       <span class="history-conf">${fmtPct(h.confidence)}</span>

@@ -12,19 +12,21 @@ import uuid
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
-from fastapi.middleware.cors import CORSMiddleware
 from loguru import logger
+from slowapi import _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
+from slowapi.middleware import SlowAPIMiddleware
 
+from config import settings
+from distilbert_predictor import distilbert_predictor
 from predictor import predictor
 from preprocessor import preprocess
-from distilbert_predictor import distilbert_predictor
-from routers.api import router as api_router, limiter
-from config import settings
-from slowapi.middleware import SlowAPIMiddleware
-from slowapi.errors import RateLimitExceeded
-from slowapi import _rate_limit_exceeded_handler
+from routers.api import limiter
+from routers.api import router as api_router
+
 
 # ── Lifespan (load models once at startup) ────────────────────────────────────
 @asynccontextmanager
@@ -36,10 +38,17 @@ async def lifespan(app: FastAPI):
     try:
         predictor.load()
         logger.info("Models loaded successfully")
-    except FileNotFoundError as exc:
-        raise RuntimeError(
-            "Calibrated models not found. Run: python download_models.py"
-        ) from exc
+        app.state.model_load_error = None
+    except Exception as exc:
+        # The web application can be available while inference is not ready.
+        # Keep the public error bounded to the exception type; never expose
+        # paths, manifest contents, or deserialization details to users.
+        predictor.loaded = False
+        app.state.model_load_error = type(exc).__name__
+        logger.warning(
+            "Model readiness unavailable ({}); serving health and documentation endpoints only",
+            type(exc).__name__,
+        )
 
     # ── spaCy pre-warm (loads model into memory) ──
     try:
@@ -75,6 +84,24 @@ app = FastAPI(
 )
 
 app.state.limiter = limiter
+
+
+@app.middleware("http")
+async def security_headers(request: Request, call_next):
+    """Apply headers that are safe for both the local UI and API responses.
+
+    TLS/HSTS are intentionally deployment responsibilities: adding HSTS here
+    would be unsafe for the HTTP local-development URL.
+    """
+    response = await call_next(request)
+    response.headers.setdefault("X-Content-Type-Options", "nosniff")
+    response.headers.setdefault("X-Frame-Options", "DENY")
+    response.headers.setdefault("Referrer-Policy", "no-referrer")
+    response.headers.setdefault(
+        "Permissions-Policy",
+        "camera=(), microphone=(), geolocation=()",
+    )
+    return response
 
 
 def rate_limit_exception_handler(request: Request, exc: RateLimitExceeded):

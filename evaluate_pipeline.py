@@ -29,7 +29,6 @@ from sklearn.tree import DecisionTreeClassifier
 
 from preprocessor import preprocess
 
-
 RANDOM_STATE = 42
 HELD_OUT_FRACTION = 0.15
 CV_FOLDS = 5

@@ -4,6 +4,7 @@ Run this once before training: python download_data.py
 """
 
 import os
+
 import requests
 
 DATA_DIR = "data"
@@ -57,7 +58,8 @@ def create_sample_data():
 
 def download_full_dataset():
     """Try to download the full dataset from public sources."""
-    import csv, io as _io
+    import csv
+    import io as _io
     os.makedirs(DATA_DIR, exist_ok=True)
 
     # Try HuggingFace WELFake dataset

@@ -1,0 +1,95 @@
+{
+  "axis_order": [
+    "Fake",
+    "Real"
+  ],
+  "independent_recomputation": true,
+  "policies": {
+    "all_keys_v1": {
+      "calibrated": {
+        "axis_order": [
+          "Fake",
+          "Real"
+        ],
+        "class_order": [
+          0,
+          1
+        ],
+        "matrix": [
+          [
+            1622,
+            44
+          ],
+          [
+            85,
+            1902
+          ]
+        ]
+      },
+      "uncalibrated": {
+        "axis_order": [
+          "Fake",
+          "Real"
+        ],
+        "class_order": [
+          0,
+          1
+        ],
+        "matrix": [
+          [
+            1622,
+            44
+          ],
+          [
+            85,
+            1902
+          ]
+        ]
+      }
+    },
+    "body_combined_only_v1": {
+      "calibrated": {
+        "axis_order": [
+          "Fake",
+          "Real"
+        ],
+        "class_order": [
+          0,
+          1
+        ],
+        "matrix": [
+          [
+            1576,
+            40
+          ],
+          [
+            43,
+            1894
+          ]
+        ]
+      },
+      "uncalibrated": {
+        "axis_order": [
+          "Fake",
+          "Real"
+        ],
+        "class_order": [
+          0,
+          1
+        ],
+        "matrix": [
+          [
+            1576,
+            40
+          ],
+          [
+            43,
+            1894
+          ]
+        ]
+      }
+    }
+  },
+  "positive_class": 1,
+  "positive_class_name": "Real"
+}

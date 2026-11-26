@@ -1,0 +1,20 @@
+{
+  "all_keys_v1": {
+    "calibrator_classes": [
+      0,
+      1
+    ],
+    "fit_partition": "final_calibration",
+    "method": "sigmoid",
+    "positive_class": 1
+  },
+  "body_combined_only_v1": {
+    "calibrator_classes": [
+      0,
+      1
+    ],
+    "fit_partition": "final_calibration",
+    "method": "sigmoid",
+    "positive_class": 1
+  }
+}

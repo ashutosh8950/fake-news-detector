@@ -1,0 +1,14 @@
+{
+  "en_core_web_sm": "3.8.0",
+  "executable": "C:\\Users\\gupta\\Downloads\\FAKE_NEWS_DETECTION\\.venv\\Scripts\\python.exe",
+  "joblib": "1.6.0",
+  "numpy": "2.4.6",
+  "pandas": "3.0.6",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+  "scikit_learn": "1.9.0",
+  "scipy": "1.17.1",
+  "seed": 42,
+  "sklearn": "1.9.0",
+  "spacy": "3.8.16"
+}

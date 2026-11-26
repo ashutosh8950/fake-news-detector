@@ -26,3 +26,6 @@ evaluation_results/held_out_test_set.csv
 coverage.xml
 *.log
 .DS_Store
+experiments/phase_b/external/
+experiments/**/*.parquet
+models/**/*.pkl

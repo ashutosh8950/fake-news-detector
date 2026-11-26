@@ -1,0 +1,210 @@
+{
+  "all_keys_v1": {
+    "calibrated": {
+      "accuracy": {
+        "lower_2.5_percent": 0.9398834196891193,
+        "replicates": 100,
+        "resampling_unit": "outer-test connected component group",
+        "seed": 42,
+        "upper_97.5_percent": 0.9797268883878241
+      },
+      "balanced_accuracy": {
+        "lower_2.5_percent": 0.9415777404173999,
+        "replicates": 100,
+        "resampling_unit": "outer-test connected component group",
+        "seed": 42,
+        "upper_97.5_percent": 0.9796015542039141
+      },
+      "brier_score": {
+        "lower_2.5_percent": 0.019883822203684794,
+        "replicates": 100,
+        "resampling_unit": "outer-test connected component group",
+        "seed": 42,
+        "upper_97.5_percent": 0.057788352733503315
+      },
+      "ece_uniform_10_bins": {
+        "lower_2.5_percent": 0.0027865557425852763,
+        "replicates": 100,
+        "resampling_unit": "outer-test connected component group",
+        "seed": 42,
+        "upper_97.5_percent": 0.03544553612349208
+      },
+      "log_loss": {
+        "lower_2.5_percent": 0.09957584879635888,
+        "replicates": 100,
+        "resampling_unit": "outer-test connected component group",
+        "seed": 42,
+        "upper_97.5_percent": 0.2466572873637121
+      },
+      "macro_f1": {
+        "lower_2.5_percent": 0.9396883560947408,
+        "replicates": 100,
+        "resampling_unit": "outer-test connected component group",
+        "seed": 42,
+        "upper_97.5_percent": 0.9795953668571488
+      },
+      "roc_auc": {
+        "lower_2.5_percent": 0.9415777404174,
+        "replicates": 100,
+        "resampling_unit": "outer-test connected component group",
+        "seed": 42,
+        "upper_97.5_percent": 0.9796015542039143
+      }
+    },
+    "uncalibrated": {
+      "accuracy": {
+        "lower_2.5_percent": 0.9398834196891193,
+        "replicates": 100,
+        "resampling_unit": "outer-test connected component group",
+        "seed": 42,
+        "upper_97.5_percent": 0.9797268883878241
+      },
+      "balanced_accuracy": {
+        "lower_2.5_percent": 0.9415777404173999,
+        "replicates": 100,
+        "resampling_unit": "outer-test connected component group",
+        "seed": 42,
+        "upper_97.5_percent": 0.9796015542039141
+      },
+      "brier_score": {
+        "lower_2.5_percent": 0.020273111612175876,
+        "replicates": 100,
+        "resampling_unit": "outer-test connected component group",
+        "seed": 42,
+        "upper_97.5_percent": 0.060116580310880824
+      },
+      "ece_uniform_10_bins": {
+        "lower_2.5_percent": 0.020273111612175876,
+        "replicates": 100,
+        "resampling_unit": "outer-test connected component group",
+        "seed": 42,
+        "upper_97.5_percent": 0.060116580310880824
+      },
+      "log_loss": {
+        "lower_2.5_percent": 0.7307170080681534,
+        "replicates": 100,
+        "resampling_unit": "outer-test connected component group",
+        "seed": 42,
+        "upper_97.5_percent": 2.166821183664413
+      },
+      "macro_f1": {
+        "lower_2.5_percent": 0.9396883560947408,
+        "replicates": 100,
+        "resampling_unit": "outer-test connected component group",
+        "seed": 42,
+        "upper_97.5_percent": 0.9795953668571488
+      },
+      "roc_auc": {
+        "lower_2.5_percent": 0.9415777404174,
+        "replicates": 100,
+        "resampling_unit": "outer-test connected component group",
+        "seed": 42,
+        "upper_97.5_percent": 0.9796015542039143
+      }
+    }
+  },
+  "body_combined_only_v1": {
+    "calibrated": {
+      "accuracy": {
+        "lower_2.5_percent": 0.971838519857886,
+        "replicates": 100,
+        "resampling_unit": "outer-test connected component group",
+        "seed": 42,
+        "upper_97.5_percent": 0.9814689353118942
+      },
+      "balanced_accuracy": {
+        "lower_2.5_percent": 0.9718618964366664,
+        "replicates": 100,
+        "resampling_unit": "outer-test connected component group",
+        "seed": 42,
+        "upper_97.5_percent": 0.9813237185160917
+      },
+      "brier_score": {
+        "lower_2.5_percent": 0.018203542022611336,
+        "replicates": 100,
+        "resampling_unit": "outer-test connected component group",
+        "seed": 42,
+        "upper_97.5_percent": 0.027396513123205037
+      },
+      "ece_uniform_10_bins": {
+        "lower_2.5_percent": 0.0007923744093915061,
+        "replicates": 100,
+        "resampling_unit": "outer-test connected component group",
+        "seed": 42,
+        "upper_97.5_percent": 0.007194161127273642
+      },
+      "log_loss": {
+        "lower_2.5_percent": 0.09263671466786073,
+        "replicates": 100,
+        "resampling_unit": "outer-test connected component group",
+        "seed": 42,
+        "upper_97.5_percent": 0.12890434402566195
+      },
+      "macro_f1": {
+        "lower_2.5_percent": 0.9715399812415254,
+        "replicates": 100,
+        "resampling_unit": "outer-test connected component group",
+        "seed": 42,
+        "upper_97.5_percent": 0.9813082270673646
+      },
+      "roc_auc": {
+        "lower_2.5_percent": 0.9718618964366667,
+        "replicates": 100,
+        "resampling_unit": "outer-test connected component group",
+        "seed": 42,
+        "upper_97.5_percent": 0.9813237185160918
+      }
+    },
+    "uncalibrated": {
+      "accuracy": {
+        "lower_2.5_percent": 0.971838519857886,
+        "replicates": 100,
+        "resampling_unit": "outer-test connected component group",
+        "seed": 42,
+        "upper_97.5_percent": 0.9814689353118942
+      },
+      "balanced_accuracy": {
+        "lower_2.5_percent": 0.9718618964366664,
+        "replicates": 100,
+        "resampling_unit": "outer-test connected component group",
+        "seed": 42,
+        "upper_97.5_percent": 0.9813237185160917
+      },
+      "brier_score": {
+        "lower_2.5_percent": 0.01853106468810583,
+        "replicates": 100,
+        "resampling_unit": "outer-test connected component group",
+        "seed": 42,
+        "upper_97.5_percent": 0.028161480142113945
+      },
+      "ece_uniform_10_bins": {
+        "lower_2.5_percent": 0.018531064688105822,
+        "replicates": 100,
+        "resampling_unit": "outer-test connected component group",
+        "seed": 42,
+        "upper_97.5_percent": 0.028161480142113927
+      },
+      "log_loss": {
+        "lower_2.5_percent": 0.667927272549395,
+        "replicates": 100,
+        "resampling_unit": "outer-test connected component group",
+        "seed": 42,
+        "upper_97.5_percent": 1.0150426291668608
+      },
+      "macro_f1": {
+        "lower_2.5_percent": 0.9715399812415254,
+        "replicates": 100,
+        "resampling_unit": "outer-test connected component group",
+        "seed": 42,
+        "upper_97.5_percent": 0.9813082270673646
+      },
+      "roc_auc": {
+        "lower_2.5_percent": 0.9718618964366667,
+        "replicates": 100,
+        "resampling_unit": "outer-test connected component group",
+        "seed": 42,
+        "upper_97.5_percent": 0.9813237185160918
+      }
+    }
+  }
+}

@@ -1,11 +1,77 @@
 {
   "experiment": "E6",
-  "datasets": {},
-  "status": "NOT FOUND",
-  "reason": "Dataset download blocked: HTTPSConnectionPool(host='datasets-server.huggingface.co', port=443): Max retries exceeded with url: /parquet?dataset=polsci%2Ffake-news (Caused by NewConnectionError(\"HTTPSConnection(host='datasets-server.huggingface.co', port=443): Failed to establish a new connection: [WinError 10013] An attempt was made to access a socket in a way forbidden by its access permissions\"))",
-  "manual_downloads": {
-    "polsci_fake_news": "C:\\Users\\gupta\\Downloads\\FAKE_NEWS_DETECTION\\experiments\\phase_b\\external\\polsci_fake_news.parquet",
-    "realfakenews": "C:\\Users\\gupta\\Downloads\\FAKE_NEWS_DETECTION\\experiments\\phase_b\\external\\realfakenews.parquet",
-    "fake_news_formated": "C:\\Users\\gupta\\Downloads\\FAKE_NEWS_DETECTION\\experiments\\phase_b\\external\\fake_news_formated.parquet"
+  "datasets": {
+    "polsci_fake_news": {
+      "source_url": "https://huggingface.co/datasets/polsci/fake-news",
+      "license": "GPL (dataset card; verify upstream terms before redistribution)",
+      "size_downloaded": 480,
+      "duplicates_removed": 0,
+      "label_mapping": "real/legit/true/1 -> 1; fake/false/0 -> 0",
+      "caveat": "480 short legitimate/fake examples; not article-length and label semantics are crowdsourced/web-source based.",
+      "original_model": {
+        "accuracy": 0.42916666666666664,
+        "fake_recall": 0.6666666666666666,
+        "real_recall": 0.19166666666666668,
+        "roc_auc": 0.38664930555555554,
+        "percent_predicted_fake": 73.75,
+        "rows_evaluated": 480
+      },
+      "stripped_model": {
+        "accuracy": 0.4395833333333333,
+        "fake_recall": 0.6333333333333333,
+        "real_recall": 0.24583333333333332,
+        "roc_auc": 0.3791145833333333,
+        "percent_predicted_fake": 69.375,
+        "rows_evaluated": 480
+      }
+    },
+    "realfakenews": {
+      "source_url": "https://huggingface.co/datasets/fauxNeuz/RealFakeNews",
+      "license": "CC BY-NC-SA 4.0",
+      "size_downloaded": 108032,
+      "duplicates_removed": 0,
+      "label_mapping": "real/legit/true/1 -> 1; fake/false/0 -> 0",
+      "caveat": "108,032 samples; non-commercial/share-alike license and mixed source/region composition.",
+      "original_model": {
+        "accuracy": 0.3777399289099526,
+        "fake_recall": 0.4370030651517596,
+        "real_recall": 0.3379588805866246,
+        "roc_auc": 0.29299960394035374,
+        "percent_predicted_fake": 57.165469490521325,
+        "rows_evaluated": 108032
+      },
+      "stripped_model": {
+        "accuracy": 0.4025473933649289,
+        "fake_recall": 0.42144684381553776,
+        "real_recall": 0.3898609241812472,
+        "roc_auc": 0.30055607201028745,
+        "percent_predicted_fake": 53.43509330568721,
+        "rows_evaluated": 108032
+      }
+    },
+    "fake_news_formated": {
+      "source_url": "https://huggingface.co/datasets/magnea/fake-news-formated",
+      "license": "Apache-2.0 (dataset card)",
+      "size_downloaded": 149045,
+      "duplicates_removed": 21079,
+      "label_mapping": "real/legit/true/1 -> 1; fake/false/0 -> 0",
+      "caveat": "165,620 rows aggregated from multiple upstream datasets; dataset_id must be treated as a provenance caveat, not an independent source guarantee.",
+      "original_model": {
+        "accuracy": 0.4429926699279496,
+        "fake_recall": 0.6351976773973188,
+        "real_recall": 0.28084885680943944,
+        "roc_auc": 0.4685656530757495,
+        "percent_predicted_fake": 68.07355078692777,
+        "rows_evaluated": 127966
+      },
+      "stripped_model": {
+        "accuracy": 0.44301611365518967,
+        "fake_recall": 0.619349329690035,
+        "real_recall": 0.29426171644263877,
+        "roc_auc": 0.46722596084385076,
+        "percent_predicted_fake": 66.62082115561945,
+        "rows_evaluated": 127966
+      }
+    }
   }
 }

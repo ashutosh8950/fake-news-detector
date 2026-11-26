@@ -1,0 +1,3 @@
+Fresh group-aware evaluation completed.
+Production spaCy preprocessing used via preprocessor.preprocess; no fallback.
+{"all_keys_v1": {"failures": [], "fit_counts": {"final_calibration": 4170, "method_selection": 3282, "outer_test": 3653, "proper_fit": 13248}, "selected_model": "dt", "vocabulary_size": 150000}, "body_combined_only_v1": {"failures": [], "fit_counts": {"final_calibration": 4220, "method_selection": 3168, "outer_test": 3553, "proper_fit": 13412}, "selected_model": "dt", "vocabulary_size": 150000}}

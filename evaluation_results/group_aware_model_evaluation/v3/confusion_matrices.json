@@ -1,0 +1,56 @@
+{
+  "axis_order": [
+    "Fake",
+    "Real"
+  ],
+  "class_order": [
+    0,
+    1
+  ],
+  "policies": {
+    "all_keys_v1": {
+      "calibrated": [
+        [
+          1622,
+          44
+        ],
+        [
+          88,
+          1899
+        ]
+      ],
+      "uncalibrated": [
+        [
+          1622,
+          44
+        ],
+        [
+          88,
+          1899
+        ]
+      ]
+    },
+    "body_combined_only_v1": {
+      "calibrated": [
+        [
+          1582,
+          34
+        ],
+        [
+          59,
+          1878
+        ]
+      ],
+      "uncalibrated": [
+        [
+          1582,
+          34
+        ],
+        [
+          59,
+          1878
+        ]
+      ]
+    }
+  }
+}
