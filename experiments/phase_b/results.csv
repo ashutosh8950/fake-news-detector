@@ -5,7 +5,18 @@ E1,nb,grouped baseline,0.9348480701,0.9779491062,complete
 E2,lr,top features,NOT FOUND,NOT FOUND,not completed
 E2,lr,fake top-50 artifact share 6.0%,NOT FOUND,NOT FOUND,complete
 E2,lr,real top-50 artifact share 30.0%,NOT FOUND,NOT FOUND,complete
-E3,ensemble,marker stripping conditions,NOT FOUND,NOT FOUND,not completed
+E3,lr,original train -> original test,0.9622228306,0.9923433893,complete
+E3,svc,original train -> original test,0.9679715302,0.9937589530,complete
+E3,nb,original train -> original test,0.9378592937,0.9803373790,complete
+E3,lr,stripped train -> stripped test,0.9578428689,0.9895421682,complete
+E3,svc,stripped train -> stripped test,0.9611278401,0.9914268677,complete
+E3,nb,stripped train -> stripped test,0.9323843416,0.9767875948,complete
+E3,lr,original train -> stripped test,0.9583903641,0.9889528031,complete
+E3,svc,original train -> stripped test,0.9627703258,0.9903091584,complete
+E3,nb,original train -> stripped test,0.9315630988,0.9764528861,complete
+E3,lr,stripped train -> original test,0.9578428689,0.9897197933,complete
+E3,svc,stripped train -> original test,0.9614015877,0.9915884824,complete
+E3,nb,stripped train -> original test,0.9326580892,0.9776515538,complete
 E4,title,title-only probe,0.9071995620,0.9686881295,complete
 E4,lr,body first 300 chars,0.9542841500,0.9863485404,complete
 E4,lr,non-lexical style only,0.7618395839,0.8458364725,complete

@@ -1,0 +1,445 @@
+{
+  "experiment": "E3",
+  "conditions": {
+    "original_train_original_test": {
+      "lr": {
+        "accuracy": 0.9622228305502327,
+        "per_class": {
+          "fake": {
+            "precision": 0.9457409568261377,
+            "recall": 0.9729891956782714,
+            "f1": 0.9591715976331361,
+            "support": 1666
+          },
+          "real": {
+            "precision": 0.9767921609076844,
+            "recall": 0.953195772521389,
+            "f1": 0.9648497198166073,
+            "support": 1987
+          }
+        },
+        "roc_auc": 0.9923433892933117,
+        "confusion_matrix": [
+          [
+            1621,
+            45
+          ],
+          [
+            93,
+            1894
+          ]
+        ],
+        "brier_score": 0.029110680706303224
+      },
+      "svc": {
+        "accuracy": 0.9679715302491103,
+        "per_class": {
+          "fake": {
+            "precision": 0.9505526468877254,
+            "recall": 0.9807923169267707,
+            "f1": 0.9654357459379616,
+            "support": 1666
+          },
+          "real": {
+            "precision": 0.983453981385729,
+            "recall": 0.9572219426270759,
+            "f1": 0.9701606732976281,
+            "support": 1987
+          }
+        },
+        "roc_auc": 0.9937589530024391,
+        "confusion_matrix": [
+          [
+            1634,
+            32
+          ],
+          [
+            85,
+            1902
+          ]
+        ],
+        "brier_score": 0.07651825177754826
+      },
+      "nb": {
+        "accuracy": 0.9378592937311798,
+        "per_class": {
+          "fake": {
+            "precision": 0.9151759953837276,
+            "recall": 0.9519807923169268,
+            "f1": 0.9332156516622536,
+            "support": 1666
+          },
+          "real": {
+            "precision": 0.9583333333333334,
+            "recall": 0.926019124308002,
+            "f1": 0.9418991553621705,
+            "support": 1987
+          }
+        },
+        "roc_auc": 0.9803373790381779,
+        "confusion_matrix": [
+          [
+            1586,
+            80
+          ],
+          [
+            147,
+            1840
+          ]
+        ],
+        "brier_score": 0.051575949347074615
+      }
+    },
+    "stripped_train_stripped_test": {
+      "lr": {
+        "accuracy": 0.9578428688748973,
+        "per_class": {
+          "fake": {
+            "precision": 0.9436619718309859,
+            "recall": 0.9651860744297719,
+            "f1": 0.9543026706231454,
+            "support": 1666
+          },
+          "real": {
+            "precision": 0.9702411493073371,
+            "recall": 0.9516859587317564,
+            "f1": 0.9608739837398373,
+            "support": 1987
+          }
+        },
+        "roc_auc": 0.9895421681506019,
+        "confusion_matrix": [
+          [
+            1608,
+            58
+          ],
+          [
+            96,
+            1891
+          ]
+        ],
+        "brier_score": 0.03438716063657756
+      },
+      "svc": {
+        "accuracy": 0.9611278401313988,
+        "per_class": {
+          "fake": {
+            "precision": 0.9471830985915493,
+            "recall": 0.9687875150060024,
+            "f1": 0.9578635014836795,
+            "support": 1666
+          },
+          "real": {
+            "precision": 0.9733196511031298,
+            "recall": 0.9547055863110216,
+            "f1": 0.9639227642276422,
+            "support": 1987
+          }
+        },
+        "roc_auc": 0.9914268676771162,
+        "confusion_matrix": [
+          [
+            1614,
+            52
+          ],
+          [
+            90,
+            1897
+          ]
+        ],
+        "brier_score": 0.08112769174221156
+      },
+      "nb": {
+        "accuracy": 0.9323843416370107,
+        "per_class": {
+          "fake": {
+            "precision": 0.9061247853463079,
+            "recall": 0.9501800720288115,
+            "f1": 0.927629651333138,
+            "support": 1666
+          },
+          "real": {
+            "precision": 0.9564533053515215,
+            "recall": 0.9174635128334172,
+            "f1": 0.936552787053686,
+            "support": 1987
+          }
+        },
+        "roc_auc": 0.9767875947560706,
+        "confusion_matrix": [
+          [
+            1583,
+            83
+          ],
+          [
+            164,
+            1823
+          ]
+        ],
+        "brier_score": 0.0562289744905287
+      }
+    },
+    "original_train_stripped_test": {
+      "lr": {
+        "accuracy": 0.9583903640843142,
+        "per_class": {
+          "fake": {
+            "precision": 0.940628637951106,
+            "recall": 0.9699879951980792,
+            "f1": 0.9550827423167849,
+            "support": 1666
+          },
+          "real": {
+            "precision": 0.9741602067183462,
+            "recall": 0.9486663311524912,
+            "f1": 0.9612442631310556,
+            "support": 1987
+          }
+        },
+        "roc_auc": 0.9889528030638526,
+        "confusion_matrix": [
+          [
+            1616,
+            50
+          ],
+          [
+            102,
+            1885
+          ]
+        ],
+        "brier_score": 0.03707702043902642
+      },
+      "svc": {
+        "accuracy": 0.9627703257596496,
+        "per_class": {
+          "fake": {
+            "precision": 0.9411764705882353,
+            "recall": 0.9795918367346939,
+            "f1": 0.96,
+            "support": 1666
+          },
+          "real": {
+            "precision": 0.9822824387701928,
+            "recall": 0.9486663311524912,
+            "f1": 0.9651817716333846,
+            "support": 1987
+          }
+        },
+        "roc_auc": 0.9903091583890729,
+        "confusion_matrix": [
+          [
+            1632,
+            34
+          ],
+          [
+            102,
+            1885
+          ]
+        ],
+        "brier_score": 0.10681256026584256
+      },
+      "nb": {
+        "accuracy": 0.9315630988228853,
+        "per_class": {
+          "fake": {
+            "precision": 0.9050343249427918,
+            "recall": 0.9495798319327731,
+            "f1": 0.9267721148213239,
+            "support": 1666
+          },
+          "real": {
+            "precision": 0.9559055118110236,
+            "recall": 0.9164569703069955,
+            "f1": 0.9357656731757451,
+            "support": 1987
+          }
+        },
+        "roc_auc": 0.9764528861368402,
+        "confusion_matrix": [
+          [
+            1582,
+            84
+          ],
+          [
+            166,
+            1821
+          ]
+        ],
+        "brier_score": 0.05674814679511723
+      }
+    },
+    "stripped_train_original_test": {
+      "lr": {
+        "accuracy": 0.9578428688748973,
+        "per_class": {
+          "fake": {
+            "precision": 0.9436619718309859,
+            "recall": 0.9651860744297719,
+            "f1": 0.9543026706231454,
+            "support": 1666
+          },
+          "real": {
+            "precision": 0.9702411493073371,
+            "recall": 0.9516859587317564,
+            "f1": 0.9608739837398373,
+            "support": 1987
+          }
+        },
+        "roc_auc": 0.9897197933023235,
+        "confusion_matrix": [
+          [
+            1608,
+            58
+          ],
+          [
+            96,
+            1891
+          ]
+        ],
+        "brier_score": 0.03417405954074993
+      },
+      "svc": {
+        "accuracy": 0.9614015877361073,
+        "per_class": {
+          "fake": {
+            "precision": 0.9466900995899239,
+            "recall": 0.9699879951980792,
+            "f1": 0.9581974503409428,
+            "support": 1666
+          },
+          "real": {
+            "precision": 0.9743062692702981,
+            "recall": 0.9542023150478107,
+            "f1": 0.9641495041952708,
+            "support": 1987
+          }
+        },
+        "roc_auc": 0.9915884823984953,
+        "confusion_matrix": [
+          [
+            1616,
+            50
+          ],
+          [
+            91,
+            1896
+          ]
+        ],
+        "brier_score": 0.08063360887034268
+      },
+      "nb": {
+        "accuracy": 0.9326580892417191,
+        "per_class": {
+          "fake": {
+            "precision": 0.9047890535917902,
+            "recall": 0.9525810324129652,
+            "f1": 0.9280701754385965,
+            "support": 1666
+          },
+          "real": {
+            "precision": 0.9583991574512901,
+            "recall": 0.9159536990437847,
+            "f1": 0.9366958311888832,
+            "support": 1987
+          }
+        },
+        "roc_auc": 0.9776515538273688,
+        "confusion_matrix": [
+          [
+            1587,
+            79
+          ],
+          [
+            167,
+            1820
+          ]
+        ],
+        "brier_score": 0.05574994646040289
+      }
+    }
+  },
+  "accuracy_delta_vs_e1": {
+    "original_train_original_test": {
+      "lr": 0.0,
+      "svc": 0.0,
+      "nb": 0.0
+    },
+    "stripped_train_stripped_test": {
+      "lr": -0.0043799616753353865,
+      "svc": -0.006843690117711465,
+      "nb": -0.00547495209416915
+    },
+    "original_train_stripped_test": {
+      "lr": -0.003832466465918505,
+      "svc": -0.005201204489460709,
+      "nb": -0.006296194908294472
+    },
+    "stripped_train_original_test": {
+      "lr": -0.0043799616753353865,
+      "svc": -0.006569942513003024,
+      "nb": -0.005201204489460709
+    }
+  },
+  "examples": [
+    {
+      "before_title": " FAIL! The Trump Organization\u00e2\u0080\u0099s Credit Score Will Make You Laugh",
+      "after_title": "FAIL! The Trump Organization\u00e2\u0080\u0099s Credit Score Will Make You Laugh",
+      "before_text": "While the controversy over Trump s personal tax returns continues, business credit rating company Nav decided to take a look at his business  credit, and published the results on their website. Nav, which actually does have an A+ rating from the Better Business Bureau (as opposed to Trump U. s final",
+      "after_text": "While the controversy over Trump s personal tax returns continues, business credit rating company Nav decided to take a look at his business credit, and published the results on their website. Nav, which actually does have an A+ rating from the Better Business Bureau (as opposed to Trump U. s final "
+    },
+    {
+      "before_title": "THE MOST UNCOURAGEOUS PRESIDENT EVER Receives A Courage Award\u00e2\u0080\u00a6Proceeds To Whine About Current President",
+      "after_title": "THE MOST UNCOURAGEOUS PRESIDENT EVER Receives A Courage Award\u00e2\u0080\u00a6Proceeds To Whine About Current President",
+      "before_text": "There has never been a more UNCOURAGEOUS person in the White House than Barack Obama. He never faced a decision on foreign affairs without backing down. Yes, he s the one who gave Iran the opportunity to have nuclear capability. Remember the red line with Syria?When his horrible policies didn t work",
+      "after_text": "There has never been a more UNCOURAGEOUS person in the White House than Barack Obama. He never faced a decision on foreign affairs without backing down. Yes, he s the one who gave Iran the opportunity to have nuclear capability. Remember the red line with Syria?When his horrible policies didn t work"
+    },
+    {
+      "before_title": "WATCH: John Oliver Presents GOP Debates As \u00e2\u0080\u0098Clowntown F*ck-the-World Sh*tshow 2016\u00e2\u0080\u0099",
+      "after_title": "WATCH: John Oliver Presents GOP Debates As \u00e2\u0080\u0098Clowntown F*ck-the-World Sh*tshow 2016\u00e2\u0080\u0099",
+      "before_text": "John Oliver isn t known for mincing words when it comes to his description of Republicans. Last night was no exception as he left no hold barred when he discussed the insanity of the Republican candidates during the debates.His primary focus was on the man that has an uncanny tendency for outdoing h",
+      "after_text": "John Oliver isn t known for mincing words when it comes to his description of Republicans. Last night was no exception as he left no hold barred when he discussed the insanity of the Republican candidates during the debates.His primary focus was on the man that has an uncanny tendency for outdoing h"
+    },
+    {
+      "before_title": "WATCH: NANCY PELOSI COMES UNGLUED! Calls A Pie Chart \u00e2\u0080\u009cA Pie Crust\u00e2\u0080\u009d\u00e2\u0080\u00a6Doesn\u00e2\u0080\u0099t Know Difference Between 1.4 Billion Dollars \u00e2\u0080\u009c1.4 Trillion Dollars\u00e2\u0080\u009d",
+      "after_title": "WATCH: NANCY PELOSI COMES UNGLUED! Calls A Pie Chart \u00e2\u0080\u009cA Pie Crust\u00e2\u0080\u009d\u00e2\u0080\u00a6Doesn\u00e2\u0080\u0099t Know Difference Between 1.4 Billion Dollars \u00e2\u0080\u009c1.4 Trillion Dollars\u00e2\u0080\u009d",
+      "before_text": "Is Representative Nancy Pelosi (D-CA) the member of Congress who s receiving Alzheimer s drugs from the D.C. pharmacist who revealed a dirty little Washington secret about the drugs he delivers to Congress members only 2 weeks ago? Nancy s even more bizarre than usual behavior has led a lot of Ameri",
+      "after_text": "Is Representative Nancy Pelosi (D-CA) the member of Congress who s receiving Alzheimer s drugs from the D.C. pharmacist who revealed a dirty little Washington secret about the drugs he delivers to Congress members only 2 weeks ago? Nancy s even more bizarre than usual behavior has led a lot of Ameri"
+    },
+    {
+      "before_title": "WASHINGTON POST PRAISES MICHELLE OBAMA For \u00e2\u0080\u009cReclaiming her image\u00e2\u0080\u009d\u00e2\u0080\u00a6For Openly Supporting Racist and Cop-Hating Black Lives Matter",
+      "after_title": "WASHINGTON POST PRAISES MICHELLE OBAMA For \u00e2\u0080\u009cReclaiming her image\u00e2\u0080\u009d\u00e2\u0080\u00a6For Openly Supporting Racist and Cop-Hating Black Lives Matter",
+      "before_text": "Washington Post: Is this the woman that Michelle Obama sees when she looks in the mirror now, free of the White House and the media scrutiny of presidential politics? After more than a decade in public life, can she freely shed the sheath dress and pearls for a wide brim black hat and dookie braids?",
+      "after_text": "Washington Post: Is this the woman that Michelle Obama sees when she looks in the mirror now, free of the White House and the media scrutiny of presidential politics? After more than a decade in public life, can she freely shed the sheath dress and pearls for a wide brim black hat and dookie braids?"
+    },
+    {
+      "before_title": "YOU LIE! The 5 Major Lies That Have Shaped 5 Obama\u00e2\u0080\u0099s Presidency",
+      "after_title": "YOU LIE! The 5 Major Lies That Have Shaped 5 Obama\u00e2\u0080\u0099s Presidency",
+      "before_text": "Joe Wilson was right!Obviously, there are more than 5 lies Obama has told during his presidency, but who has enough time in the day to count them all? If past presidents are remembered for their signature achievements, Obama will be remembered for his signature lie:  If you like your health care pla",
+      "after_text": "Joe Wilson was right!Obviously, there are more than 5 lies Obama has told during his presidency, but who has enough time in the day to count them all? If past presidents are remembered for their signature achievements, Obama will be remembered for his signature lie: If you like your health care plan"
+    },
+    {
+      "before_title": " Trump Stops Praising Coast Guard\u00e2\u0080\u0099s Harvey Efforts To Viciously Attack The Media (VIDEO)",
+      "after_title": "Trump Stops Praising Coast Guard\u00e2\u0080\u0099s Harvey Efforts To Viciously Attack The Media (VIDEO)",
+      "before_text": "Donald Trump has now become well known for his completely inappropriate tendency to disrespect those who should be honored. We ve seen it numerous times in Trump s efforts to congratulate and honor members of the military, and we witnessed it again earlier today.On Saturday, Trump visited Houston, T",
+      "after_text": "Donald Trump has now become well known for his completely inappropriate tendency to disrespect those who should be honored. We ve seen it numerous times in Trump s efforts to congratulate and honor members of the military, and we witnessed it again earlier today.On Saturday, Trump visited Houston, T"
+    },
+    {
+      "before_title": "no title",
+      "after_title": "no title",
+      "before_text": "trump should take the lead aand prempt the attack that is sure to come on guns   shot in chacago the tightest gun laws in the country  how couldthis happen  ask crooked hillary and the gun running camp  caught red handed supplying guns to gangs in mexico   yrs nothing has changed in fact its worse t",
+      "after_text": "trump should take the lead aand prempt the attack that is sure to come on guns shot in chacago the tightest gun laws in the country how couldthis happen ask crooked hillary and the gun running camp caught red handed supplying guns to gangs in mexico yrs nothing has changed in fact its worse thanks t"
+    },
+    {
+      "before_title": " CREEPY: You\u00e2\u0080\u0099ll Never Believe The Deranged Thing This Trump Fan Does With His Cardboard Donald Daily (VIDEO)",
+      "after_title": "CREEPY: You\u00e2\u0080\u0099ll Never Believe The Deranged Thing This Trump Fan Does With His Cardboard Donald Daily (VIDEO)",
+      "before_text": "You know how many Trump fans seem to have a sick obsession with their orange-tinged fuhrer? We may have possibly found the one who is basically the ultimate Donald Trump fanboy, in a 1940 s Germany sort of way.Meet Gene Huber. Trump pulled Huber up on stage at his first campaign rally in Melbourne, ",
+      "after_text": "You know how many Trump fans seem to have a sick obsession with their orange-tinged fuhrer? We may have possibly found the one who is basically the ultimate Donald Trump fanboy, in a 1940 s Germany sort of way.Meet Gene Huber. Trump pulled Huber up on stage at his first campaign rally in Melbourne, "
+    },
+    {
+      "before_title": "ONLY 25% OF DOWN SYNDROME BABIES ARE ALLOWED TO BE BORN\u00e2\u0080\u00a6This \u00e2\u0080\u0098Flying Baby\u00e2\u0080\u0099 Might Make Some People Re-think That Decision",
+      "after_title": "ONLY 25% OF DOWN SYNDROME BABIES ARE ALLOWED TO BE BORN\u00e2\u0080\u00a6This \u00e2\u0080\u0098Flying Baby\u00e2\u0080\u0099 Might Make Some People Re-think That Decision",
+      "before_text": "Alan noticed his son liked to lay on his belly and pretend he was flying.One day he edited an image to make it appear as though Wil was floating in mid-air. Our family and friends loved this idea and it soon became a weekly thing on my Instagram to see where Wil had been flying that week. These phot",
+      "after_text": "Alan noticed his son liked to lay on his belly and pretend he was flying.One day he edited an image to make it appear as though Wil was floating in mid-air. Our family and friends loved this idea and it soon became a weekly thing on my Instagram to see where Wil had been flying that week. These phot"
+    }
+  ]
+}
