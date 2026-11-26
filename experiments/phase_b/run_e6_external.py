@@ -12,7 +12,7 @@ import numpy as np
 import pandas as pd
 import requests
 
-from common import ensemble_predictions, fit_models, load_grouped_data, preprocess_rows, classification_metrics, write_json
+from common import ensemble_predictions, fit_models, light_preprocess, load_grouped_data, preprocess_rows, classification_metrics, write_json
 from run_e3_marker_stripping import strip_source_markers
 
 
@@ -36,9 +36,13 @@ DATASETS = {
         "caveat": "165,620 rows aggregated from multiple upstream datasets; dataset_id must be treated as a provenance caveat, not an independent source guarantee.",
     },
 }
+MANUAL_DIR = Path(__file__).with_name("external")
 
 
 def download_frame(name: str, spec: dict[str, str], directory: Path) -> pd.DataFrame:
+    manual = MANUAL_DIR / f"{name}.parquet"
+    if manual.exists():
+        return pd.read_parquet(manual)
     response = requests.get(
         "https://datasets-server.huggingface.co/parquet",
         params={"dataset": spec["repo"]},
@@ -83,7 +87,7 @@ def evaluate(models, vec, frame: pd.DataFrame, stripped: bool) -> dict[str, obje
     values = []
     for row in frame.itertuples(index=False):
         title, text = (strip_source_markers(row.text, row.title) if stripped else (row.title, row.text))
-        values.append(__import__("preprocessor").preprocess(title, text))
+        values.append(light_preprocess(title, text))
     probabilities, predictions = ensemble_predictions(models, vec, values)
     metrics = classification_metrics(frame["label"].to_numpy(dtype=int), predictions, probabilities)
     return {
@@ -99,28 +103,33 @@ def evaluate(models, vec, frame: pd.DataFrame, stripped: bool) -> dict[str, obje
 def main() -> None:
     train, _, all_data = load_grouped_data()
     training_keys = set((normalize(row.title), normalize(row.text)) for row in all_data.itertuples(index=False))
-    original_train = preprocess_rows(train)
-    stripped_train = [__import__("preprocessor").preprocess(*strip_source_markers(row.text, row.title)) for row in train.itertuples(index=False)]
+    original_train = preprocess_rows(train, light=True)
+    stripped_train = [light_preprocess(*strip_source_markers(row.text, row.title)) for row in train.itertuples(index=False)]
     original_vec, original_models = fit_models(original_train, train["label"])
     stripped_vec, stripped_models = fit_models(stripped_train, train["label"])
     result = {"experiment": "E6", "datasets": {}}
     with tempfile.TemporaryDirectory(prefix="phase-b-external-") as temp:
         temp_dir = Path(temp)
-        for name, spec in DATASETS.items():
-            raw = download_frame(name, spec, temp_dir)
-            frame = standardize(name, raw)
-            before = len(frame)
-            keys = [(normalize(row.title), normalize(row.text)) for row in frame.itertuples(index=False)]
-            frame = frame.loc[[key not in training_keys for key in keys]].reset_index(drop=True)
-            result["datasets"][name] = {
-                "source_url": spec["url"],
-                "license": spec["license"],
-                "size_downloaded": before,
-                "duplicates_removed": before - len(frame),
-                "label_mapping": "real/legit/true/1 -> 1; fake/false/0 -> 0",
-                "caveat": spec["caveat"],
-                "original_model": evaluate(original_models, original_vec, frame, False),
-                "stripped_model": evaluate(stripped_models, stripped_vec, frame, True),
+        try:
+            for name, spec in DATASETS.items():
+                raw = download_frame(name, spec, temp_dir)
+                frame = standardize(name, raw)
+                before = len(frame)
+                keys = [(normalize(row.title), normalize(row.text)) for row in frame.itertuples(index=False)]
+                frame = frame.loc[[key not in training_keys for key in keys]].reset_index(drop=True)
+                result["datasets"][name] = {
+                    "source_url": spec["url"], "license": spec["license"], "size_downloaded": before,
+                    "duplicates_removed": before - len(frame),
+                    "label_mapping": "real/legit/true/1 -> 1; fake/false/0 -> 0",
+                    "caveat": spec["caveat"],
+                    "original_model": evaluate(original_models, original_vec, frame, False),
+                    "stripped_model": evaluate(stripped_models, stripped_vec, frame, True),
+                }
+        except requests.RequestException as exc:
+            result["status"] = "NOT FOUND"
+            result["reason"] = f"Dataset download blocked: {exc}"
+            result["manual_downloads"] = {
+                name: str(MANUAL_DIR / f"{name}.parquet") for name in DATASETS
             }
     write_json(Path(__file__).with_name("e6_external.json"), result)
 

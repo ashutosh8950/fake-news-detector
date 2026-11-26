@@ -1,0 +1,11 @@
+{
+  "experiment": "E6",
+  "datasets": {},
+  "status": "NOT FOUND",
+  "reason": "Dataset download blocked: HTTPSConnectionPool(host='datasets-server.huggingface.co', port=443): Max retries exceeded with url: /parquet?dataset=polsci%2Ffake-news (Caused by NewConnectionError(\"HTTPSConnection(host='datasets-server.huggingface.co', port=443): Failed to establish a new connection: [WinError 10013] An attempt was made to access a socket in a way forbidden by its access permissions\"))",
+  "manual_downloads": {
+    "polsci_fake_news": "C:\\Users\\gupta\\Downloads\\FAKE_NEWS_DETECTION\\experiments\\phase_b\\external\\polsci_fake_news.parquet",
+    "realfakenews": "C:\\Users\\gupta\\Downloads\\FAKE_NEWS_DETECTION\\experiments\\phase_b\\external\\realfakenews.parquet",
+    "fake_news_formated": "C:\\Users\\gupta\\Downloads\\FAKE_NEWS_DETECTION\\experiments\\phase_b\\external\\fake_news_formated.parquet"
+  }
+}

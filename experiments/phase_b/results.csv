@@ -27,4 +27,4 @@ E5,ensemble,original model first sentence,0.9493566931,NOT APPLICABLE,complete
 E5,ensemble,stripped model first sentence,0.9085683000,NOT APPLICABLE,complete
 E5,ensemble,original model first two sentences,0.9545578976,NOT APPLICABLE,complete
 E5,ensemble,stripped model first two sentences,0.9362168081,NOT APPLICABLE,complete
-E6,ensemble,external datasets,NOT FOUND,NOT FOUND,not completed
+E6,ensemble,external datasets,NOT FOUND,NOT FOUND,NOT FOUND: network blocked (WinError 10013); see e6_external.json manual_downloads
