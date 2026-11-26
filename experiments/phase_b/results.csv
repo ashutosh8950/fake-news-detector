@@ -21,5 +21,10 @@ E4,title,title-only probe,0.9071995620,0.9686881295,complete
 E4,lr,body first 300 chars,0.9542841500,0.9863485404,complete
 E4,lr,non-lexical style only,0.7618395839,0.8458364725,complete
 E4,lr,char TF-IDF first 50 chars,0.9635915686,0.9830802980,complete
-E5,ensemble,short input robustness,NOT FOUND,NOT FOUND,not completed
+E5,ensemble,original model title only,0.8513550506,NOT APPLICABLE,complete
+E5,ensemble,stripped model title only,0.8614837120,NOT APPLICABLE,complete
+E5,ensemble,original model first sentence,0.9493566931,NOT APPLICABLE,complete
+E5,ensemble,stripped model first sentence,0.9085683000,NOT APPLICABLE,complete
+E5,ensemble,original model first two sentences,0.9545578976,NOT APPLICABLE,complete
+E5,ensemble,stripped model first two sentences,0.9362168081,NOT APPLICABLE,complete
 E6,ensemble,external datasets,NOT FOUND,NOT FOUND,not completed

@@ -4,7 +4,7 @@ from pathlib import Path
 
 import numpy as np
 
-from common import ensemble_predictions, fit_models, first_sentences, load_grouped_data, preprocess_batch, preprocess_rows, write_json
+from common import ensemble_predictions, fit_models, first_sentences, light_preprocess, load_grouped_data, preprocess_rows, write_json
 from run_e3_marker_stripping import strip_source_markers
 
 
@@ -18,8 +18,8 @@ def stripped_texts(frame, mode):
             body = first_sentences(body, 1)
         else:
             body = first_sentences(body, 2)
-        values.append(__import__("preprocessor").preprocess(title, body))
-    return preprocess_batch(values)
+        values.append((title, body))
+    return [light_preprocess(*value) for value in values]
 
 
 def summarize(probabilities, predictions):
@@ -33,21 +33,13 @@ def main() -> None:
     global LABELS
     train, test, _ = load_grouped_data()
     LABELS = test["label"].to_numpy(dtype=int)
-    original_train = preprocess_rows(train)
-    stripped_train = preprocess_batch(
-        f"{title} {title} {title} {body}"
-        for row in train.itertuples(index=False)
-        for title, body in [strip_source_markers(row.text, row.title)]
-    )
+    original_train = preprocess_rows(train, light=True)
+    stripped_train = [light_preprocess(*strip_source_markers(row.text, row.title)) for row in train.itertuples(index=False)]
     original_vec, original_models = fit_models(original_train, train["label"])
     stripped_vec, stripped_models = fit_models(stripped_train, train["label"])
     result = {}
     for mode in ("title_only", "first_sentence", "first_two_sentences"):
-        original_values = preprocess_batch(
-            f"{row.title} {row.title} {row.title} "
-            f"{'' if mode == 'title_only' else first_sentences(row.text, 1 if mode == 'first_sentence' else 2)}"
-            for row in test.itertuples(index=False)
-        )
+        original_values = [light_preprocess(row.title, "" if mode == "title_only" else first_sentences(row.text, 1 if mode == "first_sentence" else 2)) for row in test.itertuples(index=False)]
         stripped_values = stripped_texts(test, mode)
         original_prob, original_pred = ensemble_predictions(original_models, original_vec, original_values)
         stripped_prob, stripped_pred = ensemble_predictions(stripped_models, stripped_vec, stripped_values)

@@ -1,0 +1,35 @@
+{
+  "experiment": "E5",
+  "results": {
+    "title_only": {
+      "original_model": {
+        "accuracy": 0.8513550506433069,
+        "percent_predicted_fake": 57.13112510265535
+      },
+      "stripped_model": {
+        "accuracy": 0.8614837120175198,
+        "percent_predicted_fake": 55.46126471393376
+      }
+    },
+    "first_sentence": {
+      "original_model": {
+        "accuracy": 0.9493566931289351,
+        "percent_predicted_fake": 48.04270462633452
+      },
+      "stripped_model": {
+        "accuracy": 0.9085683000273748,
+        "percent_predicted_fake": 51.1908020804818
+      }
+    },
+    "first_two_sentences": {
+      "original_model": {
+        "accuracy": 0.9545578976183958,
+        "percent_predicted_fake": 47.1940870517383
+      },
+      "stripped_model": {
+        "accuracy": 0.9362168081029291,
+        "percent_predicted_fake": 48.53545031480975
+      }
+    }
+  }
+}
