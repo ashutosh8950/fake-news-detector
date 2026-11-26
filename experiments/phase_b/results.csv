@@ -3,6 +3,8 @@ E1,lr,grouped baseline,0.9589378593,0.9891624491,complete
 E1,svc,grouped baseline,0.9657815494,0.9932257755,complete
 E1,nb,grouped baseline,0.9348480701,0.9779491062,complete
 E2,lr,top features,NOT FOUND,NOT FOUND,not completed
+E2,lr,fake top-50 artifact share 6.0%,NOT FOUND,NOT FOUND,complete
+E2,lr,real top-50 artifact share 30.0%,NOT FOUND,NOT FOUND,complete
 E3,ensemble,marker stripping conditions,NOT FOUND,NOT FOUND,not completed
 E4,lr/title-body-style-char,signal source probes,NOT FOUND,NOT FOUND,not completed
 E5,ensemble,short input robustness,NOT FOUND,NOT FOUND,not completed
