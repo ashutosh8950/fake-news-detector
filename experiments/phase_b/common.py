@@ -3,10 +3,8 @@
 from __future__ import annotations
 
 import json
-import pickle
 import re
 import sys
-import tempfile
 from pathlib import Path
 from typing import Any, Iterable
 
@@ -28,7 +26,7 @@ ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from preprocessor import clean_text, nlp, preprocess  # noqa: E402
+from prep_cache import light_preprocess, load_cache  # noqa: E402
 
 DATA_DIR = ROOT / "data"
 SPLIT_PATH = ROOT / "docs" / "audit_archive" / "duplicate_aware" / "final_v5" / "primary" / "split_manifest.csv"
@@ -141,38 +139,16 @@ def ensemble_predictions(models: dict[str, object], vec: TfidfVectorizer, texts:
     return probabilities, (probabilities >= 0.5).astype(int)
 
 
-def preprocess_rows(frame: pd.DataFrame, title_only: bool = False, body_chars: int | None = None) -> list[str]:
-    cache_path = Path(tempfile.gettempdir()) / "fake_news_phase_b_preprocess_v1.pkl"
-    try:
-        cache = pickle.loads(cache_path.read_bytes())
-    except (FileNotFoundError, EOFError, pickle.PickleError):
-        cache = {}
-    pending = []
-    keys = []
+def preprocess_rows(frame: pd.DataFrame, title_only: bool = False, body_chars: int | None = None, light: bool = False) -> list[str]:
+    cache = None if light or title_only or body_chars is not None else load_cache()
+    values = []
     for row in frame.itertuples(index=False):
-        key = (row.row_id, title_only, body_chars)
-        keys.append(key)
-        if key in cache:
-            continue
-        title = row.title if not title_only else row.title
+        title = row.title
         text = "" if title_only else row.text
         if body_chars is not None:
             text = text[:body_chars]
-        pending.append((key, f"{title} {title} {title} {text}"))
-    if pending:
-        processed = preprocess_batch(value for _, value in pending)
-        cache.update(dict(zip((key for key, _ in pending), processed)))
-        cache_path.write_bytes(pickle.dumps(cache, protocol=pickle.HIGHEST_PROTOCOL))
-    return [cache[key] for key in keys]
-
-
-def preprocess_batch(combined_values: Iterable[str]) -> list[str]:
-    """Production-equivalent preprocessing, batched only for audit runtime."""
-    cleaned = [clean_text(value) for value in combined_values]
-    output = []
-    for doc in nlp.pipe(cleaned, batch_size=128):
-        output.append(" ".join(token.lemma_ for token in doc if not token.is_stop and len(token.text) > 2))
-    return output
+        values.append(cache[row.row_id] if cache is not None else light_preprocess(title, text))
+    return values
 
 
 def first_sentences(text: str, count: int) -> str:
