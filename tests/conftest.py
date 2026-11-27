@@ -1,9 +1,26 @@
 """Shared test policy: no downloads and explicit artifact-dependent skips."""
 
 from pathlib import Path
+import faulthandler
+import multiprocessing
+import threading
 from unittest.mock import patch
 
 import pytest
+
+
+def pytest_sessionfinish(session, exitstatus):
+    """Temporary diagnosis for processes surviving pytest session teardown."""
+    del session, exitstatus
+    print("\n[sessionfinish] threads:")
+    for thread in threading.enumerate():
+        print(
+            f"  name={thread.name!r} daemon={thread.daemon} alive={thread.is_alive()}"
+        )
+    print("[sessionfinish] multiprocessing children:")
+    for child in multiprocessing.active_children():
+        print(f"  name={child.name!r} pid={child.pid} alive={child.is_alive()}")
+    faulthandler.dump_traceback_later(30, exit=True)
 
 
 def _calibrated_bundle_is_present() -> bool:
