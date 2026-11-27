@@ -29,7 +29,15 @@ if str(ROOT) not in sys.path:
 from prep_cache import light_preprocess, load_cache  # noqa: E402
 
 DATA_DIR = ROOT / "data"
-SPLIT_PATH = ROOT / "docs" / "audit_archive" / "duplicate_aware" / "final_v5" / "primary" / "split_manifest.csv"
+SPLIT_PATH = (
+    ROOT
+    / "docs"
+    / "audit_archive"
+    / "duplicate_aware"
+    / "final_v5"
+    / "primary"
+    / "split_manifest.csv"
+)
 RANDOM_STATE = 42
 MODEL_KEYS = ("lr", "svc", "nb")
 
@@ -92,7 +100,9 @@ def as_probability(model: object, features: Any) -> np.ndarray:
     return 1.0 / (1.0 + np.exp(-scores))
 
 
-def fit_models(train_text: Iterable[str], labels: Iterable[int]) -> tuple[TfidfVectorizer, dict[str, object]]:
+def fit_models(
+    train_text: Iterable[str], labels: Iterable[int]
+) -> tuple[TfidfVectorizer, dict[str, object]]:
     vec = vectorizer()
     train_features = vec.fit_transform(list(train_text))
     models = fast_models()
@@ -117,15 +127,27 @@ def evaluate_models(
     return output
 
 
-def classification_metrics(y_true: np.ndarray, predictions: np.ndarray, probabilities: np.ndarray) -> dict[str, Any]:
+def classification_metrics(
+    y_true: np.ndarray, predictions: np.ndarray, probabilities: np.ndarray
+) -> dict[str, Any]:
     precision, recall, f1, support = precision_recall_fscore_support(
         y_true, predictions, labels=[0, 1], zero_division=0
     )
     return {
         "accuracy": float(accuracy_score(y_true, predictions)),
         "per_class": {
-            "fake": {"precision": float(precision[0]), "recall": float(recall[0]), "f1": float(f1[0]), "support": int(support[0])},
-            "real": {"precision": float(precision[1]), "recall": float(recall[1]), "f1": float(f1[1]), "support": int(support[1])},
+            "fake": {
+                "precision": float(precision[0]),
+                "recall": float(recall[0]),
+                "f1": float(f1[0]),
+                "support": int(support[0]),
+            },
+            "real": {
+                "precision": float(precision[1]),
+                "recall": float(recall[1]),
+                "f1": float(f1[1]),
+                "support": int(support[1]),
+            },
         },
         "roc_auc": float(roc_auc_score(y_true, probabilities)),
         "confusion_matrix": confusion_matrix(y_true, predictions, labels=[0, 1]).tolist(),
@@ -133,13 +155,22 @@ def classification_metrics(y_true: np.ndarray, predictions: np.ndarray, probabil
     }
 
 
-def ensemble_predictions(models: dict[str, object], vec: TfidfVectorizer, texts: Iterable[str]) -> tuple[np.ndarray, np.ndarray]:
+def ensemble_predictions(
+    models: dict[str, object], vec: TfidfVectorizer, texts: Iterable[str]
+) -> tuple[np.ndarray, np.ndarray]:
     features = vec.transform(list(texts))
-    probabilities = np.vstack([as_probability(model, features) for model in models.values()]).mean(axis=0)
+    probabilities = np.vstack([as_probability(model, features) for model in models.values()]).mean(
+        axis=0
+    )
     return probabilities, (probabilities >= 0.5).astype(int)
 
 
-def preprocess_rows(frame: pd.DataFrame, title_only: bool = False, body_chars: int | None = None, light: bool = False) -> list[str]:
+def preprocess_rows(
+    frame: pd.DataFrame,
+    title_only: bool = False,
+    body_chars: int | None = None,
+    light: bool = False,
+) -> list[str]:
     cache = None if light or title_only or body_chars is not None else load_cache()
     values = []
     for row in frame.itertuples(index=False):
