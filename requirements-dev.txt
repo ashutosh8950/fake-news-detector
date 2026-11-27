@@ -1,0 +1,6 @@
+# CI-only test, coverage, lint, and type-check tools.
+# Runtime/test dependencies already pinned in requirements-ci.lock are omitted.
+pytest-cov==7.0.0
+coverage==7.17.5
+ruff==0.14.10
+mypy==1.18.2
