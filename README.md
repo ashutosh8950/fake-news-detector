@@ -112,7 +112,7 @@ pip install -r requirements.txt
 
 **3. Download spaCy model**
 ```bash
-python -m spacy download en_core_web_sm==3.8.0
+python -m spacy download en_core_web_sm
 ```
 
 **4. Prepare the calibrated production artifacts**
