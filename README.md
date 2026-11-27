@@ -9,7 +9,11 @@
 ## Dashboard Preview
 ![TruthScan Dashboard](assets/dashboard-preview.png)
 
-An ultra-fast, production-grade Fake News Detection API leveraging a 5-model Machine Learning ensemble and spaCy NLP preprocessing.
+An ultra-fast Fake News Detection API leveraging a calibrated Machine Learning ensemble and spaCy NLP preprocessing. The honest grouped in-domain result is approximately 96–97%; the original 98.44% result was from a random split and is not comparable. The reported DistilBERT 99.97% result is not reproducible from this repository.
+
+### What this measures
+
+The 96–97% score measures performance on this dataset's source, time, topic, and writing-style mixture after duplicate groups are separated. It does not measure fact-checking ability, publisher-held-out generalization, time-held-out generalization, or real-world accuracy. Phase B found measurable publisher/format and topic shortcuts, so external performance must be evaluated separately.
 
 ---
 

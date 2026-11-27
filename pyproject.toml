@@ -11,4 +11,6 @@ ignore = ["E501"]
 python_version = "3.11"
 ignore_missing_imports = true
 check_untyped_defs = true
+explicit_package_bases = true
+mypy_path = "."
 exclude = "^(docs/audit_archive|evaluation_results)/"
