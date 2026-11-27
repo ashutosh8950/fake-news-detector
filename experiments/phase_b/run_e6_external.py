@@ -65,9 +65,10 @@ def print_samples(name: str, frame: pd.DataFrame, label_column: str, text_column
             safe_print(f"{prefix}{str(record[text_column])[:300].replace(chr(10), ' ')}")
 
 
-def standardize(name: str, raw: pd.DataFrame) -> pd.DataFrame:
+def standardize(name: str, raw: pd.DataFrame, review: bool = True) -> pd.DataFrame:
     spec = DATASETS[name]
-    print_samples(name, raw, spec["label"], spec["text"], spec.get("dataset_id"))
+    if review:
+        print_samples(name, raw, spec["label"], spec["text"], spec.get("dataset_id"))
     result = pd.DataFrame({
         "title": raw[spec["title"]].fillna("").astype(str) if spec.get("title") else "",
         "text": raw[spec["text"]].fillna("").astype(str),
