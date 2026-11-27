@@ -27,16 +27,18 @@ jobs:
 
       - name: Run full test suite with coverage
         run: |
-          python -m pytest -v --cov=. --cov-report=term-missing --cov-report=xml
+          python -m pytest -v tests --cov=. --cov-report=term-missing --cov-report=term:coverage.txt --cov-report=xml
 
       - name: Lint with Ruff
         run: ruff check .
 
       - name: Type-check with mypy
-        run: mypy app.py predictor.py preprocessor.py routers scripts train_production.py
+        run: python -m mypy
 
       - name: Upload coverage summary
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: coverage.xml
+          path: |
+            coverage.xml
+            coverage.txt
