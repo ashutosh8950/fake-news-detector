@@ -12,6 +12,7 @@ def client():
     with TestClient(app) as c:
         yield c
 
+@pytest.mark.requires_artifacts
 def test_nasa_held_out_articles(client):
     held_out = pd.read_csv(HELD_OUT_PATH).fillna("")
     samples = pd.concat(
