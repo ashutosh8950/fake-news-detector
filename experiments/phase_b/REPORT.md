@@ -33,7 +33,10 @@ The light preprocessor applies the production cleaning rules and stopword filter
 | E5 | stripped model, first sentence | 90.86% | — | complete |
 | E5 | original model, first two sentences | 95.46% | — | complete |
 | E5 | stripped model, first two sentences | 93.62% | — | complete |
-| E6 | external datasets | NOT FOUND | NOT FOUND | network blocked |
+| E6 | polsci cleaned main, LinearSVC | 56.04% | 0.627431 | 480 rows |
+| E6 | RealFakeNews cleaned article-length, inverted labels | 98.39% | 0.997838 | 17,159 rows |
+| E6 | RealFakeNews short/headline-only, inverted labels | 59.08% | 0.226517 | 63,482 rows |
+| E6 | formatted trusted IDs 1/6/7, LinearSVC | 86.81% | 0.953076 | 20,836 rows |
 | E3b | v1 stripped→stripped, LinearSVC | 96.11% | 0.991427 | complete |
 | E3b | v2 stripped→stripped, LinearSVC | 95.92% | 0.990683 | complete |
 | E3b | v1 char TF-IDF first 50 | 87.74% | 0.947344 | complete |
@@ -51,9 +54,20 @@ The v1 and v2 first-50-character probes were 87.74% and 87.87%, respectively. v2
 
 The controlled marker-stripping result gives a directly measured shortcut effect of approximately 0.68 percentage points for the best model: LinearSVC falls from 96.80% to 96.11% when both training and test text are stripped. This is not a complete “fraction of accuracy” decomposition; the high 96.36% first-50-character character model and 76.18% style-only model show additional formatting/style signal that marker stripping does not remove. Therefore, at least a measurable ~0.7 points of headline accuracy is associated with removable source/format markers, while the total shortcut contribution is NOT IDENTIFIABLE from these probes alone.
 
-E6 external generalization was not evaluated because the environment blocked the Hugging Face datasets-server connection with Windows `WinError 10013`. No external accuracy is claimed. The exact manual Parquet paths are recorded in `e6_external.json`.
+E6 was previously invalid: the old run used the wrong polsci mapping, did not detect RealFakeNews's 25,734 exact normalized-body overlaps with ISOT, did not perform the required near-duplicate check, blended unreliable formatted dataset IDs, and reported a network-blocked placeholder. The corrected local-file run normalizes labels from manual samples, removes exact and 5-word-shingle MinHash/Jaccard near duplicates at 0.8, filters English non-empty article-length rows, and reports reverse-label AUC only as a diagnostic. RealFakeNews is not a trustworthy benchmark despite its high corrected AUC: it is label-inverted/noisy and has substantial ISOT overlap. The exact counts and per-ID results are in `e6_external.json`.
 
-The 96.80% in-domain grouped-split accuracy measures performance on this dataset's source, time, topic, and writing-style mixture after duplicate groups are separated. It does not measure fact-checking ability, publisher-held-out generalization, time-held-out generalization, or performance on outside data. Until E6 is run on the downloaded external files, the model's real-world accuracy is NOT FOUND.
+### Corrected E6 details
+
+| Dataset/subset | Before | Exact removed | Near removed | After main | LinearSVC accuracy | Fake recall | Real recall | ROC-AUC | Predicted Fake |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| polsci main | 480 | 0 | 0 | 480 | 56.04% | 87.50% | 24.58% | 0.627431 | 81.46% |
+| RealFakeNews article-length | 108,032 | 25,734 | 31 | 17,159 | 98.39% | 98.10% | 98.69% | 0.997838 | 51.17% |
+| RealFakeNews short/headline | 108,032 | 1,515 | 1 | 63,482 | 59.08% | 87.64% | 5.09% | 0.226517 | 90.15% |
+| formatted trusted IDs 1/6/7 | 149,045 | 46,320 | 228 | 20,836 | 86.81% | 94.28% | 79.50% | 0.953076 | 57.01% |
+
+RealFakeNews manual review estimated 5 noisy/apparently wrong labels in 30 samples after applying the inverted mapping. For `fake_news_formated`, IDs 0, 2, 4, 5, and 8 were excluded: IDs 0/4/5 had empty or unusable content, ID 2 showed label inversion in samples, and ID 8 showed unreliable mixed labels. Trusted IDs 1, 6, and 7 are reported separately in `e6_external.json`; ID 1 was highly consistent, while IDs 6 and 7 were weak/near-chance and should not be treated as strong benchmarks.
+
+The 96.80% in-domain grouped-split accuracy measures performance on this dataset's source, time, topic, and writing-style mixture after duplicate groups are separated. It does not measure fact-checking ability, publisher-held-out generalization, time-held-out generalization, or performance on outside data. The corrected E6 results show that external accuracy can range from 56.04% on polsci to 86.81% on the filtered trusted formatted subset, while the apparently excellent 98.39% RealFakeNews result is invalid as an independent benchmark because its labels are inverted/noisy and it overlaps ISOT. In-domain accuracy is therefore not a proxy for real-world accuracy.
 
 ### Phase C recommendation
 
