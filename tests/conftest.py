@@ -22,6 +22,14 @@ def pytest_sessionfinish(session, exitstatus):
     faulthandler.dump_traceback_later(30, exit=True)
 
 
+def pytest_runtest_teardown(item, nextitem):
+    """Temporary per-test probe to locate teardown-time thread creation."""
+    del nextitem
+    print(f"[teardown] {item.nodeid}")
+    for thread in threading.enumerate():
+        print(f"  name={thread.name!r} daemon={thread.daemon} alive={thread.is_alive()}")
+
+
 def _calibrated_bundle_is_present() -> bool:
     models = Path("models/calibrated")
     required = {
