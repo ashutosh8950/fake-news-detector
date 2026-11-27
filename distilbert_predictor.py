@@ -21,13 +21,17 @@ class DistilBertPredictor:
         if not TRANSFORMERS_AVAILABLE:
             logger.warning("Skipping DistilBERT load — transformers not installed")
             return
+        if os.environ.get("ENABLE_DEEP_MODEL", "0").lower() not in {"1", "true", "yes"}:
+            logger.info("Skipping DistilBERT load — ENABLE_DEEP_MODEL is not enabled")
+            return
         try:
             logger.info("Loading DistilBERT from Hugging Face...")
             self.classifier = pipeline(
                 "text-classification",
                 model="GuptaAshutosh/truthscan-fake-news-distilbert",
                 tokenizer="GuptaAshutosh/truthscan-fake-news-distilbert",
-                device=-1
+                device=-1,
+                local_files_only=True,
             )
             self.loaded = True
             logger.info("DistilBERT loaded successfully")
