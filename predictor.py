@@ -9,6 +9,7 @@ Loads the 5 production Phase 2 calibrated models and produces:
 import json
 import os
 from datetime import datetime
+from pathlib import Path
 from typing import Any, Dict
 
 import joblib
@@ -64,19 +65,19 @@ class FakeNewsPredictor:
         """Load Phase 2 calibrated models and metadata from disk."""
         self.loaded = False
         _log_load_checkpoint("Starting calibrated artifact loading")
-        models_dir = os.path.abspath(MODELS_DIR)
-        report_path = os.path.abspath(PHASE2_REPORT_PATH)
-        manifest_path = os.path.join(models_dir, "artifact_manifest.json")
+        models_dir = Path(MODELS_DIR).resolve()
+        report_path = Path(PHASE2_REPORT_PATH).resolve()
+        manifest_path = models_dir / "artifact_manifest.json"
 
         # Verify every byte before deserializing any pickle/joblib object.
         verify_artifact_bundle(models_dir, report_path, manifest_path)
-        with open(report_path, encoding="utf-8") as report_file:
+        with report_path.open(encoding="utf-8") as report_file:
             report = json.load(report_file)
 
-        vec_path = os.path.join(models_dir, "vectorizer.pkl")
+        vec_path = models_dir / "vectorizer.pkl"
         loaded_vectorizer = joblib.load(vec_path)
         loaded_models = {
-            key: joblib.load(os.path.join(models_dir, f"{key}_calibrated.pkl"))
+            key: joblib.load(models_dir / f"{key}_calibrated.pkl")
             for key in MODEL_KEYS
         }
         validate_loaded_bundle(loaded_vectorizer, loaded_models, report)
@@ -117,6 +118,8 @@ class FakeNewsPredictor:
 
         # Preprocess
         processed  = preprocess(title, text)
+        if self.vectorizer is None:
+            raise RuntimeError("Vectorizer is not loaded")
         vectorized = self.vectorizer.transform([processed])
 
         results = {}

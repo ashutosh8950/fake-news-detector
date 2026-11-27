@@ -10,6 +10,7 @@ Fixes applied:
 import os
 import uuid
 from contextlib import asynccontextmanager
+from typing import Any, cast
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -134,7 +135,7 @@ def rate_limit_exception_handler(request: Request, exc: RateLimitExceeded):
     )
 
 
-app.add_exception_handler(RateLimitExceeded, rate_limit_exception_handler)
+app.add_exception_handler(RateLimitExceeded, cast(Any, rate_limit_exception_handler))
 app.add_middleware(SlowAPIMiddleware)
 
 @app.exception_handler(Exception)

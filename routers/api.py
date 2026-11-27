@@ -1,6 +1,7 @@
 import os
 import secrets
 import time
+from typing import Any
 
 from fastapi import APIRouter, HTTPException, Request, Response
 from loguru import logger
@@ -98,7 +99,7 @@ class ModelsInfoResponse(RootModel[dict[str, ModelInfo]]):
     """Named root model so the existing dynamic model-key JSON is preserved."""
 
 
-ERROR_RESPONSES = {
+ERROR_RESPONSES: dict[int | str, dict[str, Any]] = {
     401: {"model": ErrorResponse},
     404: {"model": ErrorResponse},
     422: {"model": ErrorResponse},

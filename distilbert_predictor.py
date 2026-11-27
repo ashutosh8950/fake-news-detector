@@ -1,4 +1,5 @@
 import os
+from typing import Any
 
 from loguru import logger
 
@@ -13,7 +14,7 @@ except ImportError:
 
 class DistilBertPredictor:
     def __init__(self):
-        self.classifier = None
+        self.classifier: Any = None
         self.loaded = False
 
     def load(self):
