@@ -1,0 +1,203 @@
+{
+  "experiment": "E6 Tasks 1-3",
+  "pattern_comparison": [
+    {
+      "subset": "ISOT train",
+      "reuters_parenthetical": 52.39613526570048,
+      "reuters_dateline": 48.371980676328505,
+      "isot_apostrophe_stripped": 35.92270531400966
+    },
+    {
+      "subset": "ISOT all",
+      "reuters_parenthetical": 52.11678232661274,
+      "reuters_dateline": 48.06389356547448,
+      "isot_apostrophe_stripped": 35.71223257914836
+    },
+    {
+      "subset": "polsci_fake_news",
+      "reuters_parenthetical": 0.0,
+      "reuters_dateline": 0.0,
+      "isot_apostrophe_stripped": 0.0
+    },
+    {
+      "subset": "realfakenews",
+      "reuters_parenthetical": 19.675651658767773,
+      "reuters_dateline": 18.003924763033176,
+      "isot_apostrophe_stripped": 16.416432168246445
+    },
+    {
+      "subset": "realfakenews_short",
+      "reuters_parenthetical": 0.16382338578832129,
+      "reuters_dateline": 0.15437203660822582,
+      "isot_apostrophe_stripped": 0.10869051557109777
+    },
+    {
+      "subset": "fake_news_formated",
+      "reuters_parenthetical": 25.700273064562662,
+      "reuters_dateline": 23.586874115223853,
+      "isot_apostrophe_stripped": 21.45670215835061
+    }
+  ],
+  "similarity_accuracy_table": [
+    {
+      "subset": "polsci_fake_news",
+      "clean_rows": 480,
+      "accuracy": 0.5604166666666667,
+      "roc_auc": 0.6274305555555555,
+      "fake_recall": 0.875,
+      "real_recall": 0.24583333333333332,
+      "percent_predicted_fake": 81.45833333333333,
+      "mean_tfidf_cosine_to_isot_train_centroid": 0.09235049738461296,
+      "nearest_isot_cosine_gt_0_5_percent": 3.5416666666666665,
+      "flagged_unreliable": false
+    },
+    {
+      "subset": "realfakenews",
+      "clean_rows": 17086,
+      "accuracy": 0.9838568681158576,
+      "roc_auc": 0.9978376534936949,
+      "fake_recall": 0.9809933250367688,
+      "real_recall": 0.9868990384615385,
+      "percent_predicted_fake": 51.168483011830524,
+      "mean_tfidf_cosine_to_isot_train_centroid": 0.1583873619191112,
+      "nearest_isot_cosine_gt_0_5_percent": 13.35011120215381,
+      "flagged_unreliable": false
+    },
+    {
+      "subset": "realfakenews_short",
+      "clean_rows": 63483,
+      "accuracy": null,
+      "roc_auc": null,
+      "fake_recall": null,
+      "real_recall": null,
+      "percent_predicted_fake": null,
+      "mean_tfidf_cosine_to_isot_train_centroid": 0.03346122967476972,
+      "nearest_isot_cosine_gt_0_5_percent": 0.8569223256619882,
+      "flagged_unreliable": false
+    },
+    {
+      "subset": "fake_news_formated_id_0.0",
+      "clean_rows": 0,
+      "accuracy": null,
+      "roc_auc": null,
+      "fake_recall": null,
+      "real_recall": null,
+      "percent_predicted_fake": null,
+      "mean_tfidf_cosine_to_isot_train_centroid": NaN,
+      "nearest_isot_cosine_gt_0_5_percent": NaN,
+      "flagged_unreliable": true
+    },
+    {
+      "subset": "fake_news_formated_id_1.0",
+      "clean_rows": 15175,
+      "accuracy": 0.9938831886345698,
+      "roc_auc": 0.999805018761986,
+      "fake_recall": 0.9891581632653061,
+      "real_recall": 0.9989136338946225,
+      "percent_predicted_fake": 51.05893186003683,
+      "mean_tfidf_cosine_to_isot_train_centroid": 0.15971142342550784,
+      "nearest_isot_cosine_gt_0_5_percent": 13.331136738056012,
+      "flagged_unreliable": false
+    },
+    {
+      "subset": "fake_news_formated_id_2.0",
+      "clean_rows": 37631,
+      "accuracy": null,
+      "roc_auc": null,
+      "fake_recall": null,
+      "real_recall": null,
+      "percent_predicted_fake": null,
+      "mean_tfidf_cosine_to_isot_train_centroid": 0.1484746563519771,
+      "nearest_isot_cosine_gt_0_5_percent": 8.11564933166804,
+      "flagged_unreliable": true
+    },
+    {
+      "subset": "fake_news_formated_id_3.0",
+      "clean_rows": 0,
+      "accuracy": null,
+      "roc_auc": null,
+      "fake_recall": null,
+      "real_recall": null,
+      "percent_predicted_fake": null,
+      "mean_tfidf_cosine_to_isot_train_centroid": NaN,
+      "nearest_isot_cosine_gt_0_5_percent": NaN,
+      "flagged_unreliable": false
+    },
+    {
+      "subset": "fake_news_formated_id_4.0",
+      "clean_rows": 0,
+      "accuracy": null,
+      "roc_auc": null,
+      "fake_recall": null,
+      "real_recall": null,
+      "percent_predicted_fake": null,
+      "mean_tfidf_cosine_to_isot_train_centroid": NaN,
+      "nearest_isot_cosine_gt_0_5_percent": NaN,
+      "flagged_unreliable": true
+    },
+    {
+      "subset": "fake_news_formated_id_5.0",
+      "clean_rows": 2600,
+      "accuracy": null,
+      "roc_auc": null,
+      "fake_recall": null,
+      "real_recall": null,
+      "percent_predicted_fake": null,
+      "mean_tfidf_cosine_to_isot_train_centroid": 0.06724750937303663,
+      "nearest_isot_cosine_gt_0_5_percent": 0.038461538461538464,
+      "flagged_unreliable": true
+    },
+    {
+      "subset": "fake_news_formated_id_6.0",
+      "clean_rows": 1806,
+      "accuracy": 0.5143964562569213,
+      "roc_auc": 0.6022932022932024,
+      "fake_recall": 0.7555555555555555,
+      "real_recall": 0.3988533988533989,
+      "percent_predicted_fake": 65.11627906976744,
+      "mean_tfidf_cosine_to_isot_train_centroid": 0.12057224635607315,
+      "nearest_isot_cosine_gt_0_5_percent": 0.8305647840531563,
+      "flagged_unreliable": false
+    },
+    {
+      "subset": "fake_news_formated_id_7.0",
+      "clean_rows": 3829,
+      "accuracy": 0.5352848928384736,
+      "roc_auc": 0.5972824311895889,
+      "fake_recall": 0.8079575596816976,
+      "real_recall": 0.2704791344667697,
+      "percent_predicted_fake": 76.81651855723993,
+      "mean_tfidf_cosine_to_isot_train_centroid": 0.16114034062717214,
+      "nearest_isot_cosine_gt_0_5_percent": 4.465917994254374,
+      "flagged_unreliable": false
+    },
+    {
+      "subset": "fake_news_formated_id_8.0",
+      "clean_rows": 1423,
+      "accuracy": null,
+      "roc_auc": null,
+      "fake_recall": null,
+      "real_recall": null,
+      "percent_predicted_fake": null,
+      "mean_tfidf_cosine_to_isot_train_centroid": 0.1716065298744309,
+      "nearest_isot_cosine_gt_0_5_percent": 6.394940267041462,
+      "flagged_unreliable": true
+    }
+  ],
+  "correlations": {
+    "pearson_similarity_accuracy": 0.5850084534765528,
+    "pearson_similarity_auc": 0.5713436329768535
+  },
+  "nearest_neighbor_method": "nearest cosine neighbour among fixed random_state=42 sample of 5,000 ISOT train rows; centroid uses all ISOT train rows",
+  "reuters_label_crosstab": {
+    "false": {
+      "FAKE": 22144,
+      "REAL": 64632
+    },
+    "true": {
+      "FAKE": 21247,
+      "REAL": 9
+    }
+  },
+  "figure": "C:\\Users\\gupta\\Downloads\\FAKE_NEWS_DETECTION\\experiments\\phase_b\\figures\\e6_similarity_vs_accuracy.png"
+}

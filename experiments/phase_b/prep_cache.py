@@ -61,7 +61,9 @@ def ensure_cache() -> Path:
     missing = [(row_id, value) for row_id, value in records if row_id not in completed]
     if missing:
         print(f"spaCy cache: {len(completed)}/{len(records)} rows already complete", flush=True)
-        for index, (row_id, value) in enumerate(zip(missing, _lemmatize(clean_text(value) for _, value in missing)), 1):
+        for index, (row_id, value) in enumerate(
+            zip(missing, _lemmatize(clean_text(value) for _, value in missing)), 1
+        ):
             completed[row_id[0]] = value
             if index % 1000 == 0:
                 partial.write_bytes(pickle.dumps(completed, protocol=pickle.HIGHEST_PROTOCOL))
@@ -84,7 +86,9 @@ def light_preprocess(title: str = "", text: str = "") -> str:
     """Use production cleaning and stopword filtering, without lemmatization."""
     cleaned = clean_text(f"{title} {title} {title} {text}")
     stop_words = nlp.Defaults.stop_words
-    return " ".join(token for token in cleaned.split() if token not in stop_words and len(token) > 2)
+    return " ".join(
+        token for token in cleaned.split() if token not in stop_words and len(token) > 2
+    )
 
 
 if __name__ == "__main__":

@@ -11,7 +11,12 @@ def main() -> None:
     metrics = evaluate_models(models, vec, test_text, test["label"])
     write_json(
         __import__("pathlib").Path(__file__).with_name("e1_baseline.json"),
-        {"experiment": "E1", "preprocessor": "light (cleaning + stopwords, no lemmatization)", "split": "final_v5 primary grouped split", "models": metrics},
+        {
+            "experiment": "E1",
+            "preprocessor": "light (cleaning + stopwords, no lemmatization)",
+            "split": "final_v5 primary grouped split",
+            "models": metrics,
+        },
     )
 
 

@@ -2,15 +2,11 @@
 
 from __future__ import annotations
 
+import re
 from collections import Counter
 from pathlib import Path
-import random
-import re
 
 import numpy as np
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.linear_model import LogisticRegression
-
 from common import (
     classification_metrics,
     evaluate_models,
@@ -23,6 +19,8 @@ from common import (
 )
 from prep_cache import nlp
 from run_e3_marker_stripping import strip_source_markers
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
 
 SEED = 42
 WEEKDAYS = r"monday|tuesday|wednesday|thursday|friday|saturday|sunday"
@@ -40,7 +38,12 @@ def strip_source_markers_v2(text: str, title: str = "") -> tuple[str, str]:
         value = re.sub(r"(?:" + OUTLETS + r")", " ", value, flags=re.I)
         value = re.sub(r"(?:" + FORMAT_TERMS + r")", " ", value, flags=re.I)
         value = re.sub(r"\b(?:" + WEEKDAYS + r"|" + MONTHS + r")\b", " ", value, flags=re.I)
-        value = re.sub(r"\b(?:https?://\S+|www\.\S+|pic\.twitter\.com/\S+|twitter\.com/\S+)\b", " ", value, flags=re.I)
+        value = re.sub(
+            r"\b(?:https?://\S+|www\.\S+|pic\.twitter\.com/\S+|twitter\.com/\S+)\b",
+            " ",
+            value,
+            flags=re.I,
+        )
         value = re.sub(r"\b(?:com|org|net)\b", " ", value, flags=re.I)
         return re.sub(r"\s+", " ", value).strip()
 
@@ -49,7 +52,9 @@ def strip_source_markers_v2(text: str, title: str = "") -> tuple[str, str]:
 
 def stripped_values(frame, version: str) -> list[str]:
     stripper = strip_source_markers if version == "v1" else strip_source_markers_v2
-    return [light_preprocess(*stripper(row.text, row.title)) for row in frame.itertuples(index=False)]
+    return [
+        light_preprocess(*stripper(row.text, row.title)) for row in frame.itertuples(index=False)
+    ]
 
 
 def raw_stripped(frame, version: str) -> list[tuple[str, str]]:
@@ -70,7 +75,9 @@ def char_probe(train_raw, test_raw, labels_train, labels_test):
     test_matrix = vec.transform(test_text)
     model = LogisticRegression(max_iter=1000, random_state=SEED).fit(train_matrix, labels_train)
     probabilities = model.predict_proba(test_matrix)[:, 1]
-    return classification_metrics(np.asarray(labels_test), (probabilities >= 0.5).astype(int), probabilities)
+    return classification_metrics(
+        np.asarray(labels_test), (probabilities >= 0.5).astype(int), probabilities
+    )
 
 
 def classify_feature(feature: str) -> str:
@@ -88,10 +95,29 @@ def top_features(texts, labels):
     model = LogisticRegression(max_iter=1000, C=5.0, random_state=SEED).fit(matrix, labels)
     names, weights = vec.get_feature_names_out(), model.coef_[0]
     output = {}
-    for label, indices in (("fake", weights.argsort()[:50]), ("real", weights.argsort()[-50:][::-1])):
-        rows = [{"feature": str(names[i]), "weight": float(weights[i]), "category": classify_feature(str(names[i]))} for i in indices]
+    for label, indices in (
+        ("fake", weights.argsort()[:50]),
+        ("real", weights.argsort()[-50:][::-1]),
+    ):
+        rows = [
+            {
+                "feature": str(names[i]),
+                "weight": float(weights[i]),
+                "category": classify_feature(str(names[i])),
+            }
+            for i in indices
+        ]
         counts = Counter(row["category"] for row in rows)
-        output[label] = {"features": rows, "percentages": {key: counts[key] * 2.0 for key in ("content word", "outlet/format artifact", "time/topic artifact")}, "remaining_artifacts": [row["feature"] for row in rows if row["category"] != "content word"]}
+        output[label] = {
+            "features": rows,
+            "percentages": {
+                key: counts[key] * 2.0
+                for key in ("content word", "outlet/format artifact", "time/topic artifact")
+            },
+            "remaining_artifacts": [
+                row["feature"] for row in rows if row["category"] != "content word"
+            ],
+        }
     return output
 
 
@@ -99,13 +125,14 @@ def topic_counts(frame, version: str):
     counts = {0: Counter(), 1: Counter()}
     for row, label in zip(raw_stripped(frame, version), frame["label"]):
         tokens = re.findall(r"\b[A-Z][a-z]{2,}\b", row[0] + " " + row[1])
-        counts[int(label)].update(token.lower() for token in tokens if token.lower() not in nlp.Defaults.stop_words)
+        counts[int(label)].update(
+            token.lower() for token in tokens if token.lower() not in nlp.Defaults.stop_words
+        )
     top = {"fake": counts[0].most_common(30), "real": counts[1].most_common(30)}
-    return {"top_30": top, "overlap": sorted(set(dict(top["fake"])) & set(dict(top["real"]))) }
+    return {"top_30": top, "overlap": sorted(set(dict(top["fake"])) & set(dict(top["real"])))}
 
 
 def examples(frame):
-    rng = random.Random(SEED)
     output = {}
     for label, name in ((0, "fake"), (1, "real")):
         candidates = frame.loc[frame["label"] == label].sample(n=30, random_state=SEED)
@@ -120,7 +147,10 @@ def examples(frame):
 
 def main() -> None:
     train, test, _ = load_grouped_data()
-    original_train, original_test = preprocess_rows(train, light=True), preprocess_rows(test, light=True)
+    original_train, original_test = (
+        preprocess_rows(train, light=True),
+        preprocess_rows(test, light=True),
+    )
     v1_train, v1_test = stripped_values(train, "v1"), stripped_values(test, "v1")
     v2_train, v2_test = stripped_values(train, "v2"), stripped_values(test, "v2")
     conditions = {
@@ -135,7 +165,14 @@ def main() -> None:
         "experiment": "E3b",
         "seed": SEED,
         "examples_v1_test": examples(test),
-        "char_first_50": {"v1": char_probe(raw_stripped(train, "v1"), raw_stripped(test, "v1"), train["label"], test["label"]), "v2": char_probe(raw_stripped(train, "v2"), raw_stripped(test, "v2"), train["label"], test["label"])},
+        "char_first_50": {
+            "v1": char_probe(
+                raw_stripped(train, "v1"), raw_stripped(test, "v1"), train["label"], test["label"]
+            ),
+            "v2": char_probe(
+                raw_stripped(train, "v2"), raw_stripped(test, "v2"), train["label"], test["label"]
+            ),
+        },
         "top_features_v1": top_features(v1_train, train["label"]),
         "conditions": conditions,
         "topic_time_counts_v1": topic_counts(test, "v1"),
