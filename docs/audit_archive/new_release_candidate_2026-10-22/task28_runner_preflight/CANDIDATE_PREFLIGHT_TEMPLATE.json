@@ -1,0 +1,12 @@
+{
+  "schema_version": "task28_evidence_v1",
+  "output_root": null,
+  "dataset_identity": {"source_paths": [], "source_sha256": {}, "approved": false, "approval_source": null},
+  "provenance_licensing": {"status": "unreviewed", "approved": false, "evidence_source": null, "intended_uses": []},
+  "grouping_policy": {"policy_id": null, "configuration_fingerprint": null, "approved": false},
+  "partition_manifest": {"manifest_sha256": null, "certificate_sha256": null, "source_data_fingerprint": null, "policy_id": null, "approved": false, "certificate_status": "missing"},
+  "partition_integrity": {"approved": false, "group_disjoint": false, "coverage_complete": false, "leakage_checks_passed": false},
+  "environment": {"status": "missing", "approved": false, "lock_status": "missing", "python": null, "platform": null, "record_source": null},
+  "runner_isolation": {"containment_verified": false, "overwrite_protection": false, "failure_cleanup": false},
+  "release_authorization": {"approved": false, "distinct_new_release": false, "authenticated": false, "evidence_source": null}
+}

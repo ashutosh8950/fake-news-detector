@@ -1,0 +1,7 @@
+{
+  "production_equivalent_rerun": "blocked",
+  "spacy_installed": false,
+  "en_core_web_sm_available": false,
+  "reason": "The active Python environment has no importable spacy package; no dependency installation or model download was attempted.",
+  "production_preprocessor": "preprocessor.py requires spacy.load('en_core_web_sm') at module import."
+}

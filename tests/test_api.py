@@ -1,8 +1,10 @@
-import pytest
-from fastapi.testclient import TestClient
 from unittest.mock import patch
 
+import pytest
+from fastapi.testclient import TestClient
+
 from app import app
+
 
 @pytest.fixture(autouse=True)
 def mock_predictor_env():
@@ -24,6 +26,47 @@ def test_health(client):
     data = response.json()
     assert data["status"] == "ok"
     assert data["models_loaded"] is True
+
+def test_application_stays_available_when_model_artifacts_are_missing():
+    with patch("app.predictor.load", side_effect=FileNotFoundError("synthetic missing artifacts")), \
+         patch("app.predictor.loaded", False):
+        with TestClient(app) as unavailable_client:
+            response = unavailable_client.get("/health")
+
+    assert response.status_code == 503
+    data = response.json()
+    assert data["status"] == "not_ready"
+    assert data["models_loaded"] is False
+
+def test_analyze_refuses_when_models_are_unavailable():
+    with patch("routers.api.predictor.loaded", False):
+        with TestClient(app) as unavailable_client:
+            response = unavailable_client.post(
+                "/analyze",
+                json={"title": "Synthetic title", "text": "This synthetic article is long enough for validation."},
+            )
+
+    assert response.status_code == 503
+    assert response.json()["detail"] == (
+        "Inference unavailable: trusted model artifacts are not ready."
+    )
+
+def test_invalid_article_input_is_rejected_without_inference():
+    with patch("routers.api.predictor.loaded", True), patch("routers.api.predictor.predict") as mock_predict:
+        with TestClient(app) as validation_client:
+            response = validation_client.post(
+                "/analyze",
+                json={"title": "", "text": "too short"},
+            )
+
+    assert response.status_code == 422
+    mock_predict.assert_not_called()
+
+def test_frontend_documents_unavailable_model_state(client):
+    javascript = client.get("/static/app.js")
+    assert javascript.status_code == 200
+    assert "API available · models unavailable" in javascript.text
+    assert "data.status === 'not_ready'" in javascript.text
 
 def test_models_info(client):
     response = client.get("/models/info")
@@ -83,3 +126,13 @@ def test_frontend_serving(client):
     assert "text/html" in response.headers.get("content-type", "")
     html = response.text
     assert "TruthScan" in html
+
+
+def test_api_success_and_error_response_contracts(client):
+    schema = client.get("/openapi.json").json()
+    paths = schema["paths"]
+    assert paths["/analyze"]["post"]["responses"]["200"]["content"]["application/json"]["schema"]
+    assert paths["/analyze/deep"]["post"]["responses"]["200"]["content"]["application/json"]["schema"]
+    assert paths["/models/info"]["get"]["responses"]["200"]["content"]["application/json"]["schema"]
+    assert "422" in paths["/analyze"]["post"]["responses"]
+    assert "503" in paths["/analyze"]["post"]["responses"]

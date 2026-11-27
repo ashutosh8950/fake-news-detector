@@ -1,0 +1,46 @@
+{
+  "schema_version": "task38_owner_authorization_template_v1",
+  "decision_status": "PENDING",
+  "owner_identity": null,
+  "authority_evidence_reference": null,
+  "choice": null,
+  "choice_options": [
+    "CONTINUE_LIAR_ONLY",
+    "CONTINUE_FAKEDDIT_ONLY",
+    "CONTINUE_BOTH",
+    "STOP_PENDING_LEGAL_OR_RIGHTS_CLARIFICATION",
+    "PROPOSE_ANOTHER_DATASET"
+  ],
+  "research_authorization": {
+    "liar_metadata_rights_research": null,
+    "fakeddit_metadata_rights_research": null,
+    "research_only_until_separate_acquisition_approval": true
+  },
+  "intended_uses": {
+    "internal_research_and_evaluation": null,
+    "commercial_use": null,
+    "noncommercial_use": null,
+    "trained_model_artifact_distribution": null,
+    "public_inference_hosting": null,
+    "raw_dataset_redistribution": null
+  },
+  "rights_responsibility": {
+    "responsible_person_or_organization": null,
+    "qualified_legal_reviewer": null,
+    "rights_holder_confirmation_required": true,
+    "approval_evidence_reference": null
+  },
+  "separate_future_authorizations": {
+    "dataset_acquisition": null,
+    "dataset_processing": null,
+    "real_data_training": null,
+    "model_artifact_distribution": null,
+    "public_deployment": null
+  },
+  "refusal_default": true,
+  "notes": [
+    "All null/PENDING values are undecided and must not authorize an action.",
+    "Research authorization is not acquisition, processing, training, distribution, hosting, or deployment authorization.",
+    "A replacement dataset cannot authenticate or reproduce the historical bundle."
+  ]
+}

@@ -1,0 +1,234 @@
+{
+  "experiment": "E6 corrected",
+  "label_review": {
+    "polsci_fake_news": "raw 1 -> fake (0), raw 0 -> real (1), based on 20 samples per raw label",
+    "realfakenews": "raw FAKE -> real (1), raw REAL -> fake (0), based on 20 samples; estimated 5/30 noisy labels",
+    "fake_news_formated": "classification fake -> fake (0), real -> real (1), based on 20 samples per dataset_id"
+  },
+  "datasets": {
+    "polsci_fake_news": {
+      "rows_before": 480,
+      "overlap": {
+        "exact_body_matches_removed": 0,
+        "near_duplicate_matches_removed": 0
+      },
+      "quality_filter": {
+        "input": 480,
+        "non_empty": 480,
+        "english": 480,
+        "article_length_300": 480
+      },
+      "flagged_dataset_ids_excluded": [],
+      "rows_after_main": 480,
+      "main_original_model": {
+        "accuracy": 0.5604166666666667,
+        "fake_recall": 0.875,
+        "real_recall": 0.24583333333333332,
+        "roc_auc": 0.6274305555555555,
+        "reverse_label_auc_diagnostic_only": 0.3725694444444445,
+        "percent_predicted_fake": 81.45833333333333,
+        "rows_evaluated": 480
+      },
+      "main_stripped_model": {
+        "accuracy": 0.5770833333333333,
+        "fake_recall": 0.7708333333333334,
+        "real_recall": 0.38333333333333336,
+        "roc_auc": 0.6342881944444445,
+        "reverse_label_auc_diagnostic_only": 0.3657118055555555,
+        "percent_predicted_fake": 69.375,
+        "rows_evaluated": 480
+      },
+      "short_text_set": {
+        "rows": 0,
+        "overlap": {
+          "exact_body_matches_removed": 0,
+          "near_duplicate_matches_removed": 0
+        },
+        "original_model": {
+          "status": "NOT FOUND",
+          "reason": "No rows remained after filtering",
+          "rows_evaluated": 0
+        },
+        "stripped_model": {
+          "status": "NOT FOUND",
+          "reason": "No rows remained after filtering",
+          "rows_evaluated": 0
+        }
+      }
+    },
+    "realfakenews": {
+      "rows_before": 108032,
+      "overlap": {
+        "exact_body_matches_removed": 25734,
+        "near_duplicate_matches_removed": 31
+      },
+      "quality_filter": {
+        "input": 108032,
+        "non_empty": 107401,
+        "english": 50920,
+        "article_length_300": 42924
+      },
+      "flagged_dataset_ids_excluded": [],
+      "rows_after_main": 17159,
+      "main_original_model": {
+        "accuracy": 0.9838568681158576,
+        "fake_recall": 0.9809933250367688,
+        "real_recall": 0.9868990384615385,
+        "roc_auc": 0.9978376534936949,
+        "reverse_label_auc_diagnostic_only": 0.0021623465063050906,
+        "percent_predicted_fake": 51.168483011830524,
+        "rows_evaluated": 17159
+      },
+      "main_stripped_model": {
+        "accuracy": 0.9741826446762631,
+        "fake_recall": 0.963570539653807,
+        "real_recall": 0.9854567307692308,
+        "roc_auc": 0.9965942022679211,
+        "reverse_label_auc_diagnostic_only": 0.003405797732078941,
+        "percent_predicted_fake": 50.34092895856402,
+        "rows_evaluated": 17159
+      },
+      "headline_or_short_set": {
+        "rows": 63482,
+        "overlap": {
+          "exact_body_matches_removed": 1515,
+          "near_duplicate_matches_removed": 1
+        },
+        "original_model": {
+          "accuracy": 0.590781638889764,
+          "fake_recall": 0.8763698547652882,
+          "real_recall": 0.05090379274233939,
+          "roc_auc": 0.2265165882020562,
+          "reverse_label_auc_diagnostic_only": 0.7734834117979438,
+          "percent_predicted_fake": 90.15311426861157,
+          "rows_evaluated": 63482
+        },
+        "stripped_model": {
+          "accuracy": 0.4791594467723134,
+          "fake_recall": 0.6746790625978468,
+          "real_recall": 0.1095478759732277,
+          "roc_auc": 0.21859016064995537,
+          "reverse_label_auc_diagnostic_only": 0.7814098393500446,
+          "percent_predicted_fake": 74.93305188872436,
+          "rows_evaluated": 63482
+        },
+        "manual_noise_review": {
+          "samples_printed": 30,
+          "wrong_labels_count_estimate": 5,
+          "note": "Manual reading estimated 5/30 noisy or apparently wrong labels after applying the inverted mapping; this estimate was not inferred from model AUC."
+        }
+      }
+    },
+    "fake_news_formated": {
+      "rows_before": 149045,
+      "overlap": {
+        "exact_body_matches_removed": 46320,
+        "near_duplicate_matches_removed": 228
+      },
+      "quality_filter": {
+        "input": 149045,
+        "non_empty": 113963,
+        "english": 111435,
+        "article_length_300": 109038
+      },
+      "flagged_dataset_ids_excluded": [
+        "2.0",
+        "5.0",
+        "8.0"
+      ],
+      "rows_after_main": 20836,
+      "main_original_model": {
+        "accuracy": 0.8681128815511614,
+        "fake_recall": 0.9427740058195926,
+        "real_recall": 0.7949838495154855,
+        "roc_auc": 0.9530764337091122,
+        "reverse_label_auc_diagnostic_only": 0.046923566290887786,
+        "percent_predicted_fake": 57.00710309080438,
+        "rows_evaluated": 20836
+      },
+      "main_stripped_model": {
+        "accuracy": 0.8650412747168362,
+        "fake_recall": 0.9242483026188166,
+        "real_recall": 0.8070492114763443,
+        "roc_auc": 0.9421428404248829,
+        "reverse_label_auc_diagnostic_only": 0.057857159575117056,
+        "percent_predicted_fake": 55.48089844499904,
+        "rows_evaluated": 20836
+      },
+      "per_dataset_id": {
+        "1.0": {
+          "rows_before": 15204,
+          "rows_after": 15204,
+          "flagged_unreliable": false,
+          "flag_reason": "No inversion was evident in the five-sample-per-label review; verify upstream provenance before treating as independent.",
+          "original_model": {
+            "accuracy": 0.9938831886345698,
+            "fake_recall": 0.9891581632653061,
+            "real_recall": 0.9989136338946225,
+            "roc_auc": 0.999805018761986,
+            "reverse_label_auc_diagnostic_only": 0.00019498123801398037,
+            "percent_predicted_fake": 51.05893186003683,
+            "rows_evaluated": 15204
+          },
+          "stripped_model": {
+            "accuracy": 0.98566166798211,
+            "fake_recall": 0.9762755102040817,
+            "real_recall": 0.9956545355784899,
+            "roc_auc": 0.9990772989668436,
+            "reverse_label_auc_diagnostic_only": 0.0009227010331563923,
+            "percent_predicted_fake": 50.552486187845304,
+            "rows_evaluated": 15204
+          }
+        },
+        "6.0": {
+          "rows_before": 1806,
+          "rows_after": 1806,
+          "flagged_unreliable": false,
+          "flag_reason": "No inversion was evident in the five-sample-per-label review; verify upstream provenance before treating as independent.",
+          "original_model": {
+            "accuracy": 0.5143964562569213,
+            "fake_recall": 0.7555555555555555,
+            "real_recall": 0.3988533988533989,
+            "roc_auc": 0.6022932022932024,
+            "reverse_label_auc_diagnostic_only": 0.3977067977067976,
+            "percent_predicted_fake": 65.11627906976744,
+            "rows_evaluated": 1806
+          },
+          "stripped_model": {
+            "accuracy": 0.530454042081949,
+            "fake_recall": 0.6905982905982906,
+            "real_recall": 0.4537264537264537,
+            "roc_auc": 0.6008106008106009,
+            "reverse_label_auc_diagnostic_only": 0.3991893991893991,
+            "percent_predicted_fake": 59.30232558139535,
+            "rows_evaluated": 1806
+          }
+        },
+        "7.0": {
+          "rows_before": 3826,
+          "rows_after": 3826,
+          "flagged_unreliable": false,
+          "flag_reason": "No inversion was evident in the five-sample-per-label review; verify upstream provenance before treating as independent.",
+          "original_model": {
+            "accuracy": 0.5352848928384736,
+            "fake_recall": 0.8079575596816976,
+            "real_recall": 0.2704791344667697,
+            "roc_auc": 0.5972824311895889,
+            "reverse_label_auc_diagnostic_only": 0.4027175688104111,
+            "percent_predicted_fake": 76.81651855723993,
+            "rows_evaluated": 3826
+          },
+          "stripped_model": {
+            "accuracy": 0.5436487192890748,
+            "fake_recall": 0.7803713527851459,
+            "real_recall": 0.31375579598145287,
+            "roc_auc": 0.5841332573518258,
+            "reverse_label_auc_diagnostic_only": 0.41586674264817425,
+            "percent_predicted_fake": 73.26189231573444,
+            "rows_evaluated": 3826
+          }
+        }
+      }
+    }
+  }
+}

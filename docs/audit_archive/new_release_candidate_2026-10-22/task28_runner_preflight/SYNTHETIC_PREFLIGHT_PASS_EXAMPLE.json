@@ -1,0 +1,9 @@
+{
+  "schema_version": "task28_preflight_result_v1",
+  "decision": "PREFLIGHT_PASS_STOPPED_BEFORE_TRAINING",
+  "training_permitted": false,
+  "reason": "All synthetic preflight gates passed; this interface never launches training.",
+  "evidence_fingerprint": "synthetic-test-generated",
+  "side_effects": {"directories_created": false, "artifacts_created": false},
+  "synthetic_only": true
+}

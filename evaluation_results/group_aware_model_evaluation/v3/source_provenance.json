@@ -1,0 +1,32 @@
+{
+  "Fake.csv": {
+    "label": 0,
+    "ordered_columns": [
+      "title",
+      "text",
+      "subject",
+      "date"
+    ],
+    "relative_path": "data/Fake.csv",
+    "row_count": 11107,
+    "schema_fingerprint": "17c163df559764e031edaf2188a3b24e1bc8d69cfeaaae02cc0bd5bb157e7a5c",
+    "sha256": "672ab39a75ac75fef9ecbb1a84e2936e064b44a32197a4801d9d0fb63ca9d57e",
+    "size_bytes": 30163788,
+    "source_to_label_rule": "all rows from Fake.csv map to class 0"
+  },
+  "True.csv": {
+    "label": 1,
+    "ordered_columns": [
+      "title",
+      "text",
+      "subject",
+      "date"
+    ],
+    "relative_path": "data/True.csv",
+    "row_count": 13246,
+    "schema_fingerprint": "17c163df559764e031edaf2188a3b24e1bc8d69cfeaaae02cc0bd5bb157e7a5c",
+    "sha256": "c3105d9266fd2ad484aad43b13801930434ffcd68894cc975128e52433a0c6ad",
+    "size_bytes": 34031181,
+    "source_to_label_rule": "all rows from True.csv map to class 1"
+  }
+}

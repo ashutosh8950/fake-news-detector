@@ -1,8 +1,8 @@
-import pytest
 import pandas as pd
+import pytest
 from fastapi.testclient import TestClient
-from app import app
 
+from app import app
 
 HELD_OUT_PATH = "tests/fixtures/nasa_test_sample.csv"
 
@@ -12,6 +12,7 @@ def client():
     with TestClient(app) as c:
         yield c
 
+@pytest.mark.requires_artifacts
 def test_nasa_held_out_articles(client):
     held_out = pd.read_csv(HELD_OUT_PATH).fillna("")
     samples = pd.concat(

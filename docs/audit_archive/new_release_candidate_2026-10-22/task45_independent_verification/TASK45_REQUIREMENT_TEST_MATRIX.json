@@ -1,0 +1,26 @@
+{
+  "schema_version": "task45_requirement_test_matrix_v1",
+  "audit_only": true,
+  "status": "CONDITIONAL_PASS_WITH_CONTRACT_GAPS",
+  "requirements": [
+    {"id":"R1","requirement":"Exactly three outcomes","status":"VERIFIED","evidence":"synthetic_claim_api.py OUTCOMES; original test_all_three_outcomes"},
+    {"id":"R2","requirement":"Reject empty/oversized/malformed requests","status":"PARTIALLY_VERIFIED","evidence":"validate_request and original tests cover empty, oversized, unexpected fields","gap":"Non-mapping and missing-field cases are not directly regression-tested"},
+    {"id":"R3","requirement":"Missing evidence cannot yield misleading supported/refuted","status":"FAIL","evidence":"Direct adversarial call accepted SUPPORTED with evidence=[] and REFUTED with evidence=[]","remediation":"Require non-empty structurally valid evidence for supported/refuted"},
+    {"id":"R4","requirement":"Malformed responses fail safely","status":"FAIL","evidence":"Direct adversarial call accepted evidence=[1]; render_mock_ui then raises AttributeError","remediation":"Validate each evidence item mapping and allowed fields before rendering"},
+    {"id":"R5","requirement":"Unknown/extra response fields rejected","status":"VERIFIED","evidence":"Original test_unknown_outcome_and_extra_response_fields"},
+    {"id":"R6","requirement":"No Track B to Track A conversion","status":"VERIFIED","evidence":"forbid_track_a_conversion and original conversion test"},
+    {"id":"R7","requirement":"Default and production refusal","status":"VERIFIED","evidence":"run_synthetic_fixture guard and original production_and_default_modes test"},
+    {"id":"R8","requirement":"Synthetic-only, no network/data/model use","status":"VERIFIED_BY_SOURCE","evidence":"Module imports only html/typing; no application references; source inspection"},
+    {"id":"R9","requirement":"UI escapes untrusted strings","status":"VERIFIED_BY_INSPECTION_ONLY","evidence":"html.escape applied to source_id, disclaimer, limitations","gap":"No regression test for hostile strings; malformed item shape is not validated"},
+    {"id":"R10","requirement":"No live route or production registration","status":"VERIFIED_BY_SOURCE","evidence":"No production references found by repository search; prototype is isolated under evaluation_results"},
+    {"id":"R11","requirement":"Track A unchanged by Task 44","status":"VERIFIED_FOR_SCOPE","evidence":"Initial/current tracked diff path set unchanged; no Task 44 references in Track A files"},
+    {"id":"R12","requirement":"No model/data/artifact/deployment operation","status":"VERIFIED_BY_SOURCE_AND_TEST_SCOPE","evidence":"Prototype has no such imports or operations; tests use synthetic strings only"}
+  ],
+  "test_commands": [
+    {"command":"python -m unittest discover -s evaluation_results/new_release_candidate_2026-10-22/task44_synthetic_prototype -p \"test_*.py\" -v","result":"8 passed, 0 failed"},
+    {"command":"PYTHONPATH=... python -c '<adversarial response checks>'","result":"Reproduced acceptance of supported/refuted empty evidence and malformed evidence entry"},
+    {"command":"rg -n \"synthetic_claim_api|task44_synthetic_prototype|claim_verifier|fever_claim_verification\" app.py routers predictor.py preprocessor.py config.py distilbert_predictor.py frontend train.py phase2_calibration.py Dockerfile render.yaml requirements.txt README.md","result":"No matches"}
+  ],
+  "production_approval": false,
+  "track_b_enabled": false
+}

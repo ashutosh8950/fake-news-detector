@@ -1,0 +1,28 @@
+{
+  "schema_version": "task31_call_graph_gate_matrix_v1",
+  "status": "PASS_CANDIDATE_BOUNDARY_ONLY",
+  "head_before_after": "8c41ae005f4bee178a2b0104cb29049f00182081",
+  "entry_points": [
+    {"path": "evaluation_results/new_release_candidate_2026-10-22/task31_secure_integration/secure_build_boundary.py", "function": "candidate_preflight_only", "role": "only candidate integration boundary; calls run_preflight_secure; never authorizes build"},
+    {"path": "evaluation_results/new_release_candidate_2026-10-22/task28_runner_preflight/candidate_runner_preflight.py", "function": "run_preflight_secure", "role": "strict evidence verification; preflight-only"},
+    {"path": "evaluation_results/new_release_candidate_2026-10-22/task28_runner_preflight/candidate_runner_preflight.py", "function": "run_preflight", "role": "legacy Task28 compatibility; not accepted by candidate_preflight_only"},
+    {"path": "train.py", "function": "train", "role": "direct production training path; not integrated or authorized"},
+    {"path": "phase2_calibration.py", "function": "main", "role": "direct production calibration/export path; not integrated or authorized"},
+    {"path": "predictor.py", "function": "load_models", "role": "production deserialization path; not invoked"},
+    {"path": "download_models.py", "function": "download_models", "role": "production artifact downloader; not invoked"}
+  ],
+  "gate_matrix": [
+    {"gate": "legacy_bypass", "check": "candidate_preflight_only requires task30_evidence_v1", "result": "PASS"},
+    {"gate": "trust_roots", "check": "requires non-empty external digest/source/public-key roots; test keys rejected", "result": "PASS"},
+    {"gate": "caller_auth_injection", "check": "rejects top-level authorization booleans", "result": "PASS"},
+    {"gate": "secure_exception", "check": "secure preflight exceptions become refusal", "result": "PASS"},
+    {"gate": "cross_gate_binding", "check": "strict verifier binds source/policy/manifest/certificate/environment/signature", "result": "PASS_SYNTHETIC"},
+    {"gate": "training_boundary", "check": "strict success and lower-level invoke_build remain non-authorizing", "result": "PASS"},
+    {"gate": "real_trust_root", "check": "organization-controlled production trust root", "result": "BLOCKED_MISSING"},
+    {"gate": "real_dataset_license", "check": "authenticated provenance and intended-use rights", "result": "BLOCKED_MISSING"},
+    {"gate": "real_environment_lock", "check": "complete authenticated dependency lock", "result": "BLOCKED_MISSING"},
+    {"gate": "native_filesystem", "check": "full privileged symlink/race validation", "result": "PARTIAL"}
+  ],
+  "authorization_rule": "No function in this candidate-only integration package returns build_authorized=true or invokes training.",
+  "artifact_creation": false
+}

@@ -1,0 +1,9 @@
+policy,stage,lower,upper,count,mean_probability,fraction_positive
+all_keys_v1,uncalibrated,0.0,0.1,1710,0.0,0.05146198830409357
+all_keys_v1,uncalibrated,0.9,1.0,1943,1.0,0.9773546062789501
+all_keys_v1,calibrated,0.0,0.1,1710,0.027476179917491964,0.05146198830409357
+all_keys_v1,calibrated,0.9,1.0,1943,0.9812589115872731,0.9773546062789501
+body_combined_only_v1,uncalibrated,0.0,0.1,1641,0.0,0.03595368677635588
+body_combined_only_v1,uncalibrated,0.9,1.0,1912,1.0,0.9822175732217573
+body_combined_only_v1,calibrated,0.0,0.1,1641,0.026935818271020266,0.03595368677635588
+body_combined_only_v1,calibrated,0.9,1.0,1912,0.9785958869641237,0.9822175732217573

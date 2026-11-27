@@ -1,0 +1,94 @@
+{
+  "experiment": "E1",
+  "preprocessor": "light (cleaning + stopwords, no lemmatization)",
+  "split": "final_v5 primary grouped split",
+  "models": {
+    "lr": {
+      "accuracy": 0.9622228305502327,
+      "per_class": {
+        "fake": {
+          "precision": 0.9457409568261377,
+          "recall": 0.9729891956782714,
+          "f1": 0.9591715976331361,
+          "support": 1666
+        },
+        "real": {
+          "precision": 0.9767921609076844,
+          "recall": 0.953195772521389,
+          "f1": 0.9648497198166073,
+          "support": 1987
+        }
+      },
+      "roc_auc": 0.9923433892933117,
+      "confusion_matrix": [
+        [
+          1621,
+          45
+        ],
+        [
+          93,
+          1894
+        ]
+      ],
+      "brier_score": 0.029110680706303224
+    },
+    "svc": {
+      "accuracy": 0.9679715302491103,
+      "per_class": {
+        "fake": {
+          "precision": 0.9505526468877254,
+          "recall": 0.9807923169267707,
+          "f1": 0.9654357459379616,
+          "support": 1666
+        },
+        "real": {
+          "precision": 0.983453981385729,
+          "recall": 0.9572219426270759,
+          "f1": 0.9701606732976281,
+          "support": 1987
+        }
+      },
+      "roc_auc": 0.9937589530024391,
+      "confusion_matrix": [
+        [
+          1634,
+          32
+        ],
+        [
+          85,
+          1902
+        ]
+      ],
+      "brier_score": 0.07651825177754826
+    },
+    "nb": {
+      "accuracy": 0.9378592937311798,
+      "per_class": {
+        "fake": {
+          "precision": 0.9151759953837276,
+          "recall": 0.9519807923169268,
+          "f1": 0.9332156516622536,
+          "support": 1666
+        },
+        "real": {
+          "precision": 0.9583333333333334,
+          "recall": 0.926019124308002,
+          "f1": 0.9418991553621705,
+          "support": 1987
+        }
+      },
+      "roc_auc": 0.9803373790381779,
+      "confusion_matrix": [
+        [
+          1586,
+          80
+        ],
+        [
+          147,
+          1840
+        ]
+      ],
+      "brier_score": 0.051575949347074615
+    }
+  }
+}

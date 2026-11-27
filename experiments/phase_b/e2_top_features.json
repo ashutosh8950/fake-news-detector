@@ -1,0 +1,515 @@
+{
+  "experiment": "E2",
+  "logistic_regression": {
+    "fake": {
+      "features": [
+        {
+          "feature": "image",
+          "weight": -13.407915210575643,
+          "artifact": false
+        },
+        {
+          "feature": "feature image",
+          "weight": -10.141475370822466,
+          "artifact": false
+        },
+        {
+          "feature": "feature",
+          "weight": -9.691774190013822,
+          "artifact": false
+        },
+        {
+          "feature": "video",
+          "weight": -9.30220422389736,
+          "artifact": false
+        },
+        {
+          "feature": "gop",
+          "weight": -8.334278825811216,
+          "artifact": false
+        },
+        {
+          "feature": "don",
+          "weight": -8.294825848717746,
+          "artifact": false
+        },
+        {
+          "feature": "obama",
+          "weight": -8.11258582624961,
+          "artifact": false
+        },
+        {
+          "feature": "watch",
+          "weight": -7.7325960873059465,
+          "artifact": false
+        },
+        {
+          "feature": "read",
+          "weight": -7.634329603679164,
+          "artifact": false
+        },
+        {
+          "feature": "president trump",
+          "weight": -7.630029209771709,
+          "artifact": false
+        },
+        {
+          "feature": "getty",
+          "weight": -7.195413729514638,
+          "artifact": true
+        },
+        {
+          "feature": "getty image",
+          "weight": -7.027243594144812,
+          "artifact": true
+        },
+        {
+          "feature": "doesn",
+          "weight": -6.961112253817864,
+          "artifact": false
+        },
+        {
+          "feature": "com",
+          "weight": -6.875146800495955,
+          "artifact": false
+        },
+        {
+          "feature": "didn",
+          "weight": -6.800612617115836,
+          "artifact": false
+        },
+        {
+          "feature": "break",
+          "weight": -6.390078730229803,
+          "artifact": false
+        },
+        {
+          "feature": "america",
+          "weight": -6.071895242209356,
+          "artifact": false
+        },
+        {
+          "feature": "pic",
+          "weight": -5.9375761306841826,
+          "artifact": false
+        },
+        {
+          "feature": "isn",
+          "weight": -5.922881512340774,
+          "artifact": false
+        },
+        {
+          "feature": "president obama",
+          "weight": -5.877457101827757,
+          "artifact": false
+        },
+        {
+          "feature": "go",
+          "weight": -5.806872493754947,
+          "artifact": false
+        },
+        {
+          "feature": "twitter com",
+          "weight": -5.781596137635031,
+          "artifact": false
+        },
+        {
+          "feature": "pic twitter",
+          "weight": -5.775832021848388,
+          "artifact": true
+        },
+        {
+          "feature": "claim",
+          "weight": -5.409155695503313,
+          "artifact": false
+        },
+        {
+          "feature": "isis",
+          "weight": -5.345179750238426,
+          "artifact": false
+        },
+        {
+          "feature": "like",
+          "weight": -5.191199251729477,
+          "artifact": false
+        },
+        {
+          "feature": "century wire",
+          "weight": -4.827048467965273,
+          "artifact": false
+        },
+        {
+          "feature": "rep",
+          "weight": -4.650313196722019,
+          "artifact": false
+        },
+        {
+          "feature": "hillary",
+          "weight": -4.607611639345304,
+          "artifact": false
+        },
+        {
+          "feature": "terrorist",
+          "weight": -4.486868515078408,
+          "artifact": false
+        },
+        {
+          "feature": "sen",
+          "weight": -4.419367059938699,
+          "artifact": false
+        },
+        {
+          "feature": "fact",
+          "weight": -4.404017801190949,
+          "artifact": false
+        },
+        {
+          "feature": "wasn",
+          "weight": -4.352454020092255,
+          "artifact": false
+        },
+        {
+          "feature": "get",
+          "weight": -4.2419927617331314,
+          "artifact": false
+        },
+        {
+          "feature": "reveal",
+          "weight": -4.1597797469413695,
+          "artifact": false
+        },
+        {
+          "feature": "mail",
+          "weight": -4.130994399752829,
+          "artifact": false
+        },
+        {
+          "feature": "american",
+          "weight": -4.0758125429612475,
+          "artifact": false
+        },
+        {
+          "feature": "know",
+          "weight": -4.025376678056392,
+          "artifact": false
+        },
+        {
+          "feature": "americans",
+          "weight": -3.963681570034233,
+          "artifact": false
+        },
+        {
+          "feature": "thing",
+          "weight": -3.9502968649207166,
+          "artifact": false
+        },
+        {
+          "feature": "report",
+          "weight": -3.766043695053991,
+          "artifact": false
+        },
+        {
+          "feature": "news",
+          "weight": -3.70303968857949,
+          "artifact": false
+        },
+        {
+          "feature": "fox",
+          "weight": -3.555143188272576,
+          "artifact": false
+        },
+        {
+          "feature": "breitbart",
+          "weight": -3.4881869389539677,
+          "artifact": false
+        },
+        {
+          "feature": "entire",
+          "weight": -3.414645200457872,
+          "artifact": false
+        },
+        {
+          "feature": "explain",
+          "weight": -3.3491352915033934,
+          "artifact": false
+        },
+        {
+          "feature": "today",
+          "weight": -3.2320398912375645,
+          "artifact": false
+        },
+        {
+          "feature": "shocking",
+          "weight": -3.216008041014765,
+          "artifact": false
+        },
+        {
+          "feature": "come",
+          "weight": -3.1609543575672125,
+          "artifact": false
+        },
+        {
+          "feature": "wouldn",
+          "weight": -3.11482538949333,
+          "artifact": false
+        }
+      ],
+      "artifact_percent": 6.0
+    },
+    "real": {
+      "features": [
+        {
+          "feature": "reuters",
+          "weight": 23.173062538550784,
+          "artifact": true
+        },
+        {
+          "feature": "say",
+          "weight": 16.2515205723087,
+          "artifact": false
+        },
+        {
+          "feature": "reuter",
+          "weight": 15.02465267557122,
+          "artifact": false
+        },
+        {
+          "feature": "washington reuters",
+          "weight": 12.789609654325087,
+          "artifact": true
+        },
+        {
+          "feature": "washington",
+          "weight": 8.224188586629898,
+          "artifact": true
+        },
+        {
+          "feature": "president donald",
+          "weight": 7.809543619252383,
+          "artifact": false
+        },
+        {
+          "feature": "wednesday",
+          "weight": 7.535088002613304,
+          "artifact": true
+        },
+        {
+          "feature": "tuesday",
+          "weight": 7.145423842651388,
+          "artifact": true
+        },
+        {
+          "feature": "thursday",
+          "weight": 6.2504522769734905,
+          "artifact": true
+        },
+        {
+          "feature": "minister",
+          "weight": 6.132441427721671,
+          "artifact": false
+        },
+        {
+          "feature": "monday",
+          "weight": 5.970565811945268,
+          "artifact": true
+        },
+        {
+          "feature": "reuters president",
+          "weight": 5.866985028578787,
+          "artifact": true
+        },
+        {
+          "feature": "friday",
+          "weight": 5.577496331170277,
+          "artifact": true
+        },
+        {
+          "feature": "say statement",
+          "weight": 5.56172009416246,
+          "artifact": false
+        },
+        {
+          "feature": "nov",
+          "weight": 5.47853803202579,
+          "artifact": false
+        },
+        {
+          "feature": "spokesman",
+          "weight": 5.276740222268388,
+          "artifact": false
+        },
+        {
+          "feature": "republican",
+          "weight": 4.716174880188071,
+          "artifact": false
+        },
+        {
+          "feature": "representative",
+          "weight": 4.704706684611723,
+          "artifact": false
+        },
+        {
+          "feature": "government",
+          "weight": 4.488792146309264,
+          "artifact": false
+        },
+        {
+          "feature": "seek",
+          "weight": 4.360343874988208,
+          "artifact": false
+        },
+        {
+          "feature": "factbox",
+          "weight": 4.183082103129323,
+          "artifact": false
+        },
+        {
+          "feature": "statement",
+          "weight": 4.155717478514791,
+          "artifact": false
+        },
+        {
+          "feature": "presidential",
+          "weight": 4.09016102671616,
+          "artifact": false
+        },
+        {
+          "feature": "trade",
+          "weight": 4.067995775436435,
+          "artifact": false
+        },
+        {
+          "feature": "tell reporter",
+          "weight": 4.0535511355714124,
+          "artifact": false
+        },
+        {
+          "feature": "tell reuter",
+          "weight": 3.994186105293939,
+          "artifact": false
+        },
+        {
+          "feature": "election",
+          "weight": 3.9821774041542697,
+          "artifact": false
+        },
+        {
+          "feature": "trump say",
+          "weight": 3.9373193526566532,
+          "artifact": false
+        },
+        {
+          "feature": "president barack",
+          "weight": 3.929585058658833,
+          "artifact": false
+        },
+        {
+          "feature": "democratic",
+          "weight": 3.9111087891486633,
+          "artifact": false
+        },
+        {
+          "feature": "capital",
+          "weight": 3.788538257050075,
+          "artifact": false
+        },
+        {
+          "feature": "rival",
+          "weight": 3.7729654131304216,
+          "artifact": false
+        },
+        {
+          "feature": "urge",
+          "weight": 3.7605514032015077,
+          "artifact": false
+        },
+        {
+          "feature": "london",
+          "weight": 3.74324596897477,
+          "artifact": true
+        },
+        {
+          "feature": "say wednesday",
+          "weight": 3.7150841392929626,
+          "artifact": true
+        },
+        {
+          "feature": "say thursday",
+          "weight": 3.631563188905218,
+          "artifact": true
+        },
+        {
+          "feature": "ministry",
+          "weight": 3.5908268370290592,
+          "artifact": false
+        },
+        {
+          "feature": "rule",
+          "weight": 3.485724539434383,
+          "artifact": false
+        },
+        {
+          "feature": "lawmaker",
+          "weight": 3.4676550950222844,
+          "artifact": false
+        },
+        {
+          "feature": "britain",
+          "weight": 3.4661090364723046,
+          "artifact": false
+        },
+        {
+          "feature": "parliament",
+          "weight": 3.4397785861582357,
+          "artifact": false
+        },
+        {
+          "feature": "china",
+          "weight": 3.391733198411499,
+          "artifact": false
+        },
+        {
+          "feature": "leader",
+          "weight": 3.3900264727904004,
+          "artifact": false
+        },
+        {
+          "feature": "comment",
+          "weight": 3.3831937324348162,
+          "artifact": false
+        },
+        {
+          "feature": "york reuters",
+          "weight": 3.368351953547109,
+          "artifact": true
+        },
+        {
+          "feature": "trumps",
+          "weight": 3.312928274764406,
+          "artifact": false
+        },
+        {
+          "feature": "say tuesday",
+          "weight": 3.2190081138617463,
+          "artifact": true
+        },
+        {
+          "feature": "moscow",
+          "weight": 3.1967894436371282,
+          "artifact": false
+        },
+        {
+          "feature": "new york",
+          "weight": 3.152558380621295,
+          "artifact": true
+        },
+        {
+          "feature": "daily wire",
+          "weight": 3.137750270066265,
+          "artifact": false
+        }
+      ],
+      "artifact_percent": 30.0
+    }
+  }
+}

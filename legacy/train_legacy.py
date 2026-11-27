@@ -1,4 +1,6 @@
 """
+LEGACY ONLY: this is not the production training pipeline.
+
 Advanced training pipeline for Fake News Detection.
 Improvements over original notebook:
   - Uses title + text (original dropped title column!)
@@ -9,23 +11,35 @@ Improvements over original notebook:
   - For rigorous cross-validation and confusion matrices, see evaluate_pipeline.py
 """
 
-import os
+# Candidate/release builds have one supported entry point in
+# ``evaluation_results/new_release_candidate_2026-10-22/task33_gated_build``.
+# Keep this guard before training imports so the explicitly requested release
+# mode cannot trigger data access or artifact writes through this legacy script.
+import sys
+
+if "--candidate-release" in sys.argv or "--release-candidate" in sys.argv:
+    raise SystemExit(
+        "Candidate/release mode is refused here; use the gated candidate-build orchestrator."
+    )
+
 import json
+import os
+
 import joblib
 import pandas as pd
-from sklearn.model_selection import train_test_split
+from loguru import logger
+from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, classification_report
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import MultinomialNB
 from sklearn.svm import LinearSVC
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
-from sklearn.naive_bayes import MultinomialNB
-from sklearn.metrics import accuracy_score, classification_report
 
-from loguru import logger
-from preprocessor import preprocess
-from download_data import create_sample_data, download_full_dataset
 from config import settings
+from download_data import create_sample_data, download_full_dataset
+from preprocessor import preprocess
 
 # ── Config ──────────────────────────────────────────────────────────────────
 DATA_DIR     = settings.data_dir
@@ -98,7 +112,6 @@ def train():
     df, df_fake_test, df_true_test = load_data()
 
     # ── Preprocessing ────────────────────────────────────────────────────────
-    from preprocessor import preprocess
     logger.info("Preprocessing text using preprocess() pipeline...")
     df["processed"] = [
         preprocess(row["title"], row["text"])

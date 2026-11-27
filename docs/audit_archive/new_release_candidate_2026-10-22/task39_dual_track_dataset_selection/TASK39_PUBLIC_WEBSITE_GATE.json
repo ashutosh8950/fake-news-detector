@@ -1,0 +1,14 @@
+{
+  "schema_version": "task39_public_website_gate_v1",
+  "track": "public_website",
+  "status": "BLOCKED_INSUFFICIENT_EVIDENCE",
+  "candidate": null,
+  "acquisition_authorized": false,
+  "training_authorized": false,
+  "artifact_creation_authorized": false,
+  "deployment_authorized": false,
+  "owner_decision": "PENDING",
+  "required_before_release": ["All college-demo evidence", "Explicit rights review for public inference hosting and commercial/non-commercial context", "Permission or reviewed basis for model artifact distribution", "Third-party content, privacy, deletion, attribution and takedown review", "Dependency and artifact integrity validation", "Security/monitoring review", "Explicit owner release and deployment approval"],
+  "limitations": ["A dataset page or CC BY label is not treated as a blanket hosting/model-distribution grant", "No candidate has been acquired or verified locally"],
+  "refusal_default": true
+}

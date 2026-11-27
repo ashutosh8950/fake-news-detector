@@ -1,0 +1,83 @@
+{
+  "schema_version": "task27_dataset_evidence_v1",
+  "audit_status": "CONDITIONAL_PASS_EVIDENCE_AUDIT",
+  "release_eligibility": "BLOCKED_INSUFFICIENT_EVIDENCE",
+  "audit_date": "2026-10-22",
+  "git_head": "8c41ae005f4bee178a2b0104cb29049f00182081",
+  "local_datasets": [
+    {
+      "relative_path": "data/Fake.csv",
+      "size_bytes": 30163788,
+      "sha256": "672ab39a75ac75fef9ecbb1a84e2936e064b44a32197a4801d9d0fb63ca9d57e",
+      "row_count": 11107,
+      "schema": ["title", "text", "subject", "date"],
+      "label": 0,
+      "hash_status": "VERIFIED_CURRENT_MATCH_TO_PRIOR_LOCAL_RECORD",
+      "authenticity_status": "UNKNOWN",
+      "license_status": "UNKNOWN"
+    },
+    {
+      "relative_path": "data/True.csv",
+      "size_bytes": 34031181,
+      "sha256": "c3105d9266fd2ad484aad43b13801930434ffcd68894cc975128e52433a0c6ad",
+      "row_count": 13246,
+      "schema": ["title", "text", "subject", "date"],
+      "label": 1,
+      "hash_status": "VERIFIED_CURRENT_MATCH_TO_PRIOR_LOCAL_RECORD",
+      "authenticity_status": "UNKNOWN",
+      "license_status": "UNKNOWN"
+    }
+  ],
+  "local_provenance": {
+    "source": "evaluation_results/group_aware_model_evaluation/v3/source_provenance.json",
+    "classification": "LOCAL_CONSISTENCY_RECORD_ONLY",
+    "acquisition_date": null,
+    "source_version": null,
+    "source_digest": null,
+    "transformation_record": null,
+    "rights_holder_permission": null
+  },
+  "claimed_sources": [
+    {
+      "name": "GonzaloA/fake_news",
+      "url": "https://huggingface.co/datasets/GonzaloA/fake_news",
+      "evidence": "Public dataset page; train split approximately 24.4k rows; license metadata unknown.",
+      "classification": "AUTHORITATIVE_BUT_NOT_CRYPTOGRAPHICALLY_AUTHENTICATED",
+      "local_mapping": "UNKNOWN",
+      "license_for_intended_uses": "UNKNOWN"
+    },
+    {
+      "name": "Kaggle fake-and-real-news-dataset",
+      "url": "https://www.kaggle.com/datasets/clmentbisaillon/fake-and-real-news-dataset",
+      "evidence": "Public page lists Fake.csv/True.csv and displays CC BY-NC-SA 4.0.",
+      "classification": "AUTHORITATIVE_BUT_NOT_CRYPTOGRAPHICALLY_AUTHENTICATED",
+      "local_mapping": "UNKNOWN",
+      "license_for_intended_uses": "CONDITIONALLY_REPORTED_NOT_LEGAL_CLEARANCE"
+    }
+  ],
+  "intended_use_status": {
+    "local_experimentation_training": "CONDITIONAL_PENDING_CONFIRMATION",
+    "derived_model_artifact_distribution": "BLOCKED_INSUFFICIENT_EVIDENCE",
+    "public_web_inference_hosting": "BLOCKED_INSUFFICIENT_EVIDENCE",
+    "source_dataset_redistribution": "BLOCKED_INSUFFICIENT_EVIDENCE"
+  },
+  "missing_evidence": [
+    "Authenticated acquisition record",
+    "Exact upstream version/commit and source artifact digest",
+    "Reproducible mapping from upstream bytes to local CSV bytes",
+    "Rights-holder-authorized permission for training and intended distribution/hosting",
+    "Owner/legal decision defining release scope and conditions"
+  ],
+  "approvals": {
+    "owner_dataset_identity_approved": false,
+    "owner_license_scope_approved": false,
+    "release_training_authorized": false,
+    "release_distribution_authorized": false
+  },
+  "safety": {
+    "dataset_contents_processed_for_training_or_evaluation": false,
+    "datasets_downloaded": false,
+    "model_artifacts_loaded": false,
+    "existing_files_modified": false
+  }
+}

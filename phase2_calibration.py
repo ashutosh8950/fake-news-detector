@@ -6,6 +6,17 @@ calibration using an inner training-only validation split, and saves calibrated
 artifacts under models/calibrated/.
 """
 
+# Candidate/release builds have one supported entry point in
+# ``evaluation_results/new_release_candidate_2026-10-22/task33_gated_build``.
+# Keep this guard before calibration imports so explicit release mode cannot
+# read data or write calibrated artifacts through this legacy script.
+import sys
+
+if "--candidate-release" in sys.argv or "--release-candidate" in sys.argv:
+    raise SystemExit(
+        "Candidate/release mode is refused here; use the gated candidate-build orchestrator."
+    )
+
 import json
 import os
 from typing import Dict, Iterable
@@ -24,7 +35,6 @@ from sklearn.svm import LinearSVC
 from sklearn.tree import DecisionTreeClassifier
 
 from preprocessor import preprocess
-
 
 RANDOM_STATE = 42
 CALIBRATION_VALIDATION_FRACTION = 0.20

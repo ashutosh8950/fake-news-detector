@@ -6,17 +6,23 @@ Loads the 5 production Phase 2 calibrated models and produces:
   - Overall confidence = calibrated probability of the predicted class, as a percentage
 """
 
-import os
 import json
+import os
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict
+
 import joblib
 import numpy as np
-from datetime import datetime
-from typing import Dict, Any
-
 from loguru import logger
 
-from preprocessor import preprocess
+from artifact_contract import (
+    extract_real_probability,
+    validate_loaded_bundle,
+    verify_artifact_bundle,
+)
 from config import settings
+from preprocessor import preprocess
 
 MODELS_DIR = os.path.join(settings.models_dir, "calibrated")
 PHASE2_REPORT_PATH = os.path.join("evaluation_results", "phase2_calibration_report.json")
@@ -57,43 +63,27 @@ class FakeNewsPredictor:
 
     def load(self):
         """Load Phase 2 calibrated models and metadata from disk."""
+        self.loaded = False
         _log_load_checkpoint("Starting calibrated artifact loading")
-        vec_path  = os.path.join(MODELS_DIR, "vectorizer.pkl")
+        models_dir = Path(MODELS_DIR).resolve()
+        report_path = Path(PHASE2_REPORT_PATH).resolve()
+        manifest_path = models_dir / "artifact_manifest.json"
 
-        if not os.path.exists(vec_path):
-            raise FileNotFoundError(
-                "Calibrated models not found. Please run: python phase2_calibration.py"
-            )
-
-        _log_load_checkpoint(f"BEFORE loading vectorizer: {vec_path}")
-        self.vectorizer = joblib.load(vec_path)
-        _log_load_checkpoint(f"AFTER loading vectorizer: {vec_path}")
-
-        self.models = {}
-        for key in MODEL_KEYS:
-            model_path = os.path.join(MODELS_DIR, f"{key}_calibrated.pkl")
-            if not os.path.exists(model_path):
-                raise FileNotFoundError(f"Calibrated model not found: {model_path}")
-            _log_load_checkpoint(f"BEFORE loading model {key}: {model_path}")
-            self.models[key] = joblib.load(model_path)
-            _log_load_checkpoint(f"AFTER loading model {key}: {model_path}")
-
-        if not os.path.exists(PHASE2_REPORT_PATH):
-            raise FileNotFoundError(
-                f"Phase 2 calibration report not found: {PHASE2_REPORT_PATH}"
-            )
-
-        # The deprecated models/model_meta.json described contaminated artifacts.
-        # Production metadata now comes from the Phase 2 held-out evaluation report.
-        _log_load_checkpoint(
-            f"BEFORE loading calibration report: {PHASE2_REPORT_PATH}"
-        )
-        with open(PHASE2_REPORT_PATH, encoding="utf-8") as report_file:
+        # Verify every byte before deserializing any pickle/joblib object.
+        verify_artifact_bundle(models_dir, report_path, manifest_path)
+        with report_path.open(encoding="utf-8") as report_file:
             report = json.load(report_file)
-        _log_load_checkpoint(
-            f"AFTER loading calibration report: {PHASE2_REPORT_PATH}"
-        )
 
+        vec_path = models_dir / "vectorizer.pkl"
+        loaded_vectorizer = joblib.load(vec_path)
+        loaded_models = {
+            key: joblib.load(models_dir / f"{key}_calibrated.pkl")
+            for key in MODEL_KEYS
+        }
+        validate_loaded_bundle(loaded_vectorizer, loaded_models, report)
+
+        self.vectorizer = loaded_vectorizer
+        self.models = loaded_models
         self.meta = {}
         for key in MODEL_KEYS:
             model_report = report["models"][key]
@@ -128,16 +118,15 @@ class FakeNewsPredictor:
 
         # Preprocess
         processed  = preprocess(title, text)
+        if self.vectorizer is None:
+            raise RuntimeError("Vectorizer is not loaded")
         vectorized = self.vectorizer.transform([processed])
 
         results = {}
         calibrated_probabilities = []
 
         for key, model in self.models.items():
-            if not hasattr(model, "predict_proba"):
-                raise TypeError(f"Calibrated model {key} does not support predict_proba()")
-
-            probability_class1 = float(model.predict_proba(vectorized)[0][1])
+            probability_class1 = extract_real_probability(model, vectorized)
             prediction = int(probability_class1 >= 0.5)
             confidence = probability_class1 if prediction == 1 else 1.0 - probability_class1
             calibrated_probabilities.append(probability_class1)
@@ -153,6 +142,8 @@ class FakeNewsPredictor:
 
         # ── Average calibrated P(class=1) ensemble ──────────────────────────────
         ensemble_probability = float(np.mean(calibrated_probabilities))
+        if not np.isfinite(ensemble_probability) or not 0.0 <= ensemble_probability <= 1.0:
+            raise RuntimeError("Ensemble probability is not finite or within [0, 1]")
         ensemble_is_real = ensemble_probability >= 0.5
         ensemble_fake = not ensemble_is_real
         ensemble_confidence = (

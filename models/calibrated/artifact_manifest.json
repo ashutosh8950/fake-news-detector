@@ -1,0 +1,41 @@
+{
+  "schema_version": "truthscan_artifact_manifest_v1",
+  "artifacts": {
+    "vectorizer.pkl": {
+      "sha256": "f7f63ff06dfe48ee9de281a3868e28c3032a983d8c6c0b3f1cf55218cdb0ed06",
+      "size_bytes": 6310649
+    },
+    "lr_calibrated.pkl": {
+      "sha256": "75dc67eb8b030d966c454647309ef8f994ed3502eb92af72b14ed9b0540b20bf",
+      "size_bytes": 6007783
+    },
+    "dt_calibrated.pkl": {
+      "sha256": "2650afcc24ff10a33a89493c01d0e5dd662734bd3556c70007b8b8feb0c058a1",
+      "size_bytes": 148343
+    },
+    "gbc_calibrated.pkl": {
+      "sha256": "afa7666702896fc377bfad4ab2c845a6192f346af1fe4b75676cba59a69b5423",
+      "size_bytes": 1193783
+    },
+    "nb_calibrated.pkl": {
+      "sha256": "074bf083eb4856764722935e92de7150e46071214e702b57e1c1261d76451a03",
+      "size_bytes": 24008487
+    },
+    "svc_calibrated.pkl": {
+      "sha256": "767669653ff5c595b31aae89c0e0350b91156bc91a9eff3c557b443e8a8b9a03",
+      "size_bytes": 6006935
+    },
+    "phase2_calibration_report.json": {
+      "sha256": "b51204abf675dfd46f2c250b5b1a3d5b92c0016ca28d5a0a195fadb2db62f4de",
+      "size_bytes": 7665
+    }
+  },
+  "environment": {
+    "python": "3.11.9",
+    "numpy": "2.4.6",
+    "pandas": "3.0.6",
+    "sklearn": "1.9.0",
+    "spacy": "3.8.16"
+  },
+  "calibration_report_sha256": "b51204abf675dfd46f2c250b5b1a3d5b92c0016ca28d5a0a195fadb2db62f4de"
+}

@@ -1,0 +1,14 @@
+{
+  "schema_version": "task42_public_website_candidates_v1",
+  "track": "public_inference_website",
+  "authorization": "NONE",
+  "candidates": [
+    {"id":"fever","status":"BLOCKED_INSUFFICIENT_EVIDENCE","reason":"License notice is use-specific to Wikipedia-derived annotations; no complete public-hosting, commercial, model-distribution, privacy and deployment basis; task mismatch"},
+    {"id":"nela_gt","status":"BLOCKED_INSUFFICIENT_EVIDENCE","reason":"Copyright-aware transformation is not a hosting license; source/article rights and downstream model use unresolved"},
+    {"id":"zenodo_18135595_v1_1","status":"BLOCKED_INSUFFICIENT_EVIDENCE","reason":"Record-level CC BY assertion does not establish third-party rights, public hosting, commercial use, or model distribution"},
+    {"id":"liar","status":"BLOCKED_INSUFFICIENT_EVIDENCE","reason":"No verified downstream rights; PolitiFact-origin claims and public hosting unresolved"},
+    {"id":"welfake","status":"BLOCKED_INSUFFICIENT_EVIDENCE","reason":"Primary license/provenance record not verified"}
+  ],
+  "required_before_any_public_release":["Owner authorization","Version and source-to-local mapping","Rights covering hosting and intended commercial status","Model-artifact decision","Privacy/takedown review","Secure preflight, security, monitoring, release and deployment approval"],
+  "refusal_default": true
+}

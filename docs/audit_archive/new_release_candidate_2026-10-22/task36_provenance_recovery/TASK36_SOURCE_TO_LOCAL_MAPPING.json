@@ -1,0 +1,56 @@
+{
+  "schema_version": "task36_source_to_local_mapping_v1",
+  "audit_date": "2026-10-22",
+  "overall_status": "UNRESOLVED",
+  "local_files": [
+    {
+      "path": "data/Fake.csv",
+      "size_bytes": 30163788,
+      "sha256": "672ab39a75ac75fef9ecbb1a84e2936e064b44a32197a4801d9d0fb63ca9d57e",
+      "source_file": null,
+      "source_revision": null,
+      "source_digest": null,
+      "transformation_receipt": null,
+      "mapping_status": "UNAVAILABLE",
+      "evidence_classification": "CONSISTENCY_EVIDENCE_ONLY"
+    },
+    {
+      "path": "data/True.csv",
+      "size_bytes": 34031181,
+      "sha256": "c3105d9266fd2ad484aad43b13801930434ffcd68894cc975128e52433a0c6ad",
+      "source_file": null,
+      "source_revision": null,
+      "source_digest": null,
+      "transformation_receipt": null,
+      "mapping_status": "UNAVAILABLE",
+      "evidence_classification": "CONSISTENCY_EVIDENCE_ONLY"
+    }
+  ],
+  "alleged_sources": [
+    {
+      "name": "GonzaloA/fake_news",
+      "url": "https://huggingface.co/datasets/GonzaloA/fake_news",
+      "alleged_file": "train.csv",
+      "revision": null,
+      "public_record_access_date": "2026-10-22",
+      "source_to_local_status": "NOT_ESTABLISHED",
+      "reason": "No authenticated acquisition record, source digest, or transformation receipt."
+    },
+    {
+      "name": "clmentbisaillon/fake-and-real-news-dataset",
+      "url": "https://www.kaggle.com/datasets/clmentbisaillon/fake-and-real-news-dataset",
+      "alleged_files": ["Fake.csv", "True.csv"],
+      "revision": null,
+      "public_record_access_date": "2026-10-22",
+      "source_to_local_status": "NOT_ESTABLISHED",
+      "reason": "Names and displayed structure are suggestive, but counts differ and no authenticated byte mapping exists."
+    }
+  ],
+  "missing_evidence": [
+    "Exact source revision and original file identity",
+    "Trusted source artifact digest",
+    "Acquisition event and timestamp",
+    "Deterministic transformation record and output receipt",
+    "Independent authentication of the mapping"
+  ]
+}

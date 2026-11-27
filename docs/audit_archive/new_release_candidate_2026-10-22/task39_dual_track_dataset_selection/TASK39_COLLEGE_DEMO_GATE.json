@@ -1,0 +1,15 @@
+{
+  "schema_version": "task39_college_demo_gate_v1",
+  "track": "college_demonstration",
+  "status": "BLOCKED_INSUFFICIENT_EVIDENCE",
+  "candidate": null,
+  "acquisition_authorized": false,
+  "training_authorized": false,
+  "artifact_creation_authorized": false,
+  "deployment_authorized": false,
+  "owner_decision": "PENDING",
+  "required_before_acquisition": ["Owner selects candidate and intended academic scope", "Version-specific rights/provenance review", "Qualified review of underlying-content rights"],
+  "required_before_build": ["Exact file/source digests and acquisition receipt", "Approved labels, grouping, partitions, and leakage checks", "Reproducible environment evidence", "Secure preflight pass", "Explicit build authorization"],
+  "limitations": ["Academic context does not automatically authorize copying, processing, model distribution, or hosting", "Demo must carry a non-authoritative fact-checking disclaimer"],
+  "refusal_default": true
+}

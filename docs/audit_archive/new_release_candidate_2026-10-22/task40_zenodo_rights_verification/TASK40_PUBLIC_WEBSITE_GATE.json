@@ -1,0 +1,15 @@
+{
+  "schema_version": "task40_public_website_gate_v1",
+  "candidate": "zenodo_18135595_v1_1",
+  "track": "public_truthscan_website",
+  "status": "BLOCKED_INSUFFICIENT_EVIDENCE",
+  "evidence": ["Official record identifies a versioned dataset package and displays CC BY 4.0 for datasets", "Official CC BY deed describes commercial permissions for material actually covered, subject to terms"],
+  "unresolved_issues": ["Explicit public-inference hosting permission", "Commercial/noncommercial scope", "Underlying publisher and third-party rights", "Model artifact distribution rights", "Privacy, takedown, retention, attribution and notice duties", "Security, monitoring, release and deployment approval"],
+  "permitted_next_action": "Owner-authorized rights review only; no acquisition, training, artifact release, hosting, or deployment",
+  "acquisition_authorized": false,
+  "training_authorized": false,
+  "artifact_creation_authorized": false,
+  "deployment_authorized": false,
+  "owner_decision": "PENDING",
+  "refusal_default": true
+}

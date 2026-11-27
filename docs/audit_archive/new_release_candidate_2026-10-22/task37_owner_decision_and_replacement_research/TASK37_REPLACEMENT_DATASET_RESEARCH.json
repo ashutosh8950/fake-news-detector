@@ -1,0 +1,148 @@
+{
+  "schema_version": "task37_replacement_dataset_research_v1",
+  "retrieval_date": "2026-10-22",
+  "research_only": true,
+  "candidate_approval": "NONE",
+  "existing_dataset_status": "NO_GO_BLOCKED_INSUFFICIENT_EVIDENCE",
+  "candidates": [
+    {
+      "id": "liar",
+      "name": "LIAR",
+      "canonical_source": "https://www.cs.ucsb.edu/~william/data/liar_dataset.zip",
+      "official_documentation": [
+        "https://arxiv.org/abs/1705.00648",
+        "https://huggingface.co/datasets/ucsbai/liar/blob/main/README.md"
+      ],
+      "publisher_or_creator": "William Yang Wang / UCSB research release; statements sourced from PolitiFact according to the dataset documentation",
+      "primary_source_status": "OFFICIAL_PAPER_AND_DATASET_DOCUMENTATION",
+      "published_revision": "Original LIAR release; exact archive revision not independently recorded in this audit",
+      "published_license": "NOT_STATED_IN_REVIEWED_OFFICIAL_DATASET_CARD",
+      "provenance_evidence": "Official paper and dataset documentation identify 12.8K PolitiFact-labeled short statements and six truthfulness labels.",
+      "structure_and_suitability": "Short claim-level English statements; six labels; suitable for a distinct claim-classification task, not a drop-in article-level binary replacement.",
+      "activity_status": {
+        "training_and_internal_evaluation": "CONDITIONAL_PENDING_CONFIRMATION",
+        "trained_model_artifact_distribution": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "public_inference_hosting": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "commercial_use": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "raw_dataset_redistribution": "BLOCKED_INSUFFICIENT_EVIDENCE"
+      },
+      "restrictions_and_caveats": [
+        "PolitiFact-originated statements and analysis text may involve third-party rights.",
+        "No reviewed official license text establishes commercial, hosting, model-distribution, or raw-redistribution rights.",
+        "Task labels and source domain differ materially from the current binary article corpus."
+      ],
+      "evidence_gaps": [
+        "Version-specific license or written permission",
+        "Authenticated archive digest and acquisition record",
+        "Permission covering derived artifacts and public hosting",
+        "Clarification of PolitiFact and third-party content rights"
+      ]
+    },
+    {
+      "id": "fakeddit",
+      "name": "r/Fakeddit",
+      "canonical_source": "https://github.com/entitize/Fakeddit",
+      "official_documentation": [
+        "https://github.com/entitize/Fakeddit/blob/master/README.md?plain=1",
+        "https://fakeddit.netlify.app/",
+        "https://arxiv.org/abs/1911.03854"
+      ],
+      "publisher_or_creator": "Kai Nakamura, Sharon Levy, and William Yang Wang / UCSB lab project",
+      "primary_source_status": "OFFICIAL_PROJECT_REPOSITORY_AND_PAPER",
+      "published_revision": "README documents v2.0 download instructions; exact data-file revision digest not established",
+      "published_license": "NOT_FOUND_IN_REVIEWED_OFFICIAL_REPOSITORY_MATERIAL",
+      "provenance_evidence": "Official repository documents v2.0 text/metadata, image, and comment sources, public test material, and usage guidance.",
+      "structure_and_suitability": "Over one million Reddit-derived multimodal samples in the project description; text, metadata, comments, and image components. Suitable only after defining a new task and content policy.",
+      "activity_status": {
+        "training_and_internal_evaluation": "CONDITIONAL_PENDING_CONFIRMATION",
+        "trained_model_artifact_distribution": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "public_inference_hosting": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "commercial_use": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "raw_dataset_redistribution": "BLOCKED_INSUFFICIENT_EVIDENCE"
+      },
+      "restrictions_and_caveats": [
+        "Reddit submissions, comments, images, URLs, and user-linked metadata may have separate terms and privacy concerns.",
+        "Official usage instructions say to read usage guidance and distinguish multimodal-only evaluation samples.",
+        "No dataset license was verified in the reviewed repository pages."
+      ],
+      "evidence_gaps": [
+        "Dataset license or rights statement attached to v2.0 files",
+        "Source revision and file digests",
+        "Permission for model distribution, hosting, commercial use, and raw redistribution",
+        "Third-party Reddit/media rights and privacy review"
+      ]
+    },
+    {
+      "id": "coaid",
+      "name": "CoAID: COVID-19 Healthcare Misinformation Dataset",
+      "canonical_source": "https://github.com/cuilimeng/CoAID",
+      "official_documentation": [
+        "https://github.com/cuilimeng/CoAID/blob/master/README.md?plain=1",
+        "https://arxiv.org/abs/2006.00885"
+      ],
+      "publisher_or_creator": "Limeng Cui and Dongwon Lee",
+      "primary_source_status": "OFFICIAL_REPOSITORY_AND_PAPER",
+      "published_revision": "Official README records versions 0.1 (2020-05-17) through 0.4 (2021-01-08)",
+      "published_license": "NOT_STATED_IN_REVIEWED_OFFICIAL_REPOSITORY_README",
+      "provenance_evidence": "Official README records version history and describes 5,216 news items, 296,752 engagements, 958 social posts, and labels.",
+      "structure_and_suitability": "COVID-19 healthcare misinformation domain; not a general fake-news replacement and likely requires a different label/task contract.",
+      "activity_status": {
+        "training_and_internal_evaluation": "CONDITIONAL_PENDING_CONFIRMATION",
+        "trained_model_artifact_distribution": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "public_inference_hosting": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "commercial_use": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "raw_dataset_redistribution": "BLOCKED_INSUFFICIENT_EVIDENCE"
+      },
+      "restrictions_and_caveats": [
+        "Healthcare claims and social content require domain, privacy, and third-party rights review.",
+        "No dataset license or model-distribution permission was found in the reviewed official README.",
+        "Version history exists, but no source-file digest was established."
+      ],
+      "evidence_gaps": [
+        "Version-specific license and intended-use permission",
+        "Authenticated file digest and acquisition record",
+        "Rights in article, social-platform, and engagement content",
+        "Owner decision accepting healthcare-domain mismatch"
+      ]
+    },
+    {
+      "id": "fakenewsnet",
+      "name": "FakeNewsNet",
+      "canonical_source": "https://github.com/KaiDMML/FakeNewsNet",
+      "official_documentation": [
+        "https://github.com/KaiDMML/FakeNewsNet/blob/master/README.md",
+        "https://arxiv.org/abs/1809.01286"
+      ],
+      "publisher_or_creator": "Kai Shu and collaborators; Arizona Board of Regents copyright notice in repository",
+      "primary_source_status": "OFFICIAL_REPOSITORY_AND_PAPER",
+      "published_revision": "Repository distinguishes current version and old-version branch; exact acquisition revision not selected",
+      "published_license": "No general dataset license identified in the reviewed README",
+      "provenance_evidence": "Official README describes Politifact/GossipCop sources, minimal CSV metadata, collection scripts, Twitter API dependencies, and current/old versions.",
+      "structure_and_suitability": "News-source and social-context records; CSV metadata includes IDs, URLs, titles, and tweet IDs. Not a direct replacement for the current four-column binary files.",
+      "activity_status": {
+        "training_and_internal_evaluation": "CONDITIONAL_PENDING_CONFIRMATION",
+        "trained_model_artifact_distribution": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "public_inference_hosting": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "commercial_use": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "raw_dataset_redistribution": "PROHIBITED_BY_DOCUMENTED_TERMS"
+      },
+      "restrictions_and_caveats": [
+        "Official README states the complete dataset cannot be distributed because of Twitter privacy policies and news publisher copyrights.",
+        "Collection requires external APIs and may retrieve publisher content; current availability and terms can change.",
+        "The documented restriction applies to complete redistribution; other uses still require separate rights review."
+      ],
+      "evidence_gaps": [
+        "Permission for the intended training and hosting scope",
+        "Permission for derived model distribution",
+        "Current source and API terms, file digests, and acquisition record",
+        "Third-party publisher and Twitter content rights"
+      ]
+    }
+  ],
+  "global_limitations": [
+    "No candidate was downloaded or parsed.",
+    "Public availability and repository ownership were not treated as proof of rights.",
+    "No candidate is authorized for acquisition, training, model distribution, hosting, or raw redistribution.",
+    "Legal conclusions require qualified review of exact terms and content rights."
+  ]
+}

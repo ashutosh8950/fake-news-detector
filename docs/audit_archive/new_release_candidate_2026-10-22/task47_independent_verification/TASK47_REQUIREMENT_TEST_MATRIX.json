@@ -1,0 +1,22 @@
+{
+  "schema_version": "task47_requirement_test_matrix_v1",
+  "verdict": "PASS_ISOLATED_SCOPE",
+  "requirements": [
+    {"id":"R1","expected":"SUPPORTED and REFUTED reject empty or missing evidence","actual_evidence":"validate_response checks non-empty validated_evidence for both outcomes","test_reference":"test_positive_outcomes_require_evidence","result":"PASS","limitation":null},
+    {"id":"R2","expected":"Every evidence item follows documented schema and has non-empty snippet","actual_evidence":"EVIDENCE_FIELDS allowlist; Mapping check; required bounded snippet; optional bounded source_id/title","test_reference":"test_evidence_items_are_strictly_validated","result":"PASS","limitation":"Not every boundary length is a separate test"},
+    {"id":"R3","expected":"Integers, nulls, malformed objects, missing fields, empty snippets reject safely","actual_evidence":"ContractError raised for each tested malformed item","test_reference":"test_evidence_items_are_strictly_validated","result":"PASS","limitation":"String-as-top-level-evidence-array and every wrong field type are source-verified but not individually parameterized"},
+    {"id":"R4","expected":"INSUFFICIENT_EVIDENCE has exact empty-evidence rule","actual_evidence":"Non-empty evidence rejected; empty list accepted","test_reference":"test_missing_evidence_is_first_class; test_evidence_items_are_strictly_validated","result":"PASS","limitation":null},
+    {"id":"R5","expected":"Malformed responses produce controlled UI error","actual_evidence":"render_mock_ui catches ContractError and returns data-state='error' section","test_reference":"test_invalid_ui_response_returns_controlled_error","result":"PASS","limitation":"Browser execution not tested"},
+    {"id":"R6","expected":"Hostile strings render inertly","actual_evidence":"html.escape applied to dynamic fields; hostile script/img test asserts escaped output and absent active tags","test_reference":"test_hostile_strings_are_escaped","result":"PASS","limitation":"String renderer tested, not browser DOM"},
+    {"id":"R7","expected":"Unknown outcomes and malformed response objects reject","actual_evidence":"Strict response key set and OUTCOMES membership checks","test_reference":"test_unknown_outcome_and_extra_response_fields","result":"PASS","limitation":"Some malformed shapes are source-verified rather than individually tested"},
+    {"id":"R8","expected":"Contract, implementation, tests agree on fields/types/outcomes","actual_evidence":"TASK44_SYNTHETIC_API_CONTRACT.md matches constants and validation branches; 12 tests pass","test_reference":"source inspection and full suite","result":"PASS","limitation":"No generated schema tool or browser/API integration"},
+    {"id":"R9","expected":"Synthetic-only and production refusal","actual_evidence":"run_synthetic_fixture refuses without synthetic_mode and refuses environment production","test_reference":"test_production_and_default_modes_are_disabled","result":"PASS","limitation":null},
+    {"id":"R10","expected":"Prototype remains isolated from production","actual_evidence":"No production references found; no FastAPI import/registration; module uses only standard library","test_reference":"repository search and import inspection","result":"PASS","limitation":"Static isolation review cannot prove arbitrary future local edits impossible"}
+  ],
+  "test_runs": [
+    {"suite":"Task 46 / current prototype","command":"python -m unittest discover -s evaluation_results/new_release_candidate_2026-10-22/task44_synthetic_prototype -p \"test_*.py\" -v","interpreter":"C:\\Users\\gupta\\AppData\\Local\\Programs\\Python\\Python312\\python.exe","python_version":"3.12.10","exit_code":0,"passed":12,"failed":0,"skipped":0},
+    {"suite":"Task 44 regression","command":"python -m unittest discover -s evaluation_results/new_release_candidate_2026-10-22/task44_synthetic_prototype -p \"test_*.py\" -v","interpreter":"C:\\Users\\gupta\\AppData\\Local\\Programs\\Python\\Python312\\python.exe","python_version":"3.12.10","exit_code":0,"passed":12,"failed":0,"skipped":0}
+  ],
+  "track_b_enabled": false,
+  "production_approval": false
+}

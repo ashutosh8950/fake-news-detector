@@ -1,0 +1,30 @@
+{
+  "experiment_id": "group_aware_model_evaluation_v1",
+  "random_seed": 42,
+  "class_mapping": {"0": "Fake", "1": "Real"},
+  "policies": ["all_keys_v1", "body_combined_only_v1"],
+  "preprocessing": {
+    "name": "regex_fallback_experimental",
+    "title_repetitions": 3,
+    "spaCy_lemmatization": false,
+    "reason": "spacy and en_core_web_sm unavailable; not production-equivalent"
+  },
+  "tfidf": {
+    "ngram_range": [1, 2],
+    "max_features": 150000,
+    "sublinear_tf": true,
+    "analyzer": "word",
+    "min_df": 2,
+    "max_df": 0.95
+  },
+  "models": {
+    "lr": {"type": "LogisticRegression", "C": 5.0, "max_iter": 1000, "random_state": 42},
+    "dt": {"type": "DecisionTreeClassifier", "max_depth": null, "random_state": 42},
+    "gbc": {"type": "GradientBoostingClassifier", "n_estimators": 50, "random_state": 42, "representation": "TruncatedSVD_256_fit_on_proper_fit", "reduced_cost_due_to_runtime": true},
+    "nb": {"type": "MultinomialNB", "alpha": 0.01},
+    "svc": {"type": "LinearSVC", "C": 1.0, "max_iter": 2000, "random_state": 42}
+  },
+  "selection": {"metric": "macro_f1", "tie_break": ["balanced_accuracy", "model_key"], "threshold": 0.5},
+  "calibration": {"method": "sigmoid", "fit_partition": "final_calibration", "selection_partition": "method_selection"},
+  "uncertainty": {"method": "group_bootstrap", "replicates": 100, "seed": 42}
+}

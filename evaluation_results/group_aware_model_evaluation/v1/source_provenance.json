@@ -1,0 +1,10 @@
+{
+  "Fake.csv": {
+    "sha256": "672ab39a75ac75fef9ecbb1a84e2936e064b44a32197a4801d9d0fb63ca9d57e",
+    "size_bytes": 30163788
+  },
+  "True.csv": {
+    "sha256": "c3105d9266fd2ad484aad43b13801930434ffcd68894cc975128e52433a0c6ad",
+    "size_bytes": 34031181
+  }
+}

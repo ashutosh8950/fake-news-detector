@@ -1,0 +1,233 @@
+{
+  "group_count": 24053,
+  "grouping_algorithm_id": "transitive_key_components_v1",
+  "inner_split": {
+    "accepted_changes": 0,
+    "candidate_evaluations": 61257,
+    "feasibility_mode": "reservation_certificate",
+    "objective_key": {
+      "assignment_tie_break_length": 20505,
+      "assignment_tie_break_sha256": "b6d867dd9ec6f1cd159766a2e0d3703830cff8f8f543a8581902f4154bd5fa02",
+      "class_deviation_quantized": 585985155,
+      "objective_quantized": 553862143,
+      "partition_row_counts": [
+        13248,
+        3282,
+        4170
+      ],
+      "row_deviation_quantized": 521739130
+    },
+    "optimization_limit_reached": false,
+    "optimization_note": "Large-input path uses reservation-pinned deterministic greedy assignment; exhaustive local swaps are not attempted.",
+    "reserved_group_count": 129,
+    "statistics": {
+      "final_calibration": {
+        "class_bearing_groups": {
+          "0": 1918,
+          "1": 2237
+        },
+        "class_counts": {
+          "0": 1918,
+          "1": 2252
+        },
+        "groups": 4155,
+        "rows": 4170
+      },
+      "method_selection": {
+        "class_bearing_groups": {
+          "0": 1481,
+          "1": 1786
+        },
+        "class_counts": {
+          "0": 1481,
+          "1": 1801
+        },
+        "groups": 3267,
+        "rows": 3282
+      },
+      "proper_fit": {
+        "class_bearing_groups": {
+          "0": 6014,
+          "1": 7070
+        },
+        "class_counts": {
+          "0": 6042,
+          "1": 7206
+        },
+        "groups": 13083,
+        "rows": 13248
+      }
+    }
+  },
+  "manifest_schema_version": "duplicate_aware_manifest_v2",
+  "normalization": "NFKC; casefold; every non-alphanumeric character to a separator; collapse separators to ASCII spaces; trim",
+  "normalization_policy_id": "unicode_alphanumeric_v2",
+  "outer_split": {
+    "accepted_changes": 0,
+    "candidate_evaluations": 48065,
+    "feasibility_mode": "reservation_certificate",
+    "objective_key": {
+      "assignment_tie_break_length": 24053,
+      "assignment_tie_break_sha256": "929076499747a93e28f400025c2eb17382cc0c4b6b0a127716f386414b7a38a2",
+      "class_deviation_quantized": 6025557,
+      "objective_quantized": 4039346,
+      "partition_row_counts": [
+        3653,
+        20700
+      ],
+      "row_deviation_quantized": 2053135
+    },
+    "optimization_limit_reached": false,
+    "optimization_note": "Large-input path uses reservation-pinned deterministic greedy assignment; exhaustive local swaps are not attempted.",
+    "reserved_group_count": 41,
+    "statistics": {
+      "test": {
+        "class_bearing_groups": {
+          "0": 1615,
+          "1": 1935
+        },
+        "class_counts": {
+          "0": 1666,
+          "1": 1987
+        },
+        "groups": 3548,
+        "rows": 3653
+      },
+      "train": {
+        "class_bearing_groups": {
+          "0": 9413,
+          "1": 11093
+        },
+        "class_counts": {
+          "0": 9441,
+          "1": 11259
+        },
+        "groups": 20505,
+        "rows": 20700
+      }
+    }
+  },
+  "policy": "all_keys_v1",
+  "provenance": {
+    "configuration": {
+      "grouping_algorithm_id": "transitive_key_components_v1",
+      "inner_requirements": {
+        "final_calibration": {
+          "min_class_bearing_groups": {
+            "0": 2,
+            "1": 2
+          },
+          "min_groups": 2,
+          "min_rows_by_class": {
+            "0": 30,
+            "1": 30
+          }
+        },
+        "method_selection": {
+          "min_class_bearing_groups": {
+            "0": 2,
+            "1": 2
+          },
+          "min_groups": 2,
+          "min_rows_by_class": {
+            "0": 30,
+            "1": 30
+          }
+        },
+        "proper_fit": {
+          "min_class_bearing_groups": {
+            "0": 2,
+            "1": 2
+          },
+          "min_groups": 2,
+          "min_rows_by_class": {
+            "0": 50,
+            "1": 50
+          }
+        }
+      },
+      "inner_targets": {
+        "final_calibration": 0.2,
+        "method_selection": 0.16,
+        "proper_fit": 0.64
+      },
+      "manifest_schema_version": "duplicate_aware_manifest_v2",
+      "max_candidate_evaluations": 1000000,
+      "max_exact_oracle_groups": 250,
+      "max_oracle_states": 2000000,
+      "normalization_policy_id": "unicode_alphanumeric_v2",
+      "normalization_spec": "NFKC; casefold; every non-alphanumeric character to a separator; collapse separators to ASCII spaces; trim",
+      "objective_scale": 1000000000000,
+      "outer_requirements": {
+        "test": {
+          "min_class_bearing_groups": {
+            "0": 2,
+            "1": 2
+          },
+          "min_groups": 2,
+          "min_rows_by_class": {
+            "0": 50,
+            "1": 50
+          }
+        },
+        "train": {
+          "min_class_bearing_groups": {
+            "0": 2,
+            "1": 2
+          },
+          "min_groups": 2,
+          "min_rows_by_class": {
+            "0": 50,
+            "1": 50
+          }
+        }
+      },
+      "outer_targets": {
+        "test": 0.15,
+        "train": 0.85
+      },
+      "random_state": 42,
+      "split_algorithm_id": "deterministic_group_split_v2"
+    },
+    "configuration_fingerprint": "5322f969a29de8976c1a92f0643a8505ee6d5d5236f76c97cd7a5aff521a5194",
+    "grouping_algorithm_id": "transitive_key_components_v1",
+    "inputs": {
+      "fake": {
+        "filename": "Fake.csv",
+        "label": 0,
+        "row_count": 11107,
+        "schema_columns": [
+          "title",
+          "text",
+          "subject",
+          "date"
+        ],
+        "schema_fingerprint": "17c163df559764e031edaf2188a3b24e1bc8d69cfeaaae02cc0bd5bb157e7a5c",
+        "sha256": "672ab39a75ac75fef9ecbb1a84e2936e064b44a32197a4801d9d0fb63ca9d57e",
+        "size_bytes": 30163788
+      },
+      "true": {
+        "filename": "True.csv",
+        "label": 1,
+        "row_count": 13246,
+        "schema_columns": [
+          "title",
+          "text",
+          "subject",
+          "date"
+        ],
+        "schema_fingerprint": "17c163df559764e031edaf2188a3b24e1bc8d69cfeaaae02cc0bd5bb157e7a5c",
+        "sha256": "c3105d9266fd2ad484aad43b13801930434ffcd68894cc975128e52433a0c6ad",
+        "size_bytes": 34031181
+      }
+    },
+    "manifest_schema_version": "duplicate_aware_manifest_v2",
+    "normalization_policy_id": "unicode_alphanumeric_v2",
+    "normalization_spec": "NFKC; casefold; every non-alphanumeric character to a separator; collapse separators to ASCII spaces; trim",
+    "provenance_schema_version": "manifest_provenance_v1",
+    "split_algorithm_id": "deterministic_group_split_v2"
+  },
+  "row_count": 24353,
+  "split_algorithm_id": "deterministic_group_split_v2",
+  "training_and_calibration_only": true
+}

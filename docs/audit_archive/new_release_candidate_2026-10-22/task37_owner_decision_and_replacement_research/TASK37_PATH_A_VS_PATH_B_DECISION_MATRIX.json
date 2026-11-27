@@ -1,0 +1,43 @@
+{
+  "schema_version": "task37_path_decision_matrix_v1",
+  "retrieval_date": "2026-10-22",
+  "owner_authorization": "UNDECIDED",
+  "paths": [
+    {
+      "id": "path_a_existing_dataset",
+      "status": "NO_GO_BLOCKED_INSUFFICIENT_EVIDENCE",
+      "currently_authorized": false,
+      "required_evidence": [
+        "Authenticated acquisition record",
+        "Exact source revision and source artifact digest",
+        "Deterministic source-to-local mapping to both current CSV hashes",
+        "Rights-holder permission covering all selected intended uses",
+        "Third-party article and metadata rights assessment"
+      ],
+      "responsible_party": "UNASSIGNED project owner or authorized rights holder",
+      "external_dependencies": ["Owner records", "Rights-holder confirmation", "Qualified legal review"],
+      "technical_prerequisites_after_rights": ["Grouping approval", "Partition approval", "Environment lock", "Secure preflight", "Release authentication"],
+      "stop_conditions": ["Missing source mapping", "Unknown rights authority", "Permission excludes intended use", "Unbound or unsigned evidence"],
+      "owner_decision_required": "Continue recovery or formally close Path A"
+    },
+    {
+      "id": "path_b_replacement_dataset",
+      "status": "RESEARCH_ONLY_NO_CANDIDATE_AUTHORIZED",
+      "currently_authorized": false,
+      "required_evidence": [
+        "Owner authorization to research a named candidate",
+        "Exact candidate revision and official source record",
+        "Version-specific license or rights-holder permission",
+        "Source and local digests plus acquisition receipt",
+        "Intended-use scope including hosting, commercial use, and redistribution"
+      ],
+      "responsible_party": "UNASSIGNED until owner names release authority",
+      "external_dependencies": ["Candidate publisher/rights holder", "Qualified legal review", "Owner release decision"],
+      "technical_prerequisites_after_rights": ["New schema/label mapping", "Approved grouping policy", "Leakage-resistant partitions", "Locked environment", "Secure preflight", "New release authentication"],
+      "stop_conditions": ["No license attached to exact revision", "Third-party rights unresolved", "Candidate task incompatible", "Owner does not authorize acquisition"],
+      "owner_decision_required": "Authorize research, then separately authorize acquisition of one selected candidate"
+    }
+  ],
+  "cross_path_rule": "A replacement dataset is a new input and cannot authenticate or reproduce the historical local bundle.",
+  "release_rule": "Neither path may train, generate artifacts, host inference, or release until all evidence and authorization gates pass."
+}
