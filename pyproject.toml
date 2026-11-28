@@ -2,6 +2,8 @@
 target-version = "py311"
 line-length = 100
 exclude = ["docs/audit_archive", "evaluation_results", "notebooks"]
+# Archived historical artifacts, not maintained code; exclude them explicitly in every checkout.
+extend-exclude = ["docs/audit_archive/**", "evaluation_results/**", "notebooks/**", ".venv*"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I"]
